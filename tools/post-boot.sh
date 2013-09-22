@@ -1,15 +1,15 @@
 #!/bin/bash
 
 # Get into our main directory for it to be the CWD for the rest.
-cd /home/git/zurfa-deploy/
+cd /home/git/
 
 # Deal with our repositories.
-tools/pre-update.sh
-tools/update-repos.sh
-tools/post-update.sh
+zurfa-deploy/tools/pre-update.sh
+zurfa-deploy/tools/update-repos.sh
+zurfa-deploy/tools/post-update.sh
 # Our repositories are up to date.
 # Do any post-update installation scripts.
-tools/pre-install.sh
-tools/do-install.sh
-tools/post-install.sh
+zurfa-deploy/tools/pre-install.sh
+zurfa-deploy/tools/do-install.sh
+zurfa-deploy/tools/post-install.sh
 
