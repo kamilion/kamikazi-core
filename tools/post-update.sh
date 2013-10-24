@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 # Check to see if the disker-terminal icon exists. If not, make it.
 if [ ! -f /home/ubuntu/Desktop/disker-terminal.desktop ]; then
