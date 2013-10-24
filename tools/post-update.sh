@@ -4,6 +4,7 @@
 if [ ! -f /home/ubuntu/Desktop/disker-terminal.desktop ]; then
     cp shortcuts/disker-terminal.desktop /home/ubuntu/Desktop/
     chown 999:999 /home/ubuntu/Desktop/disker-terminal.desktop
+    echo "post-update: Added disker-terminal icon."
 fi
 
 echo "post-update: Nothing to do."
