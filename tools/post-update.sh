@@ -7,6 +7,12 @@ if [ ! -f /home/ubuntu/Desktop/disker-terminal.desktop ]; then
     echo "post-update: Added disker-terminal icon."
 fi
 
-echo "post-update: Nothing to do."
+echo "post-update: Turning off all swap."
+swapoff -a && swapoff -a && swapoff -a && swapoff -a
+swapoff -a && swapoff -a && swapoff -a && swapoff -a
+swapoff -a && swapoff -a && swapoff -a && swapoff -a
+swapoff -a && swapoff -a && swapoff -a && swapoff -a
+
+echo "post-update: Nothing left to do."
 
 
