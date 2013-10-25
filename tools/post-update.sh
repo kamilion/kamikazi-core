@@ -36,6 +36,7 @@ if [ -d /isodevice ]; then
     fi
 
     ### Finally, we need to ensure any optional icons are populated if they're needed.
+    ## We assume the user of the livecd is named 'ubuntu', as is the normal livecd default.
 
     ## Check to see if the root-terminal icon exists. If not, make it.
     if [ ! -f /home/ubuntu/Desktop/root-terminal.desktop ]; then
@@ -49,6 +50,14 @@ if [ -d /isodevice ]; then
         cp /home/git/zurfa-deploy/shortcuts/disker-terminal.desktop /home/ubuntu/Desktop/
         chown 999:999 /home/ubuntu/Desktop/disker-terminal.desktop
         echo "post-update: Added disker-terminal icon."
+    fi
+
+    ## We're probably too late to influence some things like pcmanfm, but at least we can fix chromium.
+    if [ ! -d /home/ubuntu/.config/chromium ]; then  ## Chromium's profile doesn't exist yet.
+        cp -a /home/git/zurfa-deploy/resources/skel/.config/ /etc/skel/.config/
+        cp -a /home/git/zurfa-deploy/resources/skel/.config/ /home/ubuntu/.config/
+        chown -R 999:999 /home/ubuntu/.config/
+        echo "post-update: Added additional skel."
     fi
 
 
