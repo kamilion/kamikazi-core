@@ -37,6 +37,13 @@ if [ -d /isodevice ]; then
 
     ### Finally, we need to ensure any optional icons are populated if they're needed.
 
+    ## Check to see if the root-terminal icon exists. If not, make it.
+    if [ ! -f /home/ubuntu/Desktop/root-terminal.desktop ]; then
+        cp /home/git/zurfa-deploy/shortcuts/root-terminal.desktop /home/ubuntu/Desktop/
+        chown 999:999 /home/ubuntu/Desktop/root-terminal.desktop
+        echo "post-update: Added root-terminal icon."
+    fi
+
     ## Check to see if the disker-terminal icon exists. If not, make it.
     if [ ! -f /home/ubuntu/Desktop/disker-terminal.desktop ]; then
         cp /home/git/zurfa-deploy/shortcuts/disker-terminal.desktop /home/ubuntu/Desktop/
