@@ -54,8 +54,8 @@ if [ -d /isodevice ]; then
 
     ## We're probably too late to influence some things like pcmanfm, but at least we can fix chromium.
     if [ ! -d /home/ubuntu/.config/chromium ]; then  ## Chromium's profile doesn't exist yet.
-        cp -a /home/git/zurfa-deploy/resources/skel/.config/ /etc/skel/.config/
-        cp -a /home/git/zurfa-deploy/resources/skel/.config/ /home/ubuntu/.config/
+        cp -a /home/git/zurfa-deploy/resources/skel/.config /etc/skel/.config
+        cp -a /home/git/zurfa-deploy/resources/skel/.config /home/ubuntu/.config
         chown -R 999:999 /home/ubuntu/.config/
         echo "post-update: Added additional skel."
     fi
