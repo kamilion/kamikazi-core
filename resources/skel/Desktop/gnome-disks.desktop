@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=Disks
 Comment=Manage Drives and Media
-Exec=gnome-disks
+Exec=sudo gnome-disks
 Icon=gnome-disks
 Terminal=false
 Type=Application
