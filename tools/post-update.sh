@@ -35,6 +35,13 @@ if [ -d /isodevice ]; then
         echo "post-update: This is Disk Image version 0.5.0."
     fi
 
+    if [ ! -d /isodevice/boot/config ]; then
+        echo "post-update: No config folder found on USB. Creating."
+        mkdir -p /isodevice/boot/config/ssh
+        cp /etc/ssh/ssh_host_* /isodevice/boot/config/ssh
+        cp /var/lib/dbus/machine-id /isodevice/boot/config/machine-id
+    fi
+
     ### Finally, we need to ensure any optional icons are populated if they're needed.
     ## We assume the user of the livecd is named 'ubuntu', as is the normal livecd default.
 
