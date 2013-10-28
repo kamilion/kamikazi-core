@@ -63,6 +63,9 @@ if [ -d /isodevice ]; then
 
 fi
 
+echo "post-update: Restarting nginx."
+service nginx restart
+
 echo "post-update: Nothing left to do."
 
 
