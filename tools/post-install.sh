@@ -1,4 +1,7 @@
 #!/bin/bash
 
-echo "post-install: Nothing to do."
+echo "post-install: Starting diskmonitor."
+supervisorctl start diskmonitor
+
+echo "post-install: Nothing left to do."
 

@@ -8,6 +8,9 @@ for i in {0..96}
     swapoff -a
   done
 
+echo "pre-update: Stopping diskmonitor."
+supervisorctl stop diskmonitor
+
 echo "pre-update: Nothing left to do."
 
 
