@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Earlier versions than 0.5.0 will run this on boot.
+
 # Get into our main directory for it to be the CWD for the rest.
 cd /home/git/
 
