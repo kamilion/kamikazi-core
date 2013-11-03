@@ -13,5 +13,10 @@ zurfa-deploy/tools/post-update.sh
 # Do any post-update installation scripts.
 zurfa-deploy/tools/pre-install.sh
 zurfa-deploy/tools/do-install.sh
-zurfa-deploy/tools/post-install.sh
+
+# Trigger an automatic upgrade.
+#zurfa-deploy/tools/do-zurfa-upgrade.sh
+
+# No longer applies to 0.4.x
+#zurfa-deploy/tools/post-install.sh
 

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# V0.5.0 uses this from serf triggered upgrades.
+
 # Get into our main directory for it to be the CWD for the rest.
 cd /tmp/
 
