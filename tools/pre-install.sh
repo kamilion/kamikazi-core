@@ -1,5 +1,14 @@
 #!/bin/bash
 
+if [ -f /etc/supervisor.d/diskmonitor.ini ]; then
+    echo "pre-install: Stopping old diskmonitor if existing..."
+    supervisorctl stop diskmonitor
+fi
+if [ -f /etc/supervisor.d/rq-worker.ini ]; then
+    echo "pre-install: Stopping old diskworker if existing..."
+    supervisorctl stop rq-worker
+fi
+
 echo "pre-install: Syncing disk."
 sync
 
