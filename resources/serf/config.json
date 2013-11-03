@@ -1,0 +1,16 @@
+{
+  "role": "actor",
+
+  "event_handlers": [
+    "user:deploy=zurfa-deploy.sh",
+    "user:upgrade=zurfa-upgrade.sh"
+  ]
+
+  "start_join": [
+    "10.0.5.254",
+    "10.0.5.253",
+    "10.0.5.252",
+    "10.0.5.251",
+    "10.0.5.250"
+  ]
+}
