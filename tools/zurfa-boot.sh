@@ -5,6 +5,8 @@
 # Get into our main directory for it to be the CWD for the rest.
 cd /home/git/
 
-# Deal with our repositories.
-zurfa-deploy/tools/zurfa-deploy.sh
+# Deal with updating our repositories.
+supervisorctl start zurfa-deploy
+
+# zurfa-deploy/tools/zurfa-deploy.sh
 
