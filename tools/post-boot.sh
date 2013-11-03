@@ -14,9 +14,7 @@ zurfa-deploy/tools/post-update.sh
 zurfa-deploy/tools/pre-install.sh
 zurfa-deploy/tools/do-install.sh
 
-# Trigger an automatic upgrade.
-#zurfa-deploy/tools/do-zurfa-upgrade.sh
-
-# No longer applies to 0.4.x
+# No longer applies to 0.4.x but commenting it out will have no effect
+#  since bash is already running the old version of this from the media.
 #zurfa-deploy/tools/post-install.sh
 
