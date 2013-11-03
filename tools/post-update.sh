@@ -2,7 +2,7 @@
 
 # Are we running in livemedia mode?
 if [ -d /isodevice ]; then
-
+    echo "post-update: Running in live mode."
     ### First, we have the problem of swap being automatically mounted by the livemedia.
 
     ## We have no idea how many disks are connected. Hopefully it's less than 96.
@@ -28,18 +28,37 @@ if [ -d /isodevice ]; then
     fi
 
     ## Print which image version was found.
-    if [ ! -f /isodevice/kamikazi-0.4.0.ver ]; then
-        echo "post-update: This is Disk Image version 0.4.0."
+    if [ -f /isodevice/kamikazi-0.4.0.ver ]; then
+        echo "post-update: Found a marker from Disk Image version 0.4.0."
     fi
-    if [ ! -f /isodevice/kamikazi-0.5.0.ver ]; then
-        echo "post-update: This is Disk Image version 0.5.0."
+    if [ -f /isodevice/kamikazi-0.5.0.ver ]; then
+        echo "post-update: Found a marker from Disk Image version 0.5.0."
     fi
 
     if [ ! -d /isodevice/boot/config ]; then
         echo "post-update: No config folder found on USB. Creating."
+        mkdir -p /isodevice/boot/config
+        cp /var/lib/dbus/machine-id /isodevice/boot/config/machine-id
+    fi
+
+    if [ ! -d /isodevice/boot/config/ssh ]; then
+        echo "post-update: No ssh config folder found on USB. Creating."
         mkdir -p /isodevice/boot/config/ssh
         cp /etc/ssh/ssh_host_* /isodevice/boot/config/ssh
-        cp /var/lib/dbus/machine-id /isodevice/boot/config/machine-id
+    else
+        echo "post-update: ssh config folder found on USB. Checking."
+        cd /etc/ssh/
+        sha1sums ssh_host_* > /tmp/running_ssh
+        cd /isodevice/boot/config/ssh/
+        sha1sums ssh_host_* > /tmp/usb_ssh
+        if ! $(cmp /tmp/running_ssh /tmp/usb_ssh); then
+            echo "post-update: Local ssh host keys did not match USB. Updating USB host keys."
+            rm /isodevice/boot/config/ssh/ssh_host_*
+            cp /etc/ssh/ssh_host_* /isodevice/boot/config/ssh
+        else
+            echo "post-update: Local ssh host keys matched USB."
+        fi
+        cd /home/git
     fi
 
     ### Finally, we need to ensure any optional icons are populated if they're needed.
