@@ -2,9 +2,9 @@
   "role": "actor",
 
   "event_handlers": [
-    "user:deploy=zurfa-deploy.sh",
-    "user:upgrade=zurfa-upgrade.sh"
-  ]
+    "user:deploy=/home/git/zurfa-deploy/tools/zurfa-deploy.sh",
+    "user:upgrade=/home/git/zurfa-deploy/tools/zurfa-upgrade.sh"
+  ],
 
   "start_join": [
     "10.0.5.254",
