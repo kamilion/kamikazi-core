@@ -58,6 +58,7 @@ if [ -d /isodevice ]; then
         else
             echo "post-update: Local ssh host keys matched USB."
         fi
+        rm /tmp/running_ssh /tmp/usb_ssh
         cd /home/git
     fi
 
