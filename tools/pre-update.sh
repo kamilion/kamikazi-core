@@ -9,7 +9,10 @@ for i in {0..96}
   done
 
 echo "pre-update: Stopping diskmonitor."
-supervisorctl stop diskmonitor
+supervisorctl stop zurfa-diskmonitor
+
+echo "pre-update: Stopping diskworker."
+supervisorctl stop zurfa-diskworker
 
 echo "pre-update: Nothing left to do."
 
