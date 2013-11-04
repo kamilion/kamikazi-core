@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# V0.5.0 Runs this script fourth during a deploy to deal with obsolete services.
+
 if [ -f /etc/supervisor.d/diskmonitor.ini ]; then
     echo "pre-install: Stopping old diskmonitor if existing..."
     supervisorctl stop diskmonitor

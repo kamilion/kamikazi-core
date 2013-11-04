@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# V0.5.0 Runs this script fifth during a deploy to deal with automatic platform updating.
+
 # Are we running in livemedia mode?
 if [ -d /isodevice ]; then
     echo "do-install: Running in live mode."
