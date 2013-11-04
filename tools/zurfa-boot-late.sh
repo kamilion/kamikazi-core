@@ -17,14 +17,14 @@ echo -n "zurfa-boot-late: We are: ${MYNAME}"
 
 if [ "${MYNAME}" == "wipemaster" ]; then
     echo "zurfa-boot-late-boot: I am the wipemaster, responsible for data storage."
-    echo "{\n  "role": "wipemaster"\n}\n" > ${ZDRES}/serf/config-role.json
+    echo -e "{\n  "role": "wipemaster"\n}\n" > ${ZDRES}/serf/config-role.json
     sync; sync; sync;
     echo "zurfa-boot-late-boot: Restarting serf agent to change role."
     service serf restart
     echo "zurfa-boot-late-boot: Copying ISO to ram to serve updates for outdated actors."
     cp /isodevice/boot/isos/kamikazi.iso /tmp/kamikazi.iso
     # Mount some stuff and fiddle with rethink's storage location.
-    mount UUID="c3f08f6c-0557-4a0c-801a-5b9162e661f1" /srv -o subvol=storage
+    mount LABEL="wipemaster" /srv -o subvol=storage
     swapon UUID="91cb9aed-d19d-4f94-8a1f-93c2e629ba71"
     swapon UUID="011bd987-4492-4fd4-aa6b-e3c137db59e7"
     # We shouldn't have a default instance running.
