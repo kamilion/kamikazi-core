@@ -2,6 +2,8 @@
 
 # V0.5.0 uses this instead of post-boot.sh
 
+btrfs device scan  # Assemble any btrfs arrays early.
+
 # Get into our main directory for it to be the CWD for the rest.
 cd /home/git/
 
