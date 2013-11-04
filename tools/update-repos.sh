@@ -3,5 +3,5 @@
 cd /home/git/
 # for each folder, git pull
 for D in */; do 
- cd ${D}; git pull; cd ..; 
+ cd ${D}; git reset --merge HEAD; git pull; cd ..;
 done
