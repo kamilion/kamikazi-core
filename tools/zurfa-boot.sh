@@ -8,5 +8,10 @@ cd /home/git/
 # Deal with updating our repositories.
 supervisorctl start zurfa-deploy
 
+sleep 60
+
+supervisorctl start zurfa-boot-late
+
+
 # zurfa-deploy/tools/zurfa-deploy.sh
 
