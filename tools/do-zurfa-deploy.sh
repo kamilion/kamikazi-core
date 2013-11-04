@@ -12,4 +12,4 @@ ZDRES="${ZDHOME}/resources"
 
 echo "do-zurfa-deploy: Going to deploy in the background."
 
-${ZDHOME}/tools/zurfa-deploy.sh &
+supervisorctl start zurfa-deploy
