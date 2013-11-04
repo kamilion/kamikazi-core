@@ -11,6 +11,7 @@ ZDRES="${ZDHOME}/resources"
 cp ${ZDRES}/rethink/rethinkdb /etc/init.d/rethinkdb
 
 RETHINK=$(which rethinkdb)
+chown -R rethinkdb.rethinkdb /var/lib/rethinkdb
 
 MYNAME=$(hostname)
 echo -n "zurfa-boot-late: We are: ${MYNAME}"

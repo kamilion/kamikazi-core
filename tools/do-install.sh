@@ -2,6 +2,11 @@
 
 # V0.5.0 Runs this script fifth during a deploy to deal with automatic platform updating.
 
+# Get into our main directory for it to be the CWD for the rest.
+cd /home/git/
+ZDHOME="/home/git/zurfa-deploy"
+ZDRES="${ZDHOME}/resources"
+
 # Are we running in livemedia mode?
 if [ -d /isodevice ]; then
     echo "do-install: Running in live mode."
@@ -14,7 +19,7 @@ if [ -d /isodevice ]; then
         echo "do-install: Purged a marker from Disk Image version 0.4.0."
         echo "do-install: Triggering a background update to 0.5.0."
         echo "do-install: To abort, quickly ssh in and killall do-zurfa-upgrade.sh"
-        $(zurfa-deploy/tools/do-zurfa-upgrade.sh) &
+        $(${ZDRES}/tools/do-zurfa-upgrade.sh) &
     fi
 
     # Check if we're running an updated USB stick with 0.5.0.
@@ -27,7 +32,7 @@ if [ -d /isodevice ]; then
             rm /isodevice/kamikazi-0.4.5.ver
             echo "do-install: Triggering a background update to latest 0.5.0."
             echo "do-install: To abort, quickly ssh in and killall do-zurfa-upgrade.sh"
-            $(zurfa-deploy/tools/do-zurfa-upgrade.sh) &
+            $(${ZDRES}/tools/do-zurfa-upgrade.sh) &
         fi
     fi
 fi
