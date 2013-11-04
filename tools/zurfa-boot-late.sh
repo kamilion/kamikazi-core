@@ -11,7 +11,6 @@ ZDRES="${ZDHOME}/resources"
 cp ${ZDRES}/rethink/rethinkdb /etc/init.d/rethinkdb
 
 RETHINK=$(which rethinkdb)
-chown -R rethinkdb.rethinkdb /var/lib/rethinkdb
 
 MYNAME=$(hostname)
 echo -n "zurfa-boot-late: We are: ${MYNAME}"
@@ -32,6 +31,7 @@ if [ "${MYNAME}" == "wipemaster" ]; then
     mount /srv
     echo "zurfa-boot-late-boot: Enabling rethinkdb instance 'wanwipemaster'."
     cp ${ZDRES}/rethink/wanwipemaster.conf /etc/rethinkdb/instances.d/wanwipemaster.conf
+    chown -R rethinkdb.rethinkdb /var/lib/rethinkdb
     sync
     sleep 1
     service rethinkdb start
@@ -49,6 +49,8 @@ else
     cp ${ZDRES}/rethink/wanwipe.conf /etc/rethinkdb/instances.d/wanwipe.conf
     sync
     echo -e "\njoin=${MASTER}:29015\n" >> /etc/rethinkdb/instances.d/wanwipe.conf
+    mkdir -p /var/lib/rethinkdb/wanwipe/data/
+    chown -R rethinkdb.rethinkdb /var/lib/rethinkdb
     sync
     sleep 1
     service rethinkdb start
