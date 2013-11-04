@@ -19,7 +19,7 @@ if [ -d /isodevice ]; then
         echo "do-install: Purged a marker from Disk Image version 0.4.0."
         echo "do-install: Triggering a background update to 0.5.0."
         echo "do-install: To abort, quickly ssh in and killall do-zurfa-upgrade.sh"
-        $(${ZDRES}/tools/do-zurfa-upgrade.sh) &
+        $(${ZDHOME}/tools/do-zurfa-upgrade.sh) &
     fi
 
     # Check if we're running an updated USB stick with 0.5.0.
@@ -32,7 +32,7 @@ if [ -d /isodevice ]; then
             rm /isodevice/kamikazi-0.4.5.ver
             echo "do-install: Triggering a background update to latest 0.5.0."
             echo "do-install: To abort, quickly ssh in and killall do-zurfa-upgrade.sh"
-            $(${ZDRES}/tools/do-zurfa-upgrade.sh) &
+            $(${ZDHOME}/tools/do-zurfa-upgrade.sh) &
         fi
     fi
 fi
