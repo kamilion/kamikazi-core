@@ -27,6 +27,7 @@ if [ "${MYNAME}" == "wipemaster" ]; then
     cp /isodevice/boot/isos/kamikazi.iso /tmp/kamikazi.iso
     echo "zurfa-boot-late-boot: Enabling btrfs volume 'wipemaster'."
     echo 'LABEL="wipemaster" /srv btrfs subvol=storage 0 0' >> /etc/fstab
+    btrfs device scan  # This should fix the ctree error.
     mount /srv
     echo "zurfa-boot-late-boot: Enabling rethinkdb instance 'wanwipemaster'."
     cp ${ZDRES}/rethink/wanwipemaster.conf /etc/rethinkdb/instances.d/wanwipemaster.conf
