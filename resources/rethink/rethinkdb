@@ -230,10 +230,10 @@ do
                 rm "$rtdbpidfile"
             fi
             if  [ "$proxy_mode" = "0" ]; then
-                echo "rethinkdb: $instance_name: Starting proxy instance."
+                echo "rethinkdb: $instance_name: Starting proxy. (logging to '$rtdb_directory/log_file')"
                 "$rtdbbin" proxy --daemon --log-file $rtdb_directory/log_file "$@"
             else
-                echo "rethinkdb: $instance_name: Starting instance. (logging to \`$rtdb_directory/log_file')"
+                echo "rethinkdb: $instance_name: Starting instance. (logging to '$rtdb_directory/log_file')"
                 "$rtdbbin" --daemon "$@"
             fi
         fi

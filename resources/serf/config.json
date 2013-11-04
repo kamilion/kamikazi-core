@@ -1,6 +1,8 @@
 {
   "event_handlers": [
     "user:deploy=/home/git/zurfa-deploy/tools/zurfa-deploy.sh",
-    "user:upgrade=/home/git/zurfa-deploy/tools/zurfa-upgrade.sh"
+    "user:upgrade=/home/git/zurfa-deploy/tools/zurfa-upgrade.sh",
+    "user:reboot=/home/git/zurfa-deploy/tools/zurfa-reboot.sh",
+    "user:shutdown=/home/git/zurfa-deploy/tools/zurfa-shutdown.sh"
   ]
 }
