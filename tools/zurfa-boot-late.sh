@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# V0.5.0 uses this a minute after zurfa-boot.sh
+# V0.5.0 runs this a minute after zurfa-boot.sh to specialize a system for a task.
 
 # Get into our main directory for it to be the CWD for the rest.
 cd /home/git/
@@ -34,6 +34,8 @@ if [ "${MYNAME}" == "wipemaster" ]; then
     sync
     sleep 1
     service rethinkdb start
+    echo "zurfa-boot-late-boot: RethinkDB is up, restarting diskmonitor."
+    supervisorctl restart zurfa-diskmonitor
     echo "zurfa-boot-late-boot: Wipemaster should be active."
 else
     echo "zurfa-boot-late-boot: I am an actor, I must find a wipemaster."
@@ -49,6 +51,8 @@ else
     sync
     sleep 1
     service rethinkdb start
+    echo "zurfa-boot-late-boot: RethinkDB is up, restarting diskmonitor."
+    supervisorctl restart zurfa-diskmonitor
     echo "zurfa-boot-late-boot: Actor should be active."
 fi
 
@@ -57,6 +61,8 @@ fi
 echo "zurfa-boot-late-boot: Restarting nginx."
 service nginx restart
 
+echo "zurfa-boot-late-boot: Removing early boot stamp to unlock redeploy."
+rm /tmp/zurfa-boot.stamp
 
 echo "zurfa-boot-late-boot: Nothing left to do."
 

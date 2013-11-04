@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# V0.5.0 Runs this script second during a deploy to safely retrieve updates.
+
 cd /home/git/
 # for each folder, git pull
 for D in */; do 

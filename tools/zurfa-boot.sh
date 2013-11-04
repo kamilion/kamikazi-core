@@ -4,6 +4,8 @@
 
 btrfs device scan  # Assemble any btrfs arrays early.
 
+touch /tmp/zurfa-boot.stamp
+
 # Get into our main directory for it to be the CWD for the rest.
 cd /home/git/
 

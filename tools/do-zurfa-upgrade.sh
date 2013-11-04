@@ -1,9 +1,11 @@
 #!/bin/bash
 
+# V0.5.0 Runs this script during a deploy to deal with platform updates.
+
 # NOTE: THE ISO FILENAME MUST STAY THE SAME!
 ZU_URL="http://10.0.5.253/files/tmp/kamikazi.iso"
 
-echo "do-zurfa-upgrade: This is not 0.5.0, going to update from:"
+echo "do-zurfa-upgrade: Going to update from:"
 echo ${ZU_URL}
 
 # Remove the old grub.cfg~ file.
@@ -17,7 +19,7 @@ if [ -f /isodevice/boot/isos/pmagic_2013_02_28.iso ]; then
   sync
 fi
 
-# Update grub.
+# Update grub so restarting is safe.
 cp zurfa-deploy/resources/grub/grub.cfg /isodevice/boot/grub/grub.cfg
 sync
 
