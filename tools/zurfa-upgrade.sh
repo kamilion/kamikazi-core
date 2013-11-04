@@ -9,7 +9,7 @@ cd /tmp/
 rm kamikazi.iso
 
 # Obtain a new ISO from the following URL.
-wget ${2}
+wget ${1}
 
 cp /tmp/kamikazi.iso /isodevice/boot/isos/kamikazi.iso
 sync
