@@ -77,9 +77,9 @@ if [ -d /isodevice ]; then
     else
         echo "post-update: ssh config folder found on USB. Checking."
         cd /etc/ssh/
-        sha1sums ssh_host_* > /tmp/running_ssh
+        sha1sum ssh_host_* > /tmp/running_ssh
         cd /isodevice/boot/config/ssh/
-        sha1sums ssh_host_* > /tmp/usb_ssh
+        sha1sum ssh_host_* > /tmp/usb_ssh
         if ! $(cmp /tmp/running_ssh /tmp/usb_ssh); then
             echo "post-update: Local ssh host keys did not match USB. Updating USB host keys."
             rm /isodevice/boot/config/ssh/ssh_host_*
