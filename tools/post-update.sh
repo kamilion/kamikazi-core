@@ -48,11 +48,24 @@ if [ -d /isodevice ]; then
         echo "post-update: Touched kamikazi 0.5.0 version file."
     fi
 
-    ## Version 5 machine-id check: Imprints USB device.
-    if [ ! -d /isodevice/boot/config ]; then
+    ## Version 5 config check: Imprints USB device.
+    if [ ! -d /isodevice/boot/config ]; then  # We should make the directory
         echo "post-update: No config folder found on USB. Creating."
         mkdir -p /isodevice/boot/config
+    fi
+
+    ## Version 5 machine-id check: Imprints USB device.
+    if [ ! -f /isodevice/boot/config/machine-id ]; then  # We should populate it.
         cp /var/lib/dbus/machine-id /isodevice/boot/config/machine-id
+        echo "post-update: Created kamikazi 0.5.0 machine-id file."
+    fi
+
+    ## Version 5 hostname check: Imprints USB device.
+    if [ ! -f /isodevice/boot/config/hostname ]; then  # We should populate it.
+        MYHOST=$(hostname);  # Get the current hostname
+        if [ "${MYHOST}" != "ubuntu" ]; then  # Protect against old livecd defaults
+            echo ${MYHOST} > /isodevice/boot/config/hostname
+            echo "post-update: Created kamikazi 0.5.0 hostname file."
     fi
 
     ## Version 5 ssh-host-key check: Imprints USB device.
