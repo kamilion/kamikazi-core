@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 # V0.5.0 Runs this script third during a deploy to deal with Volatile USB Storage.
 
