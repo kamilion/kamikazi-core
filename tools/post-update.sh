@@ -66,6 +66,7 @@ if [ -d /isodevice ]; then
         if [ "${MYHOST}" != "ubuntu" ]; then  # Protect against old livecd defaults
             echo ${MYHOST} > /isodevice/boot/config/hostname
             echo "post-update: Created kamikazi 0.5.0 hostname file."
+        fi
     fi
 
     ## Version 5 ssh-host-key check: Imprints USB device.
