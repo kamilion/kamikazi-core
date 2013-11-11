@@ -24,9 +24,6 @@ for x in $(cat /proc/cmdline); do
 	esac
 done
 
-# Disable loading mptbase automatically on boot.
-#echo "blacklist mptbase" >> /etc/modprobe.d/initramfs.conf
-
 # Disable loading mptsas automatically on boot.
 echo "blacklist mptsas" >> /etc/modprobe.d/initramfs.conf
 
