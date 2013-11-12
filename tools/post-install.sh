@@ -43,13 +43,13 @@ if [ -d /isodevice/boot/config ]; then
             if [ "${IPMI_MODELID}" = "6673"  ]; then  # ASpeed AST1100?
                 echo "post-install: This is a ***REMOVED*** ***REMOVED*** 3U chassis."
                 echo "post-install: Updating IPMI credentials and enabling DHCP."
-                ipmitool exec ${ZDRES}/ipmi/ipmi-***REMOVED***.txt
+                ipmitool exec ${ZDRES}/mods/ipmi/ipmi-***REMOVED***.txt
                 touch /isodevice/boot/config/ipmi-dhcp
             fi
             if [ "${IPMI_MODELID}" = "6631"  ]; then  # ASpeed AST1100?
                 echo "post-install: This is a ***REMOVED*** ***REMOVED*** 1U chassis."
                 echo "post-install: Updating IPMI credentials and enabling DHCP."
-                ipmitool exec ${ZDRES}/ipmi/ipmi-***REMOVED***.txt
+                ipmitool exec ${ZDRES}/mods/ipmi/ipmi-***REMOVED***.txt
                 touch /isodevice/boot/config/ipmi-dhcp
             fi
         fi
