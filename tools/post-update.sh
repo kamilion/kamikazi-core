@@ -29,6 +29,7 @@ if [ -d /isodevice ]; then
     ## We're probably too late to influence some things like pcmanfm, but at least we can fix chromium.
     if [ ! -d /home/ubuntu/.config/chromium ]; then  ## Chromium's profile doesn't exist yet.
         cp -a ${ZDRES}/mods/etc/skel/.config /etc/skel/
+        cp -a ${ZDRES}/mods/etc/skel/.gconf /etc/skel/
         cp -a ${ZDRES}/mods/etc/skel/.config /home/ubuntu/
         cp -a ${ZDRES}/mods/etc/skel/.gconf /home/ubuntu/
         chown -R 999:999 /home/ubuntu/.config/
