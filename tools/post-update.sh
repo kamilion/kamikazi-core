@@ -30,10 +30,13 @@ if [ -d /isodevice ]; then
     if [ ! -d /home/ubuntu/.config/chromium ]; then  ## Chromium's profile doesn't exist yet.
         cp -a ${ZDRES}/mods/etc/skel/.config /etc/skel/
         cp -a ${ZDRES}/mods/etc/skel/.gconf /etc/skel/
+        cp -a ${ZDRES}/mods/etc/skel/.PyCharm30 /etc/skel/
         cp -a ${ZDRES}/mods/etc/skel/.config /home/ubuntu/
         cp -a ${ZDRES}/mods/etc/skel/.gconf /home/ubuntu/
+        cp -a ${ZDRES}/mods/etc/skel/.PyCharm30 /home/ubuntu/
         chown -R 999:999 /home/ubuntu/.config/
         chown -R 999:999 /home/ubuntu/.gconf/
+        chown -R 999:999 /home/ubuntu/.PyCharm30/
         echo "post-update: Added additional skel."
     fi
 

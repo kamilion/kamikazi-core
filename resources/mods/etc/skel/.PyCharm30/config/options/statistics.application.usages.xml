@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application>
+  <component name="StatisticsApplicationUsages">
+    <group name="vcs">
+      <project id="panel" values="Git" />
+      <project id="cah-irc-bot" values="Git" />
+      <project id="rq-irc-bot" values="Git" />
+      <project id="disker" values="Git" />
+    </group>
+    <group name="py-packages">
+      <project id="panel" values="stripe,Werkzeug,MarkupSafe,SQLAlchemy,requests,wsgiref,WTForms,scrypt,Flask-SQLAlchemy,Flask-WTF,Jinja2,Flask-Login,Flask-UUID,Flask" />
+    </group>
+    <group name="run-configuration-type">
+      <project id="panel" values="PythonConfigurationType" />
+    </group>
+    <group name="module type">
+      <project id="panel" values="PYTHON_MODULE" />
+      <project id="cah-irc-bot" values="PYTHON_MODULE" />
+      <project id="rq-irc-bot" values="PYTHON_MODULE" />
+      <project id="disker" values="PYTHON_MODULE" />
+    </group>
+    <group name="file-type">
+      <project id="panel" values="Locale,Images,CSS,JavaScript,XML,ARCHIVE,PLAIN_TEXT,JSON,LESS,UNKNOWN,Python,HTML,JSHint,C++,YAML" />
+      <project id="cah-irc-bot" values="Python,PLAIN_TEXT,UNKNOWN,XML" />
+      <project id="rq-irc-bot" values="Python,UNKNOWN,PLAIN_TEXT,XML" />
+      <project id="disker" values="UNKNOWN,XML,Python,PLAIN_TEXT" />
+    </group>
+    <group name="run-configuration-type-temp">
+      <project id="panel" values="PythonConfigurationType" />
+      <project id="cah-irc-bot" values="PythonConfigurationType" />
+      <project id="rq-irc-bot" values="PythonConfigurationType" />
+    </group>
+    <group name="javaScript Scope Usages">
+      <project id="panel" values="Project,Project" />
+      <project id="cah-irc-bot" values="Project,Project" />
+      <project id="rq-irc-bot" values="Project,Project" />
+      <project id="disker" values="Project,Project" />
+    </group>
+    <group name="JavaScript versions">
+      <project id="panel" values="DEFAULT" />
+      <project id="cah-irc-bot" values="DEFAULT" />
+      <project id="rq-irc-bot" values="DEFAULT" />
+      <project id="disker" values="DEFAULT" />
+    </group>
+    <group name="py-interpreter">
+      <project id="panel" values="Python 2.7.4" />
+      <project id="cah-irc-bot" values="Python 2.7.4" />
+      <project id="rq-irc-bot" values="Python 2.7.4" />
+      <project id="disker" values="Python 2.7.4" />
+    </group>
+  </component>
+  <component name="UsageTrigger">
+    <counts>
+      <entry feature="execute.PythonConfigurationType.Debug" count="126" />
+      <entry feature="execute.PythonConfigurationType.Run" count="32" />
+      <entry feature="uml.ShowDiagram.Python" count="1" />
+    </counts>
+  </component>
+</application>
+
