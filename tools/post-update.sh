@@ -14,22 +14,22 @@ if [ -d /isodevice ]; then
 
     ## Check to see if the root-terminal icon exists. If not, make it.
     if [ ! -f /home/ubuntu/Desktop/root-terminal.desktop ]; then
-        cp ${ZDRES}/skel/Desktop/root-terminal.desktop /home/ubuntu/Desktop/
+        cp ${ZDRES}/mods/etc/skel/Desktop/root-terminal.desktop /home/ubuntu/Desktop/
         chown 999:999 /home/ubuntu/Desktop/root-terminal.desktop
         echo "post-update: Added root-terminal icon."
     fi
 
     ## Check to see if the disker-terminal icon exists. If not, make it.
     if [ ! -f /home/ubuntu/Desktop/disker-terminal.desktop ]; then
-        cp ${ZDRES}/skel/Desktop/disker-terminal.desktop /home/ubuntu/Desktop/
+        cp ${ZDRES}/mods/etc/skel/Desktop/disker-terminal.desktop /home/ubuntu/Desktop/
         chown 999:999 /home/ubuntu/Desktop/disker-terminal.desktop
         echo "post-update: Added disker-terminal icon."
     fi
 
     ## We're probably too late to influence some things like pcmanfm, but at least we can fix chromium.
     if [ ! -d /home/ubuntu/.config/chromium ]; then  ## Chromium's profile doesn't exist yet.
-        cp -a ${ZDRES}/skel/.config /etc/skel/
-        cp -a ${ZDRES}/skel/.config /home/ubuntu/
+        cp -a ${ZDRES}/mods/etc/skel/.config /etc/skel/
+        cp -a ${ZDRES}/mods/etc/skel/.config /home/ubuntu/
         chown -R 999:999 /home/ubuntu/.config/
         echo "post-update: Added additional skel."
     fi
