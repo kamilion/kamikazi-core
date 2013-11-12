@@ -8,7 +8,7 @@ ZDHOME="/home/git/zurfa-deploy"
 ZDRES="${ZDHOME}/resources"
 
 # Install our patched rethinkdb initscript that supports proxy mode.
-cp ${ZDRES}/rethink/rethinkdb /etc/init.d/rethinkdb
+cp ${ZDRES}/mods/etc/init.d/rethinkdb /etc/init.d/rethinkdb
 
 RETHINK=$(which rethinkdb)
 

@@ -36,40 +36,37 @@ if [ -d /isodevice ]; then
 
     ### Second, we need to do a little version management of our USB stick.
 
-    ## Version 4 image check: Does not have /etc/kamikazi-0.5.0.ver
-    if [ ! -f /etc/kamikazi-0.5.0.ver ]; then
+    ## Image Version check: Does it have a /etc/kamikazi-?.?.?.ver file?
+    if [ ! -f /etc/kamikazi-?.?.?.ver ]; then  # We do not have a versioned image.
+        echo "post-update: Could not find a version file in /etc."
         touch /isodevice/kamikazi-0.4.0.ver
-        echo "post-update: Touched kamikazi 0.4.0 version file."
+        echo "post-update: Touched kamikazi 0.4.0 version file on USB."
+    else  # Copy the version tag from the iso to the USB device.
+        cp /etc/kamikazi-?.?.?.ver /isodevice/
     fi
 
-    ## Version 5 image check: Imprints USB device.
-    if [ ! -f /isodevice/kamikazi-0.5.0.ver ]; then
-        touch /isodevice/kamikazi-0.5.0.ver
-        echo "post-update: Touched kamikazi 0.5.0 version file."
-    fi
-
-    ## Version 5 config check: Imprints USB device.
+    ## Version 5+ config check: Imprints USB device.
     if [ ! -d /isodevice/boot/config ]; then  # We should make the directory
         echo "post-update: No config folder found on USB. Creating."
         mkdir -p /isodevice/boot/config
     fi
 
-    ## Version 5 machine-id check: Imprints USB device.
+    ## Version 5+ machine-id check: Imprints USB device.
     if [ ! -f /isodevice/boot/config/machine-id ]; then  # We should populate it.
         cp /var/lib/dbus/machine-id /isodevice/boot/config/machine-id
-        echo "post-update: Created kamikazi 0.5.0 machine-id file."
+        echo "post-update: Created kamikazi 0.5.0+ machine-id file."
     fi
 
-    ## Version 5 hostname check: Imprints USB device.
+    ## Version 6+ hostname check: Imprints USB device.
     if [ ! -f /isodevice/boot/config/hostname ]; then  # We should populate it.
         MYHOST=$(hostname);  # Get the current hostname
         if [ "${MYHOST}" != "ubuntu" ]; then  # Protect against old livecd defaults
             echo ${MYHOST} > /isodevice/boot/config/hostname
-            echo "post-update: Created kamikazi 0.5.0 hostname file."
+            echo "post-update: Created kamikazi 0.6.0+ hostname file."
         fi
     fi
 
-    ## Version 5 ssh-host-key check: Imprints USB device.
+    ## Version 5+ ssh-host-key check: Imprints USB device.
     if [ ! -d /isodevice/boot/config/ssh ]; then
         echo "post-update: No ssh config folder found on USB. Creating."
         mkdir -p /isodevice/boot/config/ssh
@@ -91,13 +88,23 @@ if [ -d /isodevice ]; then
         cd /home/git
     fi
 
-    ## Print which image version was found.
-    if [ -f /isodevice/kamikazi-0.4.0.ver ]; then
-        echo "post-update: Found a marker from Disk Image version 0.4.0."
+
+    ## Version 6 image check: Does have /etc/kamikazi-0.6.0.ver
+    if [ -f /isodevice/kamikazi-0.6.0.ver ]; then
+        echo "post-update: Found kamikazi 0.6.0 version file on USB."
     fi
+
+    ## Version 5 image check: Does have /etc/kamikazi-0.5.0.ver
     if [ -f /isodevice/kamikazi-0.5.0.ver ]; then
-        echo "post-update: Found a marker from Disk Image version 0.5.0."
+        echo "post-update: Found kamikazi 0.5.0 version file on USB."
     fi
+
+    ## Version 4 image check: Does not have /etc/kamikazi-0.x.0.ver
+    if [ -f /isodevice/kamikazi-0.4.0.ver ]; then
+        echo "post-update: Found kamikazi 0.4.0 version file on USB."
+    fi
+
+    echo "post-update: Nothing left to do in live-mode."
 fi
 
 echo "post-update: Nothing left to do."
