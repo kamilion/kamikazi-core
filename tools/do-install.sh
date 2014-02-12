@@ -19,6 +19,12 @@ if [ -d /isodevice ]; then
         echo "do-install: Purged a marker from Disk Image version 0.4.0."
         echo "do-install: Triggering a background update to latest image."
         echo "do-install: To abort, quickly ssh in and killall do-zurfa-upgrade.sh"
+        # Import a supervisor job to do it.
+        cp ${ZDRES}/mods/etc/supervisor.d/zurfa-upgrade.ini /etc/supervisor.d/
+        sync
+        /usr/local/bin/supervisorctl reread
+        /usr/local/bin/supervisorctl update
+
         # If we have a supervisor job to do it, prefer that.
         if [ -f /etc/supervisor.d/zurfa-upgrade.ini ]; then
             /usr/local/bin/supervisorctl start zurfa-upgrade
@@ -34,6 +40,12 @@ if [ -d /isodevice ]; then
         echo "do-install: Purged a marker from Disk Image version 0.5.0."
         echo "do-install: Triggering a background update to latest image."
         echo "do-install: To abort, quickly ssh in and killall do-zurfa-upgrade.sh"
+        # Import a supervisor job to do it.
+        cp ${ZDRES}/mods/etc/supervisor.d/zurfa-upgrade.ini /etc/supervisor.d/
+        sync
+        /usr/local/bin/supervisorctl reread
+        /usr/local/bin/supervisorctl update
+
         # If we have a supervisor job to do it, prefer that.
         if [ -f /etc/supervisor.d/zurfa-upgrade.ini ]; then
             /usr/local/bin/supervisorctl start zurfa-upgrade
@@ -48,6 +60,12 @@ if [ -d /isodevice ]; then
         rm /isodevice/kamikazi-0.0.0.ver
         echo "do-install: Triggering a background update to latest image."
         echo "do-install: To abort, quickly ssh in and killall do-zurfa-upgrade.sh"
+        # Import a supervisor job to do it.
+        cp ${ZDRES}/mods/etc/supervisor.d/zurfa-upgrade.ini /etc/supervisor.d/
+        sync
+        /usr/local/bin/supervisorctl reread
+        /usr/local/bin/supervisorctl update
+
         # If we have a supervisor job to do it, prefer that.
         if [ -f /etc/supervisor.d/zurfa-upgrade.ini ]; then
             /usr/local/bin/supervisorctl start zurfa-upgrade
