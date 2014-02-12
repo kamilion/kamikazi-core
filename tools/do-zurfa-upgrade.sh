@@ -32,7 +32,7 @@ echo "do-zurfa-upgrade: Sleeping 60 seconds for operator to remote abort."
 sleep 60
 
 # Do the ISO upgrade procedure.
-${ZDHOME}/tools/zurfa-upgrade.sh ${ZU_URL}
+$(${ZDHOME}/tools/zurfa-upgrade.sh ${ZU_URL})
 
 # Assure the data has met the media
 sync; sync; sync;
