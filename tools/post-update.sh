@@ -98,6 +98,11 @@ if [ -d /isodevice ]; then
     ## Version 6 image check: Does have /etc/kamikazi-0.6.0.ver
     if [ -f /isodevice/kamikazi-0.6.0.ver ]; then
         echo "post-update: Found kamikazi 0.6.0 version file on USB."
+        echo "post-update: Updating GRUB Configuration file on USB."
+        # Update grub so restarting is safe.
+        cp ${ZDRES}/grub/grub.cfg /isodevice/boot/grub/grub.cfg
+        sync
+        echo "post-update: Updated GRUB Configuration file for v0.6.0 on USB."
     fi
 
     ## Version 5 image check: Does have /etc/kamikazi-0.5.0.ver
