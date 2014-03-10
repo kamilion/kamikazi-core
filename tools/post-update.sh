@@ -26,6 +26,13 @@ if [ -d /isodevice ]; then
         echo "post-update: Added disker-terminal icon."
     fi
 
+    ## Check to see if the Kaizen icon exists. If not, make it.
+    if [ ! -f /home/ubuntu/Desktop/kaizen.desktop ]; then
+        cp ${ZDRES}/mods/etc/skel/Desktop/kaizen.desktop /home/ubuntu/Desktop/
+        chown 999:999 /home/ubuntu/Desktop/kaizen.desktop
+        echo "post-update: Added Kaizen icon."
+    fi
+
     ## We're probably too late to influence some things like pcmanfm, but at least we can fix chromium.
     if [ ! -d /home/ubuntu/.config/chromium ]; then  ## Chromium's profile doesn't exist yet.
         cp -a ${ZDRES}/mods/etc/skel/.config /etc/skel/
