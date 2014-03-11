@@ -47,6 +47,13 @@ if [ -d /isodevice ]; then
         echo "post-update: Added additional skel."
     fi
 
+    ## Fix up the log files so all the disk spam ends up somewhere easy to deal with
+    if [ ! -d /etc/rsyslog.d/35-disks.conf ]; then  ## Not baked in yet
+        cp -a ${ZDRES}/mods/etc/rsyslog.d/35-disks.conf /etc/rsyslog.d/
+        service rsyslog restart
+        echo "post-update: Added additional rsyslog.d log target"
+    fi
+
     ### Second, we need to do a little version management of our USB stick.
 
     ## Image Version check: Does it have a /etc/kamikazi-?.?.?.ver file?
