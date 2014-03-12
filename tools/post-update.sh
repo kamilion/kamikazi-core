@@ -55,7 +55,7 @@ if [ -d /isodevice ]; then
     fi
 
     ## Fix up the log files so all the disk spam ends up somewhere easy to deal with
-    if [ ! -d /etc/rsyslog.d/35-disks.conf ]; then  ## Not baked in yet
+    if [ ! -f /etc/rsyslog.d/35-disks.conf ]; then  ## Not baked in yet
         cp -a ${ZDRES}/mods/etc/rsyslog.d/35-disks.conf /etc/rsyslog.d/
         service rsyslog restart
         echo "post-update: Added additional rsyslog.d log target"
@@ -115,15 +115,20 @@ if [ -d /isodevice ]; then
         cd /home/git
     fi
 
-
     ## Version 6 image check: Does have /etc/kamikazi-0.6.0.ver
     if [ -f /isodevice/kamikazi-0.6.0.ver ]; then
         echo "post-update: Found kamikazi 0.6.0 version file on USB."
-        echo "post-update: Updating GRUB Configuration file on USB."
         # Update grub so restarting is safe.
-        cp ${ZDRES}/grub/grub.cfg /isodevice/boot/grub/grub.cfg
-        sync
-        echo "post-update: Updated GRUB Configuration file for v0.6.0 on USB."
+        cd ${ZDRES}/grub/
+        sha1sum grub.cfg > /tmp/running_grub
+        cd /isodevice/boot/grub/
+        sha1sum grub.cfg > /tmp/usb_grub
+        if ! $(cmp /tmp/running_grub /tmp/usb_grub); then
+            echo "post-update: Updating GRUB Configuration file on USB."
+            cp ${ZDRES}/grub/grub.cfg /isodevice/boot/grub/grub.cfg
+            sync
+            echo "post-update: Updated GRUB Configuration file for v0.6.x on USB."
+        fi
     fi
 
     ## Version 5 image check: Does have /etc/kamikazi-0.5.0.ver

@@ -43,7 +43,7 @@ if [ "${MYNAME}" == "wipemaster" ]; then
     echo "zurfa-boot-late-boot: Wipemaster should be active."
 else
     echo "zurfa-boot-late-boot: I am an actor, I must find a wipemaster."
-    MASTER=$(serf members | grep wipemaster | sed "s/    /\t/g" | cut -f 2 )
+    MASTER=$(serf members | grep wipemaster | sed -r "s/\s+/\t/g" | cut -f 2 )
     echo "zurfa-boot-late-boot: I am an actor, selected wipemaster: ${MASTER}"
     if [ "$(lspci | grep MPT)" != "" ]; then  # If it's not blank, we need to load the driver.
         echo "zurfa-boot-late-boot: MPT-Fusion SAS HBA detected. I must load mptsas."
