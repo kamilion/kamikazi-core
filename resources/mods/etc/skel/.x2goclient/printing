@@ -1,0 +1,16 @@
+[General]
+showdialog=true
+pdfview=true
+
+[print]
+startcmd=false
+command=lpr
+stdin=false
+ps=false
+
+[view]
+open=false
+command=xpdf
+
+[CUPS]
+defaultprinter=
