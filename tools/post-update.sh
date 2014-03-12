@@ -129,6 +129,8 @@ if [ -d /isodevice ]; then
             sync
             echo "post-update: Updated GRUB Configuration file for v0.6.x on USB."
         fi
+        rm /tmp/running_grub /tmp/usb_grub
+        cd /home/git
     fi
 
     ## Version 5 image check: Does have /etc/kamikazi-0.5.0.ver

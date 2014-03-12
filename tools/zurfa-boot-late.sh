@@ -74,5 +74,8 @@ service nginx restart
 echo "zurfa-boot-late-boot: Removing early boot stamp to unlock redeploy."
 rm /tmp/zurfa-boot.stamp
 
+echo "zurfa-boot-late-boot: Enabling additional log files"
+su -l -c ${ZDHOME}/tools/enable-logs.sh ubuntu
+
 echo "zurfa-boot-late-boot: Nothing left to do."
 
