@@ -61,6 +61,12 @@ if [ -d /isodevice ]; then
         echo "post-update: Added additional rsyslog.d log target"
     fi
 
+    ## Fix up enum34 for python so smarttools and diskmonitor works
+    if [ ! -f /usr/local/lib/python2.7/dist-packages/enum34-*.egg-info/PKG-INFO ]; then  ## Not baked in yet
+        pip install enum34
+        echo "post-update: Installed enum34 via pip"
+    fi
+
     ### Second, we need to do a little version management of our USB stick.
 
     ## Image Version check: Does it have a /etc/kamikazi-?.?.?.ver file?
