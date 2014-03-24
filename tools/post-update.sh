@@ -58,13 +58,13 @@ if [ -d /isodevice ]; then
     if [ ! -f /etc/rsyslog.d/35-disks.conf ]; then  ## Not baked in yet
         cp -a ${ZDRES}/mods/etc/rsyslog.d/35-disks.conf /etc/rsyslog.d/
         service rsyslog restart
-        echo "post-update: Added additional rsyslog.d log target"
+        echo "post-update: Added additional rsyslog.d log target."
     fi
 
     ## Fix up enum34 for python so smarttools and diskmonitor works
     if [ ! -f /usr/local/lib/python2.7/dist-packages/enum34-*.egg-info/PKG-INFO ]; then  ## Not baked in yet
         pip install enum34
-        echo "post-update: Installed enum34 via pip"
+        echo "post-update: Installed enum34 via pip."
     fi
 
     ### Second, we need to do a little version management of our USB stick.
