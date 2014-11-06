@@ -3,15 +3,15 @@
 # V0.5.0 Runs this script during a deploy to deal with platform updates.
 
 # NOTE: THE ISO FILENAME MUST STAY THE SAME!
-ZU_URL="http://10.0.5.253/files/tmp/kamikazi.iso"
+KU_URL="http://10.0.5.253/files/tmp/kamikazi.iso"
 
 # Get into our main directory for it to be the CWD for the rest.
 cd /home/git/
-ZDHOME="/home/git/zurfa-deploy"
-ZDRES="${ZDHOME}/resources"
+KDHOME="/home/git/kamikazi-deploy"
+KDRES="${KDHOME}/resources"
 
-echo "do-zurfa-upgrade: Going to update from:"
-echo ${ZU_URL}
+echo "do-kamikazi-upgrade: Going to update from:"
+echo ${KU_URL}
 
 # Remove the old grub.cfg~ file.
 if [ -f /isodevice/boot/grub/grub.cfg~ ]; then
@@ -25,14 +25,14 @@ if [ -f /isodevice/boot/isos/pmagic_2013_02_28.iso ]; then
 fi
 
 # Update grub so restarting is safe.
-cp ${ZDRES}/grub/grub.cfg /isodevice/boot/grub/grub.cfg
+cp ${KDRES}/grub/grub.cfg /isodevice/boot/grub/grub.cfg
 sync
 
-echo "do-zurfa-upgrade: Sleeping 60 seconds for operator to remote abort."
+echo "do-kamikazi-upgrade: Sleeping 60 seconds for operator to remote abort."
 sleep 60
 
 # Do the ISO upgrade procedure.
-$(${ZDHOME}/tools/zurfa-upgrade.sh ${ZU_URL})
+$(${KDHOME}/tools/kamikazi-upgrade.sh ${KU_URL})
 
 # Assure the data has met the media
 sync; sync; sync;

@@ -4,18 +4,18 @@
 
 # Get into our main directory for it to be the CWD for the rest.
 cd /home/git/
-ZDHOME="/home/git/zurfa-deploy"
-ZDRES="${ZDHOME}/resources"
+KDHOME="/home/git/kamikazi-deploy"
+KDRES="${KDHOME}/resources"
 
 # Does the boot stamp exist? If so, let boot-late handle stuff instead.
-if [ ! -f /tmp/zurfa-boot.stamp ]; then
+if [ ! -f /tmp/kamikazi-boot.stamp ]; then
     echo "post-install: Restarting services to pick up any changes."
 
     echo "post-install: Restarting diskmonitor."
-    supervisorctl restart zurfa-diskmonitor
+    supervisorctl restart kamikazi-diskmonitor
 
     echo "post-install: Restarting diskworker."
-    supervisorctl restart zurfa-diskworker
+    supervisorctl restart kamikazi-diskworker
 
     echo "post-install: Restarting serf agent."
     service serf restart
@@ -43,13 +43,13 @@ if [ -d /isodevice/boot/config ]; then
             if [ "${IPMI_MODELID}" = "6673"  ]; then  # ASpeed AST1100?
                 echo "post-install: This is a ***REMOVED*** ***REMOVED*** 3U chassis."
                 echo "post-install: Updating IPMI credentials and enabling DHCP."
-                ipmitool exec ${ZDRES}/mods/ipmi/ipmi-***REMOVED***.txt
+                ipmitool exec ${KDRES}/mods/ipmi/ipmi-***REMOVED***.txt
                 touch /isodevice/boot/config/ipmi-dhcp
             fi
             if [ "${IPMI_MODELID}" = "6631"  ]; then  # ASpeed AST1100?
                 echo "post-install: This is a ***REMOVED*** ***REMOVED*** 1U chassis."
                 echo "post-install: Updating IPMI credentials and enabling DHCP."
-                ipmitool exec ${ZDRES}/mods/ipmi/ipmi-***REMOVED***.txt
+                ipmitool exec ${KDRES}/mods/ipmi/ipmi-***REMOVED***.txt
                 touch /isodevice/boot/config/ipmi-dhcp
             fi
         fi

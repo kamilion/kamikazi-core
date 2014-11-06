@@ -2,8 +2,8 @@
 
 # V0.5.0 Runs this script third during a deploy to deal with Volatile USB Storage.
 
-ZDHOME="/home/git/zurfa-deploy"
-ZDRES="${ZDHOME}/resources"
+KDHOME="/home/git/kamikazi-deploy"
+KDRES="${KDHOME}/resources"
 
 # Are we running in livemedia mode?
 if [ -d /isodevice ]; then
@@ -14,30 +14,30 @@ if [ -d /isodevice ]; then
 
     ## Check to see if the root-terminal icon exists. If not, make it.
     if [ ! -f /home/ubuntu/Desktop/root-terminal.desktop ]; then
-        cp ${ZDRES}/mods/etc/skel/Desktop/root-terminal.desktop /home/ubuntu/Desktop/
+        cp ${KDRES}/mods/etc/skel/Desktop/root-terminal.desktop /home/ubuntu/Desktop/
         chown 999:999 /home/ubuntu/Desktop/root-terminal.desktop
         echo "post-update: Added root-terminal icon."
     fi
 
     ## Check to see if the disker-terminal icon exists. If not, make it.
     if [ ! -f /home/ubuntu/Desktop/disker-terminal.desktop ]; then
-        cp ${ZDRES}/mods/etc/skel/Desktop/disker-terminal.desktop /home/ubuntu/Desktop/
+        cp ${KDRES}/mods/etc/skel/Desktop/disker-terminal.desktop /home/ubuntu/Desktop/
         chown 999:999 /home/ubuntu/Desktop/disker-terminal.desktop
         echo "post-update: Added disker-terminal icon."
     fi
 
     ## Check to see if the Kaizen icon exists. If not, make it.
     if [ ! -f /home/ubuntu/Desktop/kaizen.desktop ]; then
-        cp ${ZDRES}/mods/etc/skel/Desktop/kaizen.desktop /home/ubuntu/Desktop/
+        cp ${KDRES}/mods/etc/skel/Desktop/kaizen.desktop /home/ubuntu/Desktop/
         chown 999:999 /home/ubuntu/Desktop/kaizen.desktop
         echo "post-update: Added Kaizen icon."
     fi
 
     if [ ! -d /home/ubuntu/.x2goclient ]; then  ## x2go has no profile yet.
-        cp -a ${ZDRES}/mods/etc/skel/.x2goclient /etc/skel/
-        cp -a ${ZDRES}/mods/etc/skel/.PyCharm30 /etc/skel/
-        cp -a ${ZDRES}/mods/etc/skel/.x2goclient /home/ubuntu/
-        cp -a ${ZDRES}/mods/etc/skel/.PyCharm30 /home/ubuntu/
+        cp -a ${KDRES}/mods/etc/skel/.x2goclient /etc/skel/
+        cp -a ${KDRES}/mods/etc/skel/.PyCharm30 /etc/skel/
+        cp -a ${KDRES}/mods/etc/skel/.x2goclient /home/ubuntu/
+        cp -a ${KDRES}/mods/etc/skel/.PyCharm30 /home/ubuntu/
         chown -R 999:999 /home/ubuntu/.x2goclient/
         chown -R 999:999 /home/ubuntu/.PyCharm30/
         echo "post-update: Added additional x2go sessions and pycharm skel."
@@ -45,10 +45,10 @@ if [ -d /isodevice ]; then
 
     ## We're probably too late to influence some things like pcmanfm, but at least we can fix chromium.
     if [ ! -d /home/ubuntu/.config/chromium ]; then  ## Chromium's profile doesn't exist yet.
-        cp -a ${ZDRES}/mods/etc/skel/.config /etc/skel/
-        cp -a ${ZDRES}/mods/etc/skel/.gconf /etc/skel/
-        cp -a ${ZDRES}/mods/etc/skel/.config /home/ubuntu/
-        cp -a ${ZDRES}/mods/etc/skel/.gconf /home/ubuntu/
+        cp -a ${KDRES}/mods/etc/skel/.config /etc/skel/
+        cp -a ${KDRES}/mods/etc/skel/.gconf /etc/skel/
+        cp -a ${KDRES}/mods/etc/skel/.config /home/ubuntu/
+        cp -a ${KDRES}/mods/etc/skel/.gconf /home/ubuntu/
         chown -R 999:999 /home/ubuntu/.config/
         chown -R 999:999 /home/ubuntu/.gconf/
         echo "post-update: Added additional chromium skel."
@@ -56,7 +56,7 @@ if [ -d /isodevice ]; then
 
     ## Fix up the log files so all the disk spam ends up somewhere easy to deal with
     if [ ! -f /etc/rsyslog.d/35-disks.conf ]; then  ## Not baked in yet
-        cp -a ${ZDRES}/mods/etc/rsyslog.d/35-disks.conf /etc/rsyslog.d/
+        cp -a ${KDRES}/mods/etc/rsyslog.d/35-disks.conf /etc/rsyslog.d/
         service rsyslog restart
         echo "post-update: Added additional rsyslog.d log target."
     fi
@@ -125,13 +125,13 @@ if [ -d /isodevice ]; then
     if [ -f /isodevice/kamikazi-0.6.0.ver ]; then
         echo "post-update: Found kamikazi 0.6.0 version file on USB."
         # Update grub so restarting is safe.
-        cd ${ZDRES}/grub/
+        cd ${KDRES}/grub/
         sha1sum grub.cfg > /tmp/running_grub
         cd /isodevice/boot/grub/
         sha1sum grub.cfg > /tmp/usb_grub
         if ! $(cmp /tmp/running_grub /tmp/usb_grub); then
             echo "post-update: Updating GRUB Configuration file on USB."
-            cp ${ZDRES}/grub/grub.cfg /isodevice/boot/grub/grub.cfg
+            cp ${KDRES}/grub/grub.cfg /isodevice/boot/grub/grub.cfg
             sync
             echo "post-update: Updated GRUB Configuration file for v0.6.x on USB."
         fi

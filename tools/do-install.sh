@@ -4,8 +4,8 @@
 
 # Get into our main directory for it to be the CWD for the rest.
 cd /home/git/
-ZDHOME="/home/git/zurfa-deploy"
-ZDRES="${ZDHOME}/resources"
+KDHOME="/home/git/kamikazi-deploy"
+KDRES="${KDHOME}/resources"
 
 # Are we running in livemedia mode?
 if [ -d /isodevice ]; then
@@ -18,18 +18,18 @@ if [ -d /isodevice ]; then
         rm /isodevice/kamikazi-0.4.0.ver;
         echo "do-install: Purged a marker from Disk Image version 0.4.0."
         echo "do-install: Triggering a background update to latest image."
-        echo "do-install: To abort, quickly ssh in and killall do-zurfa-upgrade.sh"
+        echo "do-install: To abort, quickly ssh in and killall do-kamikazi-upgrade.sh"
         # Import a supervisor job to do it.
-        cp ${ZDRES}/mods/etc/supervisor.d/zurfa-upgrade.ini /etc/supervisor.d/
+        cp ${KDRES}/mods/etc/supervisor.d/kamikazi-upgrade.ini /etc/supervisor.d/
         sync
         /usr/local/bin/supervisorctl reread
         /usr/local/bin/supervisorctl update
 
         # If we have a supervisor job to do it, prefer that.
-        if [ -f /etc/supervisor.d/zurfa-upgrade.ini ]; then
-            /usr/local/bin/supervisorctl start zurfa-upgrade
+        if [ -f /etc/supervisor.d/kamikazi-upgrade.ini ]; then
+            /usr/local/bin/supervisorctl start kamikazi-upgrade
         else  # Call the script directly.
-            $(${ZDHOME}/tools/do-zurfa-upgrade.sh) &
+            $(${KDHOME}/tools/do-kamikazi-upgrade.sh) &
         fi
     fi
 
@@ -39,18 +39,18 @@ if [ -d /isodevice ]; then
         rm /isodevice/kamikazi-0.5.0.ver;
         echo "do-install: Purged a marker from Disk Image version 0.5.0."
         echo "do-install: Triggering a background update to latest image."
-        echo "do-install: To abort, quickly ssh in and killall do-zurfa-upgrade.sh"
+        echo "do-install: To abort, quickly ssh in and killall do-kamikazi-upgrade.sh"
         # Import a supervisor job to do it.
-        cp ${ZDRES}/mods/etc/supervisor.d/zurfa-upgrade.ini /etc/supervisor.d/
+        cp ${KDRES}/mods/etc/supervisor.d/kamikazi-upgrade.ini /etc/supervisor.d/
         sync
         /usr/local/bin/supervisorctl reread
         /usr/local/bin/supervisorctl update
 
         # If we have a supervisor job to do it, prefer that.
-        if [ -f /etc/supervisor.d/zurfa-upgrade.ini ]; then
-            /usr/local/bin/supervisorctl start zurfa-upgrade
+        if [ -f /etc/supervisor.d/kamikazi-upgrade.ini ]; then
+            /usr/local/bin/supervisorctl start kamikazi-upgrade
         else  # Call the script directly.
-            $(${ZDHOME}/tools/do-zurfa-upgrade.sh) &
+            $(${KDHOME}/tools/do-kamikazi-upgrade.sh) &
         fi
     fi
 
@@ -59,18 +59,18 @@ if [ -d /isodevice ]; then
         echo "do-install: Purging a force-reflash marker from Disk Image version 0.0.0."
         rm /isodevice/kamikazi-0.0.0.ver
         echo "do-install: Triggering a background update to latest image."
-        echo "do-install: To abort, quickly ssh in and killall do-zurfa-upgrade.sh"
+        echo "do-install: To abort, quickly ssh in and killall do-kamikazi-upgrade.sh"
         # Import a supervisor job to do it.
-        cp ${ZDRES}/mods/etc/supervisor.d/zurfa-upgrade.ini /etc/supervisor.d/
+        cp ${KDRES}/mods/etc/supervisor.d/kamikazi-upgrade.ini /etc/supervisor.d/
         sync
         /usr/local/bin/supervisorctl reread
         /usr/local/bin/supervisorctl update
 
         # If we have a supervisor job to do it, prefer that.
-        if [ -f /etc/supervisor.d/zurfa-upgrade.ini ]; then
-            /usr/local/bin/supervisorctl start zurfa-upgrade
+        if [ -f /etc/supervisor.d/kamikazi-upgrade.ini ]; then
+            /usr/local/bin/supervisorctl start kamikazi-upgrade
         else  # Call the script directly.
-            $(${ZDHOME}/tools/do-zurfa-upgrade.sh) &
+            $(${KDHOME}/tools/do-kamikazi-upgrade.sh) &
         fi
     fi
 fi
