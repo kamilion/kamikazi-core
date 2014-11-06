@@ -1,0 +1,21 @@
+[Desktop Entry]
+Type=Application
+Name=LiveWallpaper Indicator
+Name[de]=LiveWallpaper Indikator
+Name[fr]=LiveWallpaper Indicator
+Name[ja]=ライブ壁紙インジケーター
+Name[ms]=Penunjuk LiveWallpaper
+Name[nl]=LiveWallpaper Indicator
+Name[sk]=Ukazovateľ LiveWallpaper
+Name[uk]=Індикатор LiveWallpaper
+Comment=Indicator applet to set up the live wallpapers
+Comment[de]=Indikator-Applet zum Einrichten der Live-Hintergründe
+Comment[fr]=Un indicateur pour configurer les live wallpaper
+Comment[ja]=ライブ壁紙の設定用インジケーター
+Comment[ms]=Aplet penunjuk untuk tetapkan kertas dinding langsung
+Comment[nl]=Indicator applet voor het opzetten van de live wallpapers
+Comment[sk]=Ukazovateľ pre nastavenie live wallpaper
+Icon=indicator-livewallpaper
+Exec=livewallpaper-indicator
+Terminal=false
+Categories=Applet;
