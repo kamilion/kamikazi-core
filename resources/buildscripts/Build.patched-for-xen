@@ -67,6 +67,8 @@ rm -f $ISOPATH/casper/filesystem.squashfs
 rm -f $ISOPATH/casper/initrd.lz
 rm -f $ISOPATH/casper/vmlinuz
 rm -f $ISOPATH/casper/vmlinuz.efi*
+rm -f $ISOPATH/casper/xen-*.gz
+rm -f $ISOPATH/casper/xengrub.cfg
 rm -f $ISOPATH/casper/filesystem.manifest
 rm -f $ISOPATH/casper/filesystem.manifest-desktop
 rm -f $ISOPATH/casper/filesystem.size
@@ -111,6 +113,15 @@ case $CDNAME in
 		;;
 	saucy)
 		CODENAME="Saucy Salamander"
+		;;
+	trusty)
+		CODENAME="Trusty Tahr"
+		;;
+	utopic)
+		CODENAME="Utopic Unicorn"
+		;;
+	vivid)
+		CODENAME="Vivid Vervet"
 		;;
 esac
 
@@ -228,14 +239,9 @@ echo -n "# Copying boot files"
 fi
 
 # If the ISO supports EFI, we should copy the proper kernel in place
-if [ -e $FSPATH/boot/vmlinuz.efi ]; then
-	cp -f $FSPATH/boot/vmlinuz* $ISOPATH/casper/vmlinuz.efi
-	# Hardlink the EFI kernel to save a few megs with genisoimage -cache-inodes
-	ln -f $ISOPATH/casper/vmlinuz.efi $ISOPATH/casper/vmlinuz
-else
-	# There was no EFI kernel, just copy the normal one
-	cp -f $FSPATH/boot/vmlinuz* $ISOPATH/casper/vmlinuz
-fi
+cp -f $FSPATH/boot/vmlinuz* $ISOPATH/casper/vmlinuz.efi
+# Hardlink the EFI kernel to save a few megs with genisoimage -cache-inodes
+ln -f $ISOPATH/casper/vmlinuz.efi $ISOPATH/casper/vmlinuz
 
 if [ -e $FSPATH/boot/xen-*.gz ]; then
 	# Put Xen in the casper folder next to the kernel
