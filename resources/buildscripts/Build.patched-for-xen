@@ -1,0 +1,322 @@
+#!/bin/bash
+
+##
+#  Project: Ubuntu Builder - A handy tool to build your own Ubuntu based distribution
+#  Author: Francesco Muriana <f.muriana@hotmail.it>
+#  Copyright: 2010-2013 Francesco Muriana
+#  License: GPL-2+
+#  This program is free software; you can redistribute it and/or modify it
+#  under the terms of the GNU General Public License as published by the Free
+#  Software Foundation; either version 2 of the License, or (at your option)
+#  any later version.
+#
+#  This program is distributed in the hope that it will be useful, but WITHOUT
+#  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+#  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+#  more details.
+#
+#  On Debian GNU/Linux systems, the full text of the GNU General Public License
+#  can be found in the file /usr/share/common-licenses/GPL-2.
+##
+
+. /usr/share/ubuntu-builder/extras/config
+
+(echo
+echo STARTING BUILDING PROCESS
+echo
+read LOCALEPURGE < $WORKPATH/configs/LOCALEPURGE
+read LOCALE < $WORKPATH/configs/LOCALE
+if [ "$LOCALEPURGE" = "yes" ]; then
+	echo $LOCALE > $FSPATH/tmp/LOCALE
+fi
+
+# Check if all the required files and directories exist
+echo -n "# Checking configs"
+if [ ! -e $WORKPATH/configs/DIST ] || [ ! -e $WORKPATH/configs/ARCH ]; then
+        zenity --error --text "One or more configuration files are missing. Close the program and start it again."
+	exit
+else
+	echo "                      [DONE]"
+fi
+
+echo -n "# Checking folders"
+if [ ! -d $ISOPATH/casper ]; then
+	zenity --error --text "The 'casper' folder doesn't exist in $ISOPATH . Please remove the $WORKPATH directory and try again."
+	exit
+elif [ ! -d $ISOPATH/.disk ]; then
+	zenity --error --text "The '.disk' folder doesn't exists in $ISOPATH. Please remove the $WORKPATH directory and try again."
+	exit
+elif [ ! -d $ISOPATH ] || [ ! -d $FSPATH ]; then
+	zenity --error --text "At least one of the required directories doesn't exist. Please remove the $WORKPATH directory and try again."
+	exit
+fi
+echo "                      [DONE]"
+
+# Load the new system configuration
+echo -n "# Loading configs"
+read DIST < $WORKPATH/configs/DIST
+read ARCH < $WORKPATH/configs/ARCH
+read DESCRIPTION < $WORKPATH/configs/DESCRIPTION
+read RELEASENOTES < $ISOPATH/.disk/release_notes_url
+echo "                       [DONE]"
+
+# Delete old ISO files
+echo -n "# Deleting obsolete files"
+rm -f $WORKPATH/${DIST//[[:space:]]}-$VERSION-$ARCH
+rm -f $ISOPATH/casper/filesystem.squashfs
+rm -f $ISOPATH/casper/initrd.lz
+rm -f $ISOPATH/casper/vmlinuz
+rm -f $ISOPATH/casper/vmlinuz.efi*
+rm -f $ISOPATH/casper/filesystem.manifest
+rm -f $ISOPATH/casper/filesystem.manifest-desktop
+rm -f $ISOPATH/casper/filesystem.size
+rm -f $ISOPATH/md5sum.txt
+rm -f $ISOPATH/casper/README.diskdefines
+
+# Check if the Windows related files were selected for deletion and remove them if true
+if [ -e $WORKPATH/configs/WIN ]; then
+	read WIN < $WORKPATH/configs/WIN
+	if [[ "$WIN" = "yes" ]]; then
+		rm -rf $ISOPATH/bin
+		rm -rf $ISOPATH/disctree
+		rm -rf $ISOPATH/pics
+		rm -rf $ISOPATH/programs
+		rm -f $ISOPATH/autorun.inf
+		rm -f $ISOPATH/start.bmp
+		rm -f $ISOPATH/start.exe
+		rm -f $ISOPATH/start.ini
+		rm -f $ISOPATH/ubuntu.ico
+		rm -f $ISOPATH/kubuntu.ico
+		rm -f $ISOPATH/xubuntu.ico
+		rm -f $ISOPATH/lubuntu.ico
+		rm -f $ISOPATH/wubi-cdboot.exe
+		rm -f $ISOPATH/wubi.exe
+		rm -f $ISOPATH/umenu.exe
+		rm -f $ISOPATH/usb-creator.exe
+		rm -f $ISOPATH/mint4win.exe
+	fi
+fi
+
+VERSION=`cat $FSPATH/etc/lsb-release | grep DISTRIB_RELEASE= | sed 's/DISTRIB_RELEASE=//'`
+CDNAME=`cat $FSPATH/etc/lsb-release | grep DISTRIB_CODENAME= | sed 's/DISTRIB_CODENAME=//'`
+case $CDNAME in
+	precise)
+		CODENAME="Precise Pangolin"
+		;;
+	quantal)
+		CODENAME="Quantal Quetzal"
+		;;
+	raring)
+		CODENAME="Raring Ringtail"
+		;;
+	saucy)
+		CODENAME="Saucy Salamander"
+		;;
+esac
+
+echo "               [DONE]"
+
+# Set the new informations
+echo -n "# Setting up distribution informations"
+sed -i "s/DISTRIB_ID=.*/DISTRIB_ID=$DIST/" $FSPATH/etc/lsb-release
+sed -i "s/DISTRIB_DESCRIPTION=.*/DISTRIB_DESCRIPTION=\"$DESCRIPTION\"/" $FSPATH/etc/lsb-release
+echo "$DIST $VERSION \n \l" > $FSPATH/etc/issue
+echo "$DIST $VERSION" > $FSPATH/etc/issue.net
+echo -e "$DIST $VERSION \n\n Welcome to $DIST! \n * $RELEASENOTES\n\n" > $FSPATH/etc/motd
+
+echo "#!/bin/sh
+if uname -r | grep -qs \"\-server\"; then
+echo
+echo \"Welcome to the $DIST Server!\"
+echo \" * $RELEASENOTES\"
+else
+echo
+echo \"Welcome to $DIST!\"
+echo \" * $RELEASENOTES\"
+fi" > $FSPATH/etc/update-motd.d/10-help-text
+echo "  [DONE]"
+
+# Start building process
+echo -n "# Cleaning up the build environment"
+(cp /etc/hosts $FSPATH/etc/
+
+mount --bind /dev $FSPATH/dev
+mount --bind /var/run/dbus $FSPATH/var/lib/dbus
+mount --bind /var/run/dbus $FSPATH/var/run/dbus
+
+touch $FSPATH/tmp/script.bash
+cat > $FSPATH/tmp/script.bash << "EOF"
+
+#################### CHROOT ENVIRONMENT ####################
+#!/bin/bash
+
+export HOME=/root
+export LC_ALL=C
+mount none -t proc /proc
+mount none -t sysfs /sys
+mount none -t devpts /dev/pts
+cp etc/apt/sources.list etc/apt/sources.list.bak.full
+cp etc/apt/sources.list.bak.part etc/apt/sources.list
+apt-get update -q
+dbus-uuidgen > /var/lib/dbus/machine-id
+dpkg-divert --local --rename --add /sbin/initctl
+ln -s /bin/true /sbin/initctl
+
+if [ ! -e /boot/vmlinuz* ] || [ ! -e /boot/initrd* ]; then
+	rm initrd.img vmlinuz
+	apt-get purge linux-image-* -qq -y
+	apt-get install linux-image-generic -qq -y
+	update-initramfs -u -k all
+fi
+
+if [ -e /tmp/LOCALE ]; then
+	read LOCALE < /tmp/LOCALE
+	apt-get purge -y language-pack*
+	apt-get install -y language-pack-$LOCALE language-pack-$LOCALE-base
+	if [ -e usr/bin/gnome-session ] || [ -e usr/bin/xfce4-session ] || [ -e usr/bin/lxsession ]; then
+		apt-get install -y language-pack-gnome-$LOCALE language-pack-gnome-$LOCALE-base
+	fi
+	if [ -e usr/bin/startkde ]; then
+		apt-get install -y language-pack-kde-$LOCALE language-pack-kde-$LOCALE-base
+	fi
+	rm /tmp/LOCALE
+fi
+
+cust_rel=`cat /etc/lsb-release | grep DISTRIB_ID | cut -d '=' -f 2`
+if [ "$cust_rel" != "Ubuntu" ]; then
+	cd /usr/share/software-center/softwarecenter/distro/
+	sudo cp `find . -maxdepth 1 -iname 'ubuntu.py' | cut -d '/' -f 2` $cust_rel.py
+	sudo sed -i 's/	class Ubuntu(Debian):/class '$cust_rel'(Debian):/g' $cust_rel.py
+	cd
+fi
+
+EOF
+######################### on EXIT #########################
+echo "apt-get clean
+rm -rf /boot/*.bak
+rm -rf /tmp/*
+rm -rf ~/.bash_history
+rm -rf /var/lib/dpkg/*-old
+rm -rf /var/lib/aptitude/*.old
+rm -rf /var/cache/debconf/*.dat-old
+rm -rf /var/log/*.gz
+rm -rf /var/lib/dbus/machine-id
+rm -rf /sbin/initctl
+dpkg-divert --rename --remove /sbin/initctl
+umount -lf /proc
+umount -lf /sys
+umount -lf /dev/pts
+umount -lf /var/lib/dbus
+umount -lf /var/run/dbus" >> $FSPATH/tmp/script.bash
+
+chroot $FSPATH sh /tmp/script.bash
+umount -f -l $FSPATH/dev) > /dev/null 2>&1
+echo "     [DONE]"
+
+echo -n "# Copying boot files"
+(if [ "$LOCALEPURGE" = "yes" ]; then
+	cd $WORKPATH
+	apt-get install -y gfxboot gfxboot-dev
+	apt-get source gfxboot-theme-ubuntu
+	tar -xzf gfxboot*.tar.gz
+	cd gfxboot*/
+	make DEFAULT_LANG=$LOCALE
+	cp -rf boot/* $ISOPATH/isolinux/
+	cd ..
+	rm -r gfxboot*
+	apt-get purge -y gfxboot gfxboot-dev
+fi
+
+# If the ISO supports EFI, we should copy the proper kernel in place
+if [ -e $FSPATH/boot/vmlinuz.efi ]; then
+	cp -f $FSPATH/boot/vmlinuz* $ISOPATH/casper/vmlinuz.efi
+	# Hardlink the EFI kernel to save a few megs with genisoimage -cache-inodes
+	ln -f $ISOPATH/casper/vmlinuz.efi $ISOPATH/casper/vmlinuz
+else
+	# There was no EFI kernel, just copy the normal one
+	cp -f $FSPATH/boot/vmlinuz* $ISOPATH/casper/vmlinuz
+fi
+
+if [ -e $FSPATH/boot/xen-*.gz ]; then
+	# Put Xen in the casper folder next to the kernel
+	cp -f $FSPATH/boot/xen-*.gz $ISOPATH/casper/
+fi
+
+if [ -e $FSPATH/boot/xengrub.cfg ]; then
+	# Put xengrub.cfg in the casper folder next to xen
+	cp -f $FSPATH/boot/xengrub.cfg $ISOPATH/casper/xengrub.cfg
+fi
+# Copy the initrd in place next to the kernel
+cp -f $FSPATH/boot/initrd.img* $ISOPATH/casper/initrd.lz
+rm -f $FSPATH/var/cache/apt/pkgcache.bin
+rm -f $FSPATH/var/cache/apt/srcpkgcache.bin) > /dev/null 2>&1
+echo "                    [DONE]"
+
+echo -n "# Creating File System"
+echo
+mksquashfs $FSPATH $ISOPATH/casper/filesystem.squashfs -noappend -no-recovery -b 1048576 -comp xz -Xbcj x86 -Xdict-size 100%
+printf $(du -sx --block-size=1 $FSPATH | cut -f1) > $ISOPATH/casper/filesystem.size
+echo "                  [DONE]"
+
+echo -n "# Creating Manifest files"
+chroot $FSPATH dpkg-query -W --showformat='${Package} ${Version}\n' > $ISOPATH/casper/filesystem.manifest
+cp $ISOPATH/casper/filesystem.manifest $ISOPATH/casper/filesystem.manifest-desktop
+REMOVE='ubiquity casper live-initramfs user-setup discover1 xresprobe os-prober libdebian-installer4'
+for i in $REMOVE 
+do
+        sed -i "/${i}/d" $ISOPATH/casper/filesystem.manifest-desktop
+done
+echo "               [DONE]"
+
+echo -n "# Gathering information files"
+echo "#define DISKNAME  ${DIST} - Release ${ARCH}
+#define TYPE  binary
+#define TYPEbinary  1
+#define ARCH  ${ARCH}
+#define ARCH  ${ARCH}  1
+#define DISKNUM  1
+#define DISKNUM1  1
+#define TOTALNUM  0
+#define TOTALNUM0  1" > $ISOPATH/README.diskdefines
+
+echo "$DIST $VERSION \"$CODENAME\" - Release $ARCH (`date +%Y%m%d`)" > $ISOPATH/.disk/info
+echo "           [DONE]"
+
+echo -ne "# Creating ISO, this may take a moment"
+cd $ISOPATH
+genisoimage -r -V "${DIST//[[:space:]]}-$VERSION-$ARCH" -b isolinux/isolinux.bin -c isolinux/boot.cat -cache-inodes -J -l -no-emul-boot -boot-load-size 4 -boot-info-table -o $WORKPATH/${DIST//[[:space:]]}-$VERSION-$ARCH.iso -input-charset utf-8 .
+
+chmod 755 $WORKPATH/${DIST//[[:space:]]}-$VERSION-$ARCH.iso
+echo $WORKPATH/${DIST//[[:space:]]}-$VERSION-$ARCH.iso > $WORKPATH/configs/ISOCREATED
+cp $FSPATH/etc/apt/sources.list.bak.full $FSPATH/etc/apt/sources.list
+echo "  [DONE]"
+
+zenity --info --text "${DIST//[[:space:]]}-$VERSION-$ARCH successfully created. You can test it with QEMU."
+
+echo -n "# Generating MD5Sum"
+cd $WORKPATH
+md5sum ${DIST//[[:space:]]}-$VERSION-$ARCH.iso > md5sum
+echo "                     [DONE]"
+
+# If usb live was selected in the settings, start the process
+if [ -e $WORKPATH/configs/USB_LIVE ]; then
+	read USB_LIVE < $WORKPATH/configs/USB_LIVE
+	if [ "$USB_LIVE" = "yes" ]; then
+		if [ -e /usr/bin/usb-creator-gtk ]; then
+			usb-creator-gtk -i ${DIST//[[:space:]]}-$VERSION-$ARCH.iso
+		else
+			usb-creator-kde -i ${DIST//[[:space:]]}-$VERSION-$ARCH.iso
+		fi
+	fi
+fi
+
+# If burning image was selected in the settings, start the process
+if [ -e $WORKPATH/configs/BURN ]; then
+	read BURN < $WORKPATH/configs/BURN
+	if [ "$BURN" = "yes" ]; then
+		read ISO < $WORKPATH/configs/ISOCREATED
+		read SOFTWARE < $WORKPATH/configs/SOFTWARE
+		$SOFTWARE $ISO
+	fi
+fi
+) | tee -a $WORKPATH/ubuntu-builder.log

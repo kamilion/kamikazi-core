@@ -24,10 +24,8 @@ for x in $(cat /proc/cmdline); do
 	esac
 done
 
-# -- Kamilion
 # Disable loading mptsas automatically on boot.
 echo "blacklist mptsas" >> /etc/modprobe.d/initramfs.conf
-# -- Kamilion
 
 # sanity check
 [ -z "${blacklist}" ] && exit 0

@@ -1,0 +1,11 @@
+[settings]
+default-encoding=ISO-8859-1
+enable-site-specific-quirks=true
+homepage=http://localhost:8181/
+location-entry-search=https://duckduckgo.com/?q=%s
+enable-spell-checking=false
+enable-html5-database=true
+user-agent=Mozilla/5.0 (Macintosh; U; Intel Mac OS X; en-us) AppleWebKit/537+ (KHTML, like Gecko) Version/5.0 Safari/537.6+ Midori/0.4
+
+[extensions]
+libadblock.so=true

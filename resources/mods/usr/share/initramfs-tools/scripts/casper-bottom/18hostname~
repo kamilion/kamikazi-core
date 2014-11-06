@@ -20,7 +20,6 @@ esac
 
 log_begin_msg "$DESCRIPTION"
 
-# -- Kamilion
 # Set the hostname very early if a file exists on isodevice.
 if [ -d /root/isodevice/boot/config ]; then
     if [ -f /root/isodevice/boot/config/hostname ]; then
@@ -30,7 +29,6 @@ if [ -d /root/isodevice/boot/config ]; then
         fi
     fi
 fi
-# -- Kamilion
 
 echo "$HOST" > /root/etc/hostname
 cat > /root/etc/hosts <<EOF

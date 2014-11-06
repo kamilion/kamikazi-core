@@ -1,0 +1,9 @@
+libunique-1.0-0		install
+gstreamer1.0-plugins-base		install
+libwebkitgtk-1.0-0		install
+gstreamer1.0-x		install
+libgstreamer-plugins-good1.0-0		install
+gstreamer1.0-plugins-good		install
+libwebkitgtk-1.0-common		install
+midori		install
+libjavascriptcoregtk-1.0-0		install

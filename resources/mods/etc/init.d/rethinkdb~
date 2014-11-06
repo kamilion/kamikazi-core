@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright 2014 RethinkDB.
+# Copyright 2013 RethinkDB.
 # Portions from Frank Trampe and Novell used with permission.
 
 # This file targets Ubuntu and is not in line with the Linux specification. Move runlevel 2 from Default-Start to Default-Stop for compliance.
