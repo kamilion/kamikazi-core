@@ -1,8 +1,8 @@
 {
   "event_handlers": [
-    "user:zurfa-deploy=/usr/local/bin/supervisorctl start zurfa-deploy",
-    "user:zurfa-upgrade=/usr/local/bin/supervisorctl start zurfa-upgrade",
-    "user:zurfa-reboot=/usr/local/bin/supervisorctl start zurfa-reboot",
-    "user:zurfa-shutdown=/usr/local/bin/supervisorctl start zurfa-shutdown"
+    "user:kamikazi-deploy=/usr/local/bin/supervisorctl start kamikazi-deploy",
+    "user:kamikazi-upgrade=/usr/local/bin/supervisorctl start kamikazi-upgrade",
+    "user:kamikazi-reboot=/usr/local/bin/supervisorctl start kamikazi-reboot",
+    "user:kamikazi-shutdown=/usr/local/bin/supervisorctl start kamikazi-shutdown"
   ]
 }
