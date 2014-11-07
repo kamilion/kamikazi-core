@@ -1,0 +1,33 @@
+#! /bin/sh
+
+PREREQ=""
+DESCRIPTION="Copying openvswitch config database from boot media..."
+
+prereqs()
+{
+       echo "$PREREQ"
+}
+
+case $1 in
+# get pre-requisites
+prereqs)
+       prereqs
+       exit 0
+       ;;
+esac
+
+. /scripts/casper-functions
+
+log_begin_msg "$DESCRIPTION"
+
+# One of the pecularities of the FAT filesystem is a directory and a file can share the same name.
+# Simple advice: Don't. Pick one or the other -- 14.04+ will include interfaces.d if ip=frommedia
+# The interfaces files should be available at approximately the same time we're copying this.
+if [ -d /root/isodevice/boot/config ]; then
+    if [ -d /root/isodevice/boot/config/openvswitch/ ]; then
+	# Overwrite the existing default configuration.
+        cp -f /root/isodevice/boot/config/openvswitch/* /root/etc/openvswitch/
+    fi
+fi
+
+log_end_msg
