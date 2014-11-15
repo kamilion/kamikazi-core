@@ -188,13 +188,5 @@ if [ -d /root/isodevice/boot/config ]; then # the general configuration folder e
         chmod 0644 /root/etc/kamikazi-deploy/role
     fi
 fi
-# kamikazi-deploy will stash any local changes made to it's repo, pull, and pop the stash.
-
-
-
-# Force openssh-server to generate a key now if we didn't restore one earlier.
-dpkg-reconfigure openssh-server
-# Otherwise, if the keys exist, just restart openssh so it's not declining future connections.
-# It should pick up additional network interfaces as they become available.
 
 log_end_msg
