@@ -163,6 +163,35 @@ fi
 # If this stuff exists before 23networking runs, it will be used instead of generated.
 # If you actually want it to be generated anyway, remove ip=frommedia from the kernel cmdline.
 
+# Copy over any role overrides.
+# kamikazi-boot-late will handle these far later in the boot process..
+if [ -d /root/isodevice/boot/config ]; then # the general configuration folder exists.
+    if [ -d /root/isodevice/boot/config/roles ]; then # we previously saved additional roles.
+	# Overwrite the existing default configuration.
+        cp -f /root/isodevice/boot/config/roles/* /root/home/git/kamikazi-deploy/tools/roles/
+        # Make sure the proper permissions are applied.
+        chmod 0755 /root/home/git/kamikazi-deploy/tools/roles/*
+    fi
+fi
+# kamikazi-deploy will stash any local changes made to it's repo, pull, and pop the stash.
+
+
+# If a forced role exists, copy it over..
+# kamikazi-boot-late will handle this far later in the boot process..
+if [ -d /root/isodevice/boot/config ]; then # the general configuration folder exists.
+    if [ -e /root/isodevice/boot/config/role ]; then # we will force a specific role.
+        # Make sure the configuration directory actually exists.
+        mkdir -p /root/etc/kamikazi-deploy
+	# Overwrite the existing default configuration.
+        cp -f /root/isodevice/boot/config/role /root/etc/kamikazi-deploy/role
+        # Make sure the proper permissions are applied.
+        chmod 0644 /root/etc/kamikazi-deploy/role
+    fi
+fi
+# kamikazi-deploy will stash any local changes made to it's repo, pull, and pop the stash.
+
+
+
 # Force openssh-server to generate a key now if we didn't restore one earlier.
 dpkg-reconfigure openssh-server
 # Otherwise, if the keys exist, just restart openssh so it's not declining future connections.

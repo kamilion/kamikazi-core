@@ -1,0 +1,46 @@
+#!/bin/bash
+
+# V0.5.0 runs this a minute after kamikazi-boot.sh to specialize a system for a task.
+
+# First, make sure sshd is okay.
+dpkg-reconfigure openssh-server
+# This will either generate keys or if they already exist, restart sshd
+
+# Get into our main directory for it to be the CWD for the rest.
+cd /home/git/
+KDHOME="/home/git/kamikazi-deploy"
+KDRES="${KDHOME}/resources"
+
+# Install our patched rethinkdb initscript that supports proxy mode.
+cp ${KDRES}/mods/etc/init.d/rethinkdb /etc/init.d/rethinkdb
+
+RETHINK=$(which rethinkdb)
+
+MYNAME=$(hostname)
+echo -n "kamikazi-role-wanwipeactor: We are: ${MYNAME}"
+
+if [ "${MYNAME}" != "wipemaster" ]; then
+    echo "kamikazi-role-wanwipeactor: I am an actor, I must find a wipemaster."
+    MASTER=$(serf members | grep wipemaster | sed -r "s/:7946//g" | sed -r "s/\s+/\t/g" | cut -f 2 )
+    echo "kamikazi-role-wanwipeactor: I am an actor, selected wipemaster: ${MASTER}"
+    if [ "$(lspci | grep MPT)" != "" ]; then  # If it's not blank, we need to load the driver.
+        echo "kamikazi-role-wanwipeactor: MPT-Fusion SAS HBA detected. I must load mptsas."
+        modprobe mptsas
+    fi
+    echo "kamikazi-role-wanwipeactor: I am an actor, I must stop rethinkdb."
+    service rethinkdb stop
+    sleep 3;  # Give rethink a moment to clean up
+    echo "kamikazi-role-wanwipeactor: I am an actor, pointing RethinkDB proxy at ${MASTER}."
+    cp ${KDRES}/rethink/wanwipe.conf /etc/rethinkdb/instances.d/wanwipe.conf
+    sync
+    echo -e "\njoin=${MASTER}:29015\n" >> /etc/rethinkdb/instances.d/wanwipe.conf
+    mkdir -p /var/lib/rethinkdb/wanwipe/data/
+    chown -R rethinkdb.rethinkdb /var/lib/rethinkdb
+    sync
+    sleep 1
+    service rethinkdb start
+    echo "kamikazi-role-wanwipeactor: RethinkDB is up, restarting diskmonitor."
+    supervisorctl restart kamikazi-diskmonitor
+    echo "kamikazi-role-wanwipeactor: Actor should be active."
+fi
+
