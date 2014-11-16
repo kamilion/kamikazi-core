@@ -2,6 +2,10 @@
 
 # V0.5.0 runs this a minute after kamikazi-boot.sh to specialize a system for a task.
 
+# First, make sure sshd is okay.
+dpkg-reconfigure openssh-server
+# This will either generate keys or if they already exist, restart sshd
+
 # Get into our main directory for it to be the CWD for the rest.
 cd /home/git/
 KDHOME="/home/git/kamikazi-deploy"
