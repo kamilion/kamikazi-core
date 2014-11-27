@@ -1,0 +1,203 @@
+#! /bin/sh
+
+PREREQ=""
+DESCRIPTION="Restoring kamikazi configuration from /isodevice/boot/config/ ..."
+FSTAB=/root/etc/fstab
+
+prereqs()
+{
+       echo "$PREREQ"
+}
+
+case $1 in
+# get pre-requisites
+prereqs)
+       prereqs
+       exit 0
+       ;;
+esac
+
+. /scripts/casper-functions
+
+log_begin_msg "$DESCRIPTION"
+
+
+# Look for any btrfs devices.
+devices=""
+for device in /dev/[hsv]d[a-z][0-9]*; do
+    if ! [ -b "${device}" ]; then
+        continue
+    fi
+
+    /sbin/blkid -o udev -p ${device%%[0-9]*} | grep -q "^ID_FS_TYPE=btrfs" && continue
+
+    magic=$(/bin/dd if="${device}" bs=8 skip=8200 count=1 2>/dev/null) || continue
+
+    if [ "${magic}" = "_BHRfS_M" ]; then
+        _log_msg "Kamikazi-restore: Found a btrfs volume on ${device}\n"
+	mkdir -p /mnt/btrfs/
+        devices="${devices} ${device}"
+        fi
+done
+
+# If we found any btrfs devices, check their label for uniqueness
+# and then add them to the fstab referenced by their label as best as possible.
+
+labels=""    # Create a string variable to hold the labels, then abuse string replacement.
+for device in ${devices}; do
+    label=$(/bin/dd if="${device}" bs=1 skip=65835 count=512 2>/dev/null | tr -d '\000')
+    if [ -z ${labels##*$label*} ] && [ -z "${labels}" -o -n "${label}" ]; then
+        labels="${labels} ${label}"
+        _log_msg "Kamikazi-restore: Added a btrfs volume named /mnt/btrfs/${label} on ${device}\n"
+        cat >> ${FSTAB} <<EOF
+##### added by casper-kamikazi_restore
+## ${device} contains a btrfs volume named ${label}
+LABEL="${label}" /mnt/btrfs/${label} btrfs defaults 0 0
+EOF
+    fi
+done
+
+_log_msg "Kamikazi-restore: Searching for fstab to restore...\n"
+# Append to fstab very early if a file exists on isodevice.
+if [ -d /root/isodevice/boot/config ]; then # the general configuration folder exists.
+    if [ -f /root/isodevice/boot/config/fstab ]; then # we previously saved additional fstab info.
+        cat /root/isodevice/boot/config/fstab >> /root/etc/fstab
+    fi
+fi
+
+_log_msg "Kamikazi-restore: Searching for kernel module state to restore...\n"
+# Set up kernel modules very early if a file exists on isodevice.
+if [ -d /root/isodevice/boot/config ]; then # the general configuration folder exists.
+    if [ -f /root/isodevice/boot/config/modules ]; then # we previously saved modules info.
+        cp -f /root/isodevice/boot/config/modules /root/etc/modules
+        # Make sure the proper permissions are applied.
+        chmod 0644 /root/etc/modules
+    fi
+fi
+
+_log_msg "Kamikazi-restore: Searching for DBUS machine-id to restore...\n"
+# Set the machine-id very early if a file exists on isodevice.
+if [ -d /root/isodevice/boot/config ]; then # the general configuration folder exists.
+    if [ -f /root/isodevice/boot/config/machine-id ]; then # we previously saved a machine-id.
+        cp -f /root/isodevice/boot/config/machine-id /root/var/lib/dbus/machine-id
+    fi
+fi
+
+_log_msg "Kamikazi-restore: Searching for SSH Host Keys to restore...\n"
+# Set the SSH Host keys very early if they exist on isodevice.
+if [ -d /root/isodevice/boot/config/ssh ]; then # the ssh configuration folder exists.
+    if [ -f /root/isodevice/boot/config/ssh/ssh_host_ecdsa_key ]; then # we previously saved host keys.
+        cp -f /root/isodevice/boot/config/ssh/ssh_host_* /root/etc/ssh/  # But we only want host keys, not config.
+        # Make sure the proper permissions are applied.
+        chmod 0600 /root/etc/ssh/ssh_host_*
+        chmod 0644 /root/etc/ssh/ssh_host_*.pub
+    fi
+fi
+
+_log_msg "Kamikazi-restore: Searching for hostname to restore...\n"
+# Set the hostname very early if a file exists on isodevice.
+if [ -d /root/isodevice/boot/config ]; then # the general configuration folder exists.
+    if [ -f /root/isodevice/boot/config/hostname ]; then # we previously saved a host name.
+        FROMFILE=$(cat /root/isodevice/boot/config/hostname)
+        if [ "${FROMFILE}" != "${HOST}" ]; then
+            HOST=${FROMFILE}
+        fi
+    fi
+fi
+
+echo "$HOST" > /root/etc/hostname
+cat > /root/etc/hosts <<EOF
+127.0.0.1 localhost
+127.0.1.1 $HOST
+
+# The following lines are desirable for IPv6 capable hosts
+::1     ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+ff02::3 ip6-allhosts
+
+# -- Kamilion was here from casper.
+
+EOF
+# Make sure the proper permissions are applied.
+chmod 0644 /root/etc/hostname
+hostname "$HOST"
+
+_log_msg "Kamikazi-restore: Searching for openvswitch configurations to restore...\n"
+# Copy over any openvswitch configuration.
+# The interfaces files should be available at approximately the same time we're copying this.
+if [ -d /root/isodevice/boot/config ]; then # the general configuration folder exists.
+    if [ -d /root/isodevice/boot/config/openvswitch ]; then # we previously saved ovsconfigs.
+	# Overwrite the existing default configuration.
+        cp -f /root/isodevice/boot/config/openvswitch/* /root/etc/openvswitch/
+        # Make sure the proper permissions are applied.
+        chmod 0644 /root/etc/openvswitch/*
+    fi
+fi
+
+_log_msg "Kamikazi-restore: Searching for ceph configurations to restore...\n"
+# Copy over any ceph configuration.
+# The interfaces files should be available at approximately the same time we're copying this.
+if [ -d /root/isodevice/boot/config ]; then # the general configuration folder exists.
+    if [ -d /root/isodevice/boot/config/ceph ]; then # we previously saved cephconfigs.
+	# Overwrite the existing default configuration.
+        cp -f /root/isodevice/boot/config/ceph/* /root/etc/ceph/
+        # Make sure the proper permissions are applied.
+        chmod 0644 /root/etc/ceph/*
+    fi
+fi
+
+_log_msg "Kamikazi-restore: Searching for network interface configurations to restore...\n"
+# One of the pecularities of the FAT filesystem is a directory and a file can share the same name.
+# Simple advice: Don't. Pick one or the other -- 14.04+ will include interfaces.d if ip=frommedia
+if [ -d /root/isodevice/boot/config ]; then # the general configuration folder exists.
+    # If it's a directory named interfaces, just put the files in interfaces.d
+    if [ -d /root/isodevice/boot/config/interfaces ]; then # we probably saved bridges.
+        cp -f /root/isodevice/boot/config/interfaces/* /root/etc/network/interfaces.d/
+        # Make sure the proper permissions are applied.
+        chmod 0644 /root/etc/network/interfaces.d/*
+
+    fi
+    # Otherwise if it's just a file, copy it.
+    if [ -f /root/isodevice/boot/config/nics ]; then # we probably saved simple interfaces file.
+        cp -f /root/isodevice/boot/config/nics /root/etc/network/interfaces
+        # Make sure the proper permissions are applied.
+        chmod 0644 /root/etc/network/interfaces
+
+    fi
+fi
+
+# If this stuff exists before 23networking runs, it will be used instead of generated.
+# If you actually want it to be generated anyway, remove ip=frommedia from the kernel cmdline.
+
+_log_msg "Kamikazi-restore: Searching for additional roles to restore...\n"
+# Copy over any role overrides.
+# kamikazi-boot-late will handle these far later in the boot process..
+if [ -d /root/isodevice/boot/config ]; then # the general configuration folder exists.
+    if [ -d /root/isodevice/boot/config/roles ]; then # we previously saved additional roles.
+	# Overwrite the existing default configuration.
+        cp -f /root/isodevice/boot/config/roles/* /root/home/git/kamikazi-deploy/tools/roles/
+        # Make sure the proper permissions are applied.
+        chmod 0755 /root/home/git/kamikazi-deploy/tools/roles/*
+    fi
+fi
+# kamikazi-deploy will stash any local changes made to it's repo, pull, and pop the stash.
+
+_log_msg "Kamikazi-restore: Searching for a forced role to assume...\n"
+# If a forced role exists, copy it over..
+# kamikazi-boot-late will handle this far later in the boot process..
+if [ -d /root/isodevice/boot/config ]; then # the general configuration folder exists.
+    if [ -e /root/isodevice/boot/config/role ]; then # we will force a specific role.
+        # Make sure the configuration directory actually exists.
+        mkdir -p /root/etc/kamikazi-deploy
+	# Overwrite the existing default configuration.
+        cp -f /root/isodevice/boot/config/role /root/etc/kamikazi-deploy/role
+        # Make sure the proper permissions are applied.
+        chmod 0644 /root/etc/kamikazi-deploy/role
+    fi
+fi
+_log_msg "Kamikazi-restore: All configuration required for boot has been restored.\n"
+
+log_end_msg
