@@ -52,7 +52,7 @@ network_interfaces () {
     [ -n "${bridges}" ] && $1 --allow=ovs ${bridges}
     INTERFACE_DIR="/etc/network/interfaces.d"
     [ -d "${INTERFACE_DIR}" ] || return
-    dir_bridges=`awk '{ if ($1 == "allow-ovs") { print $2; } }' "${INTERFACE_DIR}/*"`
+    dir_bridges=`awk '{ if ($1 == "allow-ovs") { print $2; } }' ${INTERFACE_DIR}/*`
     [ -n "${dir_bridges}" ] && $1 --allow=ovs ${dir_bridges}
 }
 
