@@ -84,12 +84,14 @@ start () {
 	set "$@" --force-corefiles="$FORCE_COREFILES"
     fi
     set "$@" $OVS_CTL_OPTS
+    echo "OVSStart: Runlevel is xX${RUNLEVEL}Xx"
     "$@" || exit $?
     #[ "$2" = "start" ] && network_interfaces ifup
 }
 
 # Call service openvswitch-switch start-bridges from /etc/network/interfaces.d/ somewhere
 start_bridges () {
+    echo "OVSStart_bridges: Runlevel is xX${RUNLEVEL}Xx"
     [ "$2" = "start-bridges" ] && network_interfaces ifup
 }
 
