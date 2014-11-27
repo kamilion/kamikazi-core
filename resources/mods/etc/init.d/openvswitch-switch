@@ -26,8 +26,8 @@
 #                    the Open vSwitch kernel-based switch.
 ### END INIT INFO
 #
-# insserv -r /etc/init.d/openvswitch-switch /etc/init.d/networking;
-# insserv /etc/init.d/openvswitch-switch /etc/init.d/networking;
+# /usr/lib/insserv/insserv -r /etc/init.d/openvswitch-switch /etc/init.d/networking;
+# /usr/lib/insserv/insserv /etc/init.d/openvswitch-switch /etc/init.d/networking;
 # Note that $network and $named were removed from Required-Start.
 # The X-Start-Before stanza was added and the networking init script was added.
 # Starting the openvswitch-switch initscript now only starts the daemons.
@@ -50,6 +50,10 @@ network_interfaces () {
     [ -e "${INTERFACES}" ] || return
     bridges=`awk '{ if ($1 == "allow-ovs") { print $2; } }' "${INTERFACES}"`
     [ -n "${bridges}" ] && $1 --allow=ovs ${bridges}
+    INTERFACE_DIR="/etc/network/interfaces.d"
+    [ -d "${INTERFACE_DIR}" ] || return
+    dir_bridges=`awk '{ if ($1 == "allow-ovs") { print $2; } }' "${INTERFACE_DIR}/*"`
+    [ -n "${dir_bridges}" ] && $1 --allow=ovs ${dir_bridges}
 }
 
 load_kmod () {
