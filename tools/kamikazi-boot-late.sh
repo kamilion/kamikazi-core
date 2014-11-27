@@ -2,7 +2,10 @@
 
 # V0.5.0 runs this a minute after kamikazi-boot.sh to specialize a system for a task.
 
-# First, make sure sshd is okay.
+# First, make sure our bridges are up.
+service openvswitch-switch start-bridges
+
+# Second, make sure sshd is okay.
 dpkg-reconfigure openssh-server
 # This will either generate keys or if they already exist, restart sshd
 
