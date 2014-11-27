@@ -50,6 +50,7 @@ network_interfaces () {
     [ -e "${INTERFACES}" ] || return
     bridges=`awk '{ if ($1 == "allow-ovs") { print $2; } }' "${INTERFACES}"`
     [ -n "${bridges}" ] && $1 --allow=ovs ${bridges}
+    # We do this twice because interfaces.d may not exist.
     INTERFACE_DIR="/etc/network/interfaces.d"
     [ -d "${INTERFACE_DIR}" ] || return
     dir_bridges=`awk '{ if ($1 == "allow-ovs") { print $2; } }' ${INTERFACE_DIR}/*`
@@ -92,7 +93,10 @@ start () {
 # Call service openvswitch-switch start-bridges from /etc/network/interfaces.d/ somewhere
 start_bridges () {
     echo "OVSStart_bridges: Runlevel is xX${RUNLEVEL}Xx"
-    [ "$2" = "start-bridges" ] && network_interfaces ifup
+    oldRUNLEVEL=${RUNLEVEL}
+    RUNLEVEL="yes"
+    network_interfaces ifup
+    RUNLEVEL=${oldRUNLEVEL}
 }
 
 stop () {
