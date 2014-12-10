@@ -20,7 +20,7 @@ esac
 . /scripts/casper-functions
 
 log_begin_msg "$DESCRIPTION"
-
+_log_msg "Kamikazi-restore: Welcome to Kamikazi"
 
 # Look for any btrfs devices.
 devices=""
@@ -45,7 +45,7 @@ done
 
 labels=""    # Create a string variable to hold the labels, then abuse string replacement.
 for device in ${devices}; do
-    label=$(/bin/dd if="${device}" bs=1 skip=65835 count=512 2>/dev/null | tr -d '\000')
+    label=$(/bin/dd if="${device}" bs=1 skip=65835 count=256 2>/dev/null | tr -d '\000')
     if [ -z ${labels##*$label*} ] && [ -z "${labels}" -o -n "${label}" ]; then
         labels="${labels} ${label}"
         _log_msg "Kamikazi-restore: Added a btrfs volume named /mnt/btrfs/${label} on ${device}\n"
