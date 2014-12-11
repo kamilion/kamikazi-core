@@ -31,19 +31,9 @@ elif [ -e "${KDRES}/tools/roles/${MYNAME}" ]; then
     ${KDRES}/tools/roles/${MYNAME}
 fi
 
-# Search for any other serf members on the internal LAN to join up with.
-# Serf supports encryption if a key is stored in /isodevice/boot/config/serfkey
-# Connections to an encrypted cluster will be denied if the key is missing or incorrect.
-MY_ADAPTER="xenbr0"
-MY_IPV4ADDRESS="$(ip addr show ${MY_ADAPTER} | grep "inet " | cut -d ' ' -f 6 | cut -d '/' -f 1)"
-MY_NETWORK="$(echo ${MY_IPV4ADDRESS} | cut -d '.' -f 1,2,3).0/24"
-for i in $(nmap -oG -Pn -p7946 --open ${MY_NETWORK} | grep "report for" | cut -d ' ' -f 6 | tr -d '()')
-do
-    if [ ${i} != ${MY_IPV4ADDRESS} ]; then
-        echo "found serf running on ${i}";
-        serf join ${i}
-    fi
-done
+# Attempt to find and join any local serf networks.
+echo "kamikazi-boot-late-boot: Searching for serf nodes."
+/usr/bin/serf-join
 
 echo "kamikazi-boot-late-boot: Restarting nginx."
 service nginx restart
