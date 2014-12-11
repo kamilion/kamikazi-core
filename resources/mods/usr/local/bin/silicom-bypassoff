@@ -1,0 +1,3 @@
+#!/bin/bash
+bpctl_start
+bpctl_util all set_bypass off
