@@ -35,6 +35,7 @@ for device in ${devices}; do
     if [ -z ${labels##*$label*} ] && [ -z "${labels}" -o -n "${label}" ]; then
         labels="${labels} ${label}"
         echo "Kamikazi-boot: Added a btrfs volume named /mnt/btrfs/${label} on ${device} to fstab."
+        mkdir -p /mnt/btrfs/${label}
         cat >> ${FSTAB} <<EOF
 LABEL="${label}" /mnt/btrfs/${label} btrfs defaults 0 0
 EOF
