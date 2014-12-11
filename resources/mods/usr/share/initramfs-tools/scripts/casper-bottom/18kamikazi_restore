@@ -50,8 +50,6 @@ for device in ${devices}; do
         labels="${labels} ${label}"
         _log_msg "Kamikazi-restore: Added a btrfs volume named /mnt/btrfs/${label} on ${device}\n"
         cat >> ${FSTAB} <<EOF
-##### added by casper-kamikazi_restore
-## ${device} contains a btrfs volume named ${label}
 LABEL="${label}" /mnt/btrfs/${label} btrfs defaults 0 0
 EOF
     fi
