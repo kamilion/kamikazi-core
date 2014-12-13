@@ -29,7 +29,7 @@ if [ "${MYNAME}" != "wipemaster" ]; then
     service rethinkdb stop
     sleep 3;  # Give rethink a moment to clean up
     echo "kamikazi-role-wanwipeactor: I am an actor, pointing RethinkDB proxy at ${MASTER}."
-    cp ${KDRES}/rethink/wanwipe.conf /etc/rethinkdb/instances.d/wanwipe.conf
+    cp ${KDRES}/config/rethink/wanwipe.conf /etc/rethinkdb/instances.d/wanwipe.conf
     sync
     echo -e "\njoin=${MASTER}:29015\n" >> /etc/rethinkdb/instances.d/wanwipe.conf
     mkdir -p /var/lib/rethinkdb/wanwipe/data/

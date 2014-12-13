@@ -16,8 +16,8 @@ if [ "${MYNAME}" == "firewall" ]; then
     echo "kamikazi-role-firewall: I am the firewall, responsible for networking."
     echo -e '{\n  "role": "firewall"\n}\n' > ${KDRES}/serf/config-role.json
     sync; sync; sync;
-    echo "kamikazi-role-firewall: Restarting serf agent to change role."
-    service serf restart
+    echo "kamikazi-role-firewall: Instructing serf agent to change role."
+    serf tags -set role=firewall
     echo "kamikazi-role-firewall: Enabling swap for firewall."
     swapon -a
     echo "kamikazi-role-firewall: Enabling btrfs volume 'firewall'."

@@ -1,6 +1,0 @@
-user set password 1 ***REMOVED***
-user set password 2 ***REMOVED***
-user set password 3 ***REMOVED***
-user set password 4 ***REMOVED***
-user set password 5 ***REMOVED***
-lan set 1 ipsrc dhcp

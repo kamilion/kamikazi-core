@@ -38,18 +38,19 @@ if [ -d /isodevice/boot/config ]; then
 
     echo "post-install: ipmitool says: ${IPMI_MANUFACTURER} ${IPMI_MODELID}"
 
+    # If the media isn't marked, mark it.
     if [ ! -f /isodevice/boot/config/ipmi-dhcp ]; then
         if [ "${IPMI_MANUFACTURER}" = "6653"  ]; then  # Tyan Computer Corporation
             if [ "${IPMI_MODELID}" = "6673"  ]; then  # ASpeed AST1100?
-                echo "post-install: This is a ***REMOVED*** ***REMOVED*** 3U chassis."
+                echo "post-install: This is a Model 5050 3U chassis."
                 echo "post-install: Updating IPMI credentials and enabling DHCP."
-                ipmitool exec ${KDRES}/mods/ipmi/ipmi-***REMOVED***.txt
+                ipmitool exec ${KDRES}/config/ipmi/ipmi-credentials.txt
                 touch /isodevice/boot/config/ipmi-dhcp
             fi
             if [ "${IPMI_MODELID}" = "6631"  ]; then  # ASpeed AST1100?
-                echo "post-install: This is a ***REMOVED*** ***REMOVED*** 1U chassis."
+                echo "post-install: This is a Model 3030 1U chassis."
                 echo "post-install: Updating IPMI credentials and enabling DHCP."
-                ipmitool exec ${KDRES}/mods/ipmi/ipmi-***REMOVED***.txt
+                ipmitool exec ${KDRES}/config/ipmi/ipmi-credentials.txt
                 touch /isodevice/boot/config/ipmi-dhcp
             fi
         fi

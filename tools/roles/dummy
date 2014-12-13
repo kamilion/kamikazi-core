@@ -13,10 +13,11 @@ MYNAME=$(hostname)
 echo -n "kamikazi-role-dummy: We are: ${MYNAME}"
 
 echo "kamikazi-role-dummy: I am the dummy, responsible for debugging."
+# Change the role in the configuration file, in case serf restarts on it's own.
 echo -e '{\n  "role": "dummy"\n}\n' > ${KDRES}/serf/config-role.json
 sync; sync; sync;
-echo "kamikazi-role-dummy: Restarting serf agent to change role."
-service serf restart
+echo "kamikazi-role-dummy: Instructing serf agent to change role."
+serf tags -set role=dummy
 echo "kamikazi-role-dummy: Enabling swap for dummy."
 swapon -a
 echo "kamikazi-role-dummy: dummy role should be active."
