@@ -9,4 +9,15 @@ Buildscripts are in resources/buildscripts
 
 Bootscripts are in tools/*.sh
 
-Full ISO downloads will be published soon.
+Configuration is in resources/config/
+
+Full ISO download available at:
+
+64-bit (Approximately 800MB)
+
+http://files.sllabs.com/files/storage/xen/kamikazi/boot/isos/kamikazi64.iso
+http://files.sllabs.com/files/storage/xen/kamikazi/boot/isos/sha1sums
+
+32-bit
+
+(Coming soon)
