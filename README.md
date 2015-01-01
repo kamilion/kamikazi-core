@@ -61,6 +61,8 @@ Added build-essential and python-dev so python libraries requiring C compilation
 
 Added Xen 4.4, added mboot.c32 to ISO, configured isolinux to multiboot Xen and default TORAM=Yes
 
+Added pv-grub from a Xen 4.5.0RC build, placed in /usr/lib/xen-4.4/boot next to existing hvmloader.
+
 Added Openvswitch 2.1.3, created example /etc/network/interfaces.d/ files demonstrating various bridges.
 
 Added Ceph 0.80.7, left unconfigured but will restore configuration from /isodevice/boot/config/ if found.
