@@ -1,0 +1,3 @@
+#!/bin/bash
+# Obtain blackhole lists from http://www.ipdeny.com/ipblocks/
+xargs -n 1 ip route add blackhole < ${1};
