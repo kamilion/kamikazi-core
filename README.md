@@ -19,13 +19,15 @@ http://files.sllabs.com/files/storage/xen/kamikazi/boot/isos/kamikazi64.iso
 http://files.sllabs.com/files/storage/xen/kamikazi/boot/isos/sha1sums
 
 32-bit
-
-(Coming soon)
+http://files.sllabs.com/files/storage/xen/kamikazi/boot/isos/kamikazi32.iso
+(Unfinished, but bootable. 64BIT XEN, 32BIT USERSPACE)
 
 Why kamikazi-deploy?
 ===============
 
-This is about as close as I can come to 'open source esxi with a sane GUI'.
+This is about as close as I can come to 'open source ESXi with a sane Local/Remote GUI'.
+
+X2GO Server is installed. Clients: http://wiki.x2go.org/doku.php
 
 Xen 4.4 is included and bootable from the isolinux startup menu by default.
 
@@ -112,8 +114,9 @@ FAQ:
 ===============
 
 Q: What's up with the name?
-A: By default, we run with TORAM=Yes added to the Linux kernel command line, instructing the Casper LiveCD scripts to copy the squashfs containing the OS into a tmpfs ramdisk before mounting it. Thus, everything is in memory, but still super-compressed with LZMA2. If you don't do anything to save your runtime configuration to a persistant storage medium, everything in memory will be lost on shutdown/reboot, mimicing the human act of self-sacrifice.
+A: By default, we run with TORAM=Yes added to the Linux kernel command line, instructing the Casper LiveCD scripts to copy the squashfs containing the OS into a tmpfs ramdisk before mounting it. Thus, everything is in memory, but still super-compressed with LZMA2. If you don't do anything to save your runtime configuration to a persistant storage medium, everything in memory will be lost on shutdown/reboot, mimicing the human act of self-sacrifice at the end of a (possibly long and arduous) task.
 
+Unless you specifically instruct kamikazi to write to a disk, it shouldn't touch them. (outside of mounting labeled btrfs partitions)
 
 Future Intentions:
 ===============
