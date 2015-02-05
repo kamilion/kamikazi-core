@@ -48,8 +48,8 @@ PermitEmptyPasswords no
 # some PAM modules and threads)
 ChallengeResponseAuthentication no
 
-# Change to no to disable tunnelled clear text passwords
-#PasswordAuthentication yes
+# Change to yes to enable tunnelled clear text passwords
+PasswordAuthentication no
 
 # Kerberos options
 #KerberosAuthentication no
@@ -67,6 +67,7 @@ PrintMotd no
 PrintLastLog yes
 TCPKeepAlive yes
 #UseLogin no
+# Allow Tunnels so SSH VPN works
 PermitTunnel yes
 
 #MaxStartups 10:30:60
