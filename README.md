@@ -5,6 +5,8 @@ This is a Xen livecd based on Lubuntu.
 
 It's currently based on Lubuntu 14.10.
 
+![Desktop](http://files.sllabs.com/files/long-term/screenshots/kamikazi/kamikazi-builder-14.10-2015-02-04-00-35-08.png)
+
 Buildscripts are in resources/buildscripts
 
 Bootscripts are in tools/*.sh
@@ -34,6 +36,11 @@ Xen 4.4 is included and bootable from the isolinux startup menu by default.
 Openvswitch is included. See /etc/network/interfaces.examples/* for configuration details.
 
 Ceph packages are included but currently unconfigured.
+
+Ubuntu-builder is included. It can be used to unpack the ISO and apply new packages or updates.
+
+![ubuntu-builder](http://files.sllabs.com/files/long-term/screenshots/kamikazi/kamikazi-builder-14.10-2015-02-04-22-18-39.png)
+
 
 
 Hardware Configuration
