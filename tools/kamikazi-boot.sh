@@ -1,11 +1,20 @@
 #!/bin/bash
 
-# V0.5.0 uses this instead of post-boot.sh
 FSTAB=/etc/fstab
 
 # Stick a singleton in the filesystem to notate we're inside of a boot process.
 touch /tmp/kamikazi-boot.stamp
 
+
+echo "Kamikazi-boot: Searching for saved fstab to append..."
+# Append to fstab very early if a file exists on isodevice.
+if [ -d /isodevice/boot/config ]; then # the general configuration folder exists.
+    if [ -f /isodevice/boot/config/fstab ]; then # we previously saved additional fstab info.
+        cat /isodevice/boot/config/fstab >> ${FSTAB}
+    fi
+fi
+
+echo "Kamikazi-boot: Searching for btrfs volumes to append to fstab..."
 btrfs device scan  # Assemble any btrfs arrays early.
 
 # Look for any btrfs devices.
@@ -43,14 +52,10 @@ EOF
 done
 
 
-echo "Kamikazi-boot: Searching for saved fstab to append..."
-# Append to fstab very early if a file exists on isodevice.
-if [ -d /isodevice/boot/config ]; then # the general configuration folder exists.
-    if [ -f /isodevice/boot/config/fstab ]; then # we previously saved additional fstab info.
-        cat /isodevice/boot/config/fstab >> ${FSTAB}
-    fi
-fi
+echo "Kamikazi-boot: fstab complete, attempting to mount everything..."
+mount -av
 
+echo "Kamikazi-boot: mount complete, attempting to update from git..."
 
 # Get into our main directory for it to be the CWD for the rest.
 cd /home/git/
@@ -61,6 +66,8 @@ supervisorctl start kamikazi-deploy
 # Check for the oneshot process to complete.
 while ! supervisorctl status kamikazi-deploy | grep -q 'EXITED'; do sleep 1; done
 # Wait for the while loop to break out signalling success.
+
+echo "Kamikazi-boot: update complete, attempting to start boot-late..."
 
 # Start the late boot process, now that the deployment is complete.
 supervisorctl start kamikazi-boot-late
