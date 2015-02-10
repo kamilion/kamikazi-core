@@ -51,9 +51,15 @@ EOF
     fi
 done
 
-
-echo "Kamikazi-boot: fstab complete, attempting to mount everything..."
+# Mount everything we need to with early-fstab and late-fstab already in place.
+echo "Kamikazi-boot: fstab complete, making sure everything is mounted..."
 mount -av
+
+# Check if ceph has configuration around, and fire it up if we find any.
+if [ -f /isodevice/boot/config/ceph/ceph.conf ]; then # ceph configuration exists.
+    echo "Kamikazi-boot: Found ceph config, attempting to start ceph-all..."
+    /usr/sbin/service ceph-all start;  # So we should start ceph.
+fi
 
 echo "Kamikazi-boot: mount complete, attempting to update from git..."
 
