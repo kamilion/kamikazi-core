@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# First, make sure sshd is okay.
+dpkg-reconfigure openssh-server
+# This will either generate keys or if they already exist, restart sshd
+
+# Get into our main directory for it to be the CWD for the rest.
+cd /home/git/
+KDHOME="/home/git/kamikazi-deploy"
+KDRES="${KDHOME}/resources"
+
+MYNAME=$(hostname)
+echo -n "kamikazi-role-wipemaster: We are: ${MYNAME}"
+
+if [ "${MYNAME}" == "wipemaster" ]; then
+    echo "kamikazi-role-wipemaster: I am the wipemaster, responsible for data storage."
+    # Change the role in the configuration file, in case serf restarts on it's own.
+    echo -e '{\n  "role": "wipemaster"\n}\n' > ${KDRES}/serf/config-role.json
+    sync; sync; sync;
+    echo "kamikazi-role-wipemaster: Instructing serf agent to change role."
+    serf tags -set role=wipemaster
+    echo "kamikazi-role-wipemaster: Enabling swap for wipemaster."
+    swapon -a
+    echo "kamikazi-role-wipemaster: Copying ISO to ram to serve updates for outdated actors."
+    cp /isodevice/boot/isos/kamikazi.iso /tmp/kamikazi.iso
+    echo "kamikazi-role-wipemaster: Enabling btrfs volume 'wipemaster'."
+    echo 'LABEL="wipemaster" /srv btrfs subvol=storage 0 0' >> /etc/fstab
+    btrfs device scan  # This should fix the ctree error.
+    mount /srv
+    echo "kamikazi-role-wipemaster: Enabling RethinkDB instance 'wanwipemaster'."
+    cp ${KDRES}/rethink/wanwipemaster.conf /etc/rethinkdb/instances.d/wanwipemaster.conf
+    chown -R rethinkdb.rethinkdb /var/lib/rethinkdb
+    sync
+    sleep 1
+    service rethinkdb start
+    echo "kamikazi-role-wipemaster: RethinkDB instance 'wanwipemaster' is up"
+    echo "kamikazi-role-wipemaster: Disabling diskmonitor for wipemaster."
+    supervisorctl stop kamikazi-diskmonitor
+    echo "kamikazi-role-wipemaster: Disabling diskworker for wipemaster."
+    supervisorctl stop kamikazi-diskworker
+    echo "kamikazi-role-wipemaster: Wipemaster should be active."
+fi
+

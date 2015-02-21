@@ -134,9 +134,9 @@ _log_msg "Kamikazi-restore: Searching for additional roles to restore...\n"
 if [ -d /root/isodevice/boot/config ]; then # the general configuration folder exists.
     if [ -d /root/isodevice/boot/config/roles ]; then # we previously saved additional roles.
 	# Overwrite the existing default configuration.
-        cp -f /root/isodevice/boot/config/roles/* /root/home/git/kamikazi-deploy/tools/roles/
+        cp -f /root/isodevice/boot/config/roles/* /root/home/git/kamikazi-deploy/resources/config/roles/
         # Make sure the proper permissions are applied.
-        chmod 0755 /root/home/git/kamikazi-deploy/tools/roles/*
+        chmod 0755 /root/home/git/kamikazi-deploy/resources/config/roles/*
     fi
 fi
 # kamikazi-deploy will stash any local changes made to it's repo, pull, and pop the stash.
