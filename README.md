@@ -15,6 +15,7 @@ Configuration is in resources/config/
 
 IRC Channel at freenode:
 http://webchat.freenode.net/?channels=kamikazi
+Commits to this repo will be displayed there.
 
 Full ISO download available at:
 
