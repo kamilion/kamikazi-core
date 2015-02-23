@@ -13,6 +13,9 @@ Bootscripts are in tools/*.sh
 
 Configuration is in resources/config/
 
+IRC Channel at freenode:
+http://webchat.freenode.net/?channels=kamikazi
+
 Full ISO download available at:
 
 64-bit (Approximately 800MB)
