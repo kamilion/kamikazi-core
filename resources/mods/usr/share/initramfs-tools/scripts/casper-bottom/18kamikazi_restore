@@ -28,6 +28,7 @@ if [ -d /root/isodevice/boot/config ]; then # the general configuration folder e
         cp -f /root/isodevice/boot/config/modules /root/etc/modules
         # Make sure the proper permissions are applied.
         chmod 0644 /root/etc/modules
+        _log_msg "Kamikazi-restore: Restored kernel module state.\n"
     fi
 fi
 
@@ -36,6 +37,24 @@ _log_msg "Kamikazi-restore: Searching for DBUS machine-id to restore...\n"
 if [ -d /root/isodevice/boot/config ]; then # the general configuration folder exists.
     if [ -f /root/isodevice/boot/config/machine-id ]; then # we previously saved a machine-id.
         cp -f /root/isodevice/boot/config/machine-id /root/var/lib/dbus/machine-id
+        _log_msg "Kamikazi-restore: Restored DBUS machine-id.\n"
+    fi
+fi
+
+_log_msg "Kamikazi-restore: Searching for SSH Host Config to restore...\n"
+# Set the SSH Host config very early if they exist on isodevice.
+if [ -d /root/isodevice/boot/config/ssh ]; then # the ssh configuration folder exists.
+    if [ -f /root/isodevice/boot/config/ssh/sshd_config ]; then # we previously saved configs.
+        cp -f /root/isodevice/boot/config/ssh/sshd_config /root/etc/ssh/  # But we only want configs.
+        # Make sure the proper permissions are applied.
+        chmod 0644 /root/etc/ssh/sshd_config
+        _log_msg "Kamikazi-restore: Restored sshd_config state.\n"
+    fi
+    if [ -f /root/isodevice/boot/config/ssh/ssh_config ]; then # we previously saved host configs.
+        cp -f /root/isodevice/boot/config/ssh/ssh_config /root/etc/ssh/  # But we only want configs.
+        # Make sure the proper permissions are applied.
+        chmod 0644 /root/etc/ssh/ssh_config
+        _log_msg "Kamikazi-restore: Restored ssh_config state.\n"
     fi
 fi
 
@@ -47,6 +66,7 @@ if [ -d /root/isodevice/boot/config/ssh ]; then # the ssh configuration folder e
         # Make sure the proper permissions are applied.
         chmod 0600 /root/etc/ssh/ssh_host_*
         chmod 0644 /root/etc/ssh/ssh_host_*.pub
+        _log_msg "Kamikazi-restore: Restored SSH Host Keys.\n"
     fi
 fi
 
@@ -57,6 +77,7 @@ if [ -d /root/isodevice/boot/config ]; then # the general configuration folder e
         FROMFILE=$(cat /root/isodevice/boot/config/hostname)
         if [ "${FROMFILE}" != "${HOST}" ]; then
             HOST=${FROMFILE}
+            _log_msg "Kamikazi-restore: Found hostname '${HOST}' to restore.\n"
         fi
     fi
 fi
@@ -80,6 +101,7 @@ EOF
 # Make sure the proper permissions are applied.
 chmod 0644 /root/etc/hostname
 hostname "$HOST"
+_log_msg "Kamikazi-restore: Restored hostname ${HOST}.\n"
 
 _log_msg "Kamikazi-restore: Searching for openvswitch configurations to restore...\n"
 # Copy over any openvswitch configuration.
@@ -90,6 +112,7 @@ if [ -d /root/isodevice/boot/config ]; then # the general configuration folder e
         cp -f /root/isodevice/boot/config/openvswitch/* /root/etc/openvswitch/
         # Make sure the proper permissions are applied.
         chmod 0644 /root/etc/openvswitch/*
+        _log_msg "Kamikazi-restore: Restored openvswitch configuration.\n"
     fi
 fi
 
@@ -102,6 +125,20 @@ if [ -d /root/isodevice/boot/config ]; then # the general configuration folder e
         cp -f /root/isodevice/boot/config/ceph/* /root/etc/ceph/
         # Make sure the proper permissions are applied.
         chmod 0644 /root/etc/ceph/*
+        _log_msg "Kamikazi-restore: Restored ceph configuration.\n"
+    fi
+fi
+
+_log_msg "Kamikazi-restore: Searching for samba configurations to restore...\n"
+# Copy over any samba configuration.
+# The interfaces files should be available at approximately the same time we're copying this.
+if [ -d /root/isodevice/boot/config ]; then # the general configuration folder exists.
+    if [ -d /root/isodevice/boot/config/samba ]; then # we previously saved cephconfigs.
+	# Overwrite the existing default configuration.
+        cp -f /root/isodevice/boot/config/samba/* /root/etc/samba/
+        # Make sure the proper permissions are applied.
+        chmod 0644 /root/etc/samba/*
+        _log_msg "Kamikazi-restore: Restored samba state.\n"
     fi
 fi
 
@@ -114,6 +151,7 @@ if [ -d /root/isodevice/boot/config ]; then # the general configuration folder e
         cp -f /root/isodevice/boot/config/interfaces/* /root/etc/network/interfaces.d/
         # Make sure the proper permissions are applied.
         chmod 0644 /root/etc/network/interfaces.d/*
+        _log_msg "Kamikazi-restore: Restored network interface directory.\n"
 
     fi
     # Otherwise if it's just a file, copy it.
@@ -121,6 +159,7 @@ if [ -d /root/isodevice/boot/config ]; then # the general configuration folder e
         cp -f /root/isodevice/boot/config/nics /root/etc/network/interfaces
         # Make sure the proper permissions are applied.
         chmod 0644 /root/etc/network/interfaces
+        _log_msg "Kamikazi-restore: Restored network interface file.\n"
 
     fi
 fi
@@ -137,6 +176,7 @@ if [ -d /root/isodevice/boot/config ]; then # the general configuration folder e
         cp -f /root/isodevice/boot/config/roles/* /root/home/git/kamikazi-deploy/resources/config/roles/
         # Make sure the proper permissions are applied.
         chmod 0755 /root/home/git/kamikazi-deploy/resources/config/roles/*
+        _log_msg "Kamikazi-restore: Restored additional roles.\n"
     fi
 fi
 # kamikazi-deploy will stash any local changes made to it's repo, pull, and pop the stash.
@@ -152,6 +192,7 @@ if [ -d /root/isodevice/boot/config ]; then # the general configuration folder e
         cp -f /root/isodevice/boot/config/role /root/etc/kamikazi-deploy/role
         # Make sure the proper permissions are applied.
         chmod 0644 /root/etc/kamikazi-deploy/role
+        _log_msg "Kamikazi-restore: Restored forced-role state.\n"
     fi
 fi
 _log_msg "Kamikazi-restore: All configuration required for boot has been restored.\n"
