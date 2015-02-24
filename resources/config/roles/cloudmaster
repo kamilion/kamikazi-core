@@ -15,7 +15,7 @@ echo -n "kamikazi-role-cloudmaster: We are: ${MYNAME}"
 if [ "${MYNAME}" == "cloudmaster" ]; then
     echo "kamikazi-role-cloudmaster: I am the cloudmaster, responsible for data storage."
     # Change the role in the configuration file, in case serf restarts on it's own.
-    echo -e '{\n  "role": "cloudmaster"\n}\n' > ${KDRES}/serf/config-role.json
+    echo -e '{\n  "role": "cloudmaster"\n}\n' > ${KDRES}/config/serf/config-role.json
     sync; sync; sync;
     echo "kamikazi-role-cloudmaster: Instructing serf agent to change role."
     serf tags -set role=cloudmaster
@@ -27,7 +27,7 @@ if [ "${MYNAME}" == "cloudmaster" ]; then
     echo "kamikazi-role-cloudmaster: Enabling btrfs volume 'cloudmaster'."
     mount -v /mnt/btrfs/cloudmaster
     echo "kamikazi-role-cloudmaster: Enabling RethinkDB instance 'wancloudmaster'."
-    cp ${KDRES}/rethink/cloudmaster.conf /etc/rethinkdb/instances.d/cloudmaster.conf
+    cp ${KDRES}/config/rethink/cloudmaster.conf /etc/rethinkdb/instances.d/cloudmaster.conf
     chown -R rethinkdb.rethinkdb /var/lib/rethinkdb
     sync
     sleep 1

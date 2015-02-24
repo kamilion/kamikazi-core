@@ -14,7 +14,7 @@ echo -n "kamikazi-role-firewall: We are: ${MYNAME}"
 
 if [ "${MYNAME}" == "firewall" ]; then
     echo "kamikazi-role-firewall: I am the firewall, responsible for networking."
-    echo -e '{\n  "role": "firewall"\n}\n' > ${KDRES}/serf/config-role.json
+    echo -e '{\n  "role": "firewall"\n}\n' > ${KDRES}/config/serf/config-role.json
     sync; sync; sync;
     echo "kamikazi-role-firewall: Instructing serf agent to change role."
     serf tags -set role=firewall
@@ -25,7 +25,7 @@ if [ "${MYNAME}" == "firewall" ]; then
     btrfs device scan  # This should fix the ctree error.
     mount /srv
     echo "kamikazi-role-firewall: Enabling RethinkDB instance 'wanfirewall'."
-    cp ${KDRES}/rethink/wanfirewall.conf /etc/rethinkdb/instances.d/wanfirewall.conf
+    cp ${KDRES}/config/rethink/wanfirewall.conf /etc/rethinkdb/instances.d/wanfirewall.conf
     chown -R rethinkdb.rethinkdb /var/lib/rethinkdb
     sync
     sleep 1
