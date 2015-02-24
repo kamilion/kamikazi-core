@@ -18,6 +18,8 @@ if [ -f /isodevice/boot/config/ceph/ceph.conf ]; then # ceph configuration exist
         /usr/sbin/service ceph-mds-all start;  # So we should start ceph-mds with the OSDs up.
       fi
     fi
+else
+  sleep 15; # This will shut supervisord up about exiting too quickly.
 fi
 
 # And now we should become EXITED to supervisord and any other tasks relying on the above.
