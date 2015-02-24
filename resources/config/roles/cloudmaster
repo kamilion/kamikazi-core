@@ -21,15 +21,6 @@ if [ "${MYNAME}" == "cloudmaster" ]; then
     serf tags -set role=cloudmaster
     echo "kamikazi-role-cloudmaster: Enabling swap for cloudmaster."
     swapon -a
-    echo "kamikazi-role-cloudmaster: Enabling ceph for cloudmaster."
-    service ceph-all stop
-    sleep 10
-    service ceph-all start
-    while ! ceph health | grep -q 'HEALTH_OK'; do
-      echo "kamikazi-role-cloudmaster: Cloudmaster waiting for ceph..."
-      sleep 5;
-    done
-
     #echo "kamikazi-role-cloudmaster: Copying ISO to ram to serve updates for outdated actors."
     #cp /isodevice/boot/isos/kamikazi.iso /tmp/kamikazi.iso
     #sync

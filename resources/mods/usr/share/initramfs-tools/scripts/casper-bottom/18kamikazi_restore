@@ -169,7 +169,6 @@ if [ -d /root/isodevice/boot/config ]; then # the general configuration folder e
         # Make sure the proper permissions are applied.
         chmod -f 0644 /root/etc/network/interfaces.d/*
         _log_msg "Kamikazi-restore: Restored network interface directory.\n"
-
     fi
     # Otherwise if it's just a file, copy it.
     if [ -f /root/isodevice/boot/config/nics ]; then # we probably saved simple interfaces file.
@@ -177,7 +176,6 @@ if [ -d /root/isodevice/boot/config ]; then # the general configuration folder e
         # Make sure the proper permissions are applied.
         chmod -f 0644 /root/etc/network/interfaces
         _log_msg "Kamikazi-restore: Restored network interface file.\n"
-
     fi
 fi
 
