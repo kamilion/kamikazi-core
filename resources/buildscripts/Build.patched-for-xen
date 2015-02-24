@@ -297,12 +297,14 @@ echo $WORKPATH/${DIST//[[:space:]]}-$VERSION-$ARCH.iso > $WORKPATH/configs/ISOCR
 cp $FSPATH/etc/apt/sources.list.bak.full $FSPATH/etc/apt/sources.list
 echo "  [DONE]"
 
-zenity --info --text "${DIST//[[:space:]]}-$VERSION-$ARCH successfully created. You can test it with QEMU."
-
-echo -n "# Generating MD5Sum"
+echo -n "# Generating Sums"
 cd $WORKPATH
 md5sum ${DIST//[[:space:]]}-$VERSION-$ARCH.iso > md5sum
+sha1sum ${DIST//[[:space:]]}-$VERSION-$ARCH.iso > sha1sum
 echo "                     [DONE]"
+
+zenity --info --text "${DIST//[[:space:]]}-$VERSION-$ARCH successfully created. You can test it with QEMU."
+
 
 # If usb live was selected in the settings, start the process
 if [ -e $WORKPATH/configs/USB_LIVE ]; then
