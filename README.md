@@ -22,7 +22,8 @@ Full ISO download available at:
 64-bit (Approximately 800MB)
 
 http://files.sllabs.com/files/storage/xen/kamikazi/boot/isos/kamikazi64.iso
-http://files.sllabs.com/files/storage/xen/kamikazi/boot/isos/sha1sums
+http://files.sllabs.com/files/storage/xen/kamikazi/boot/isos/sha1sum
+http://files.sllabs.com/files/storage/xen/kamikazi/boot/isos/md5sum
 
 32-bit
 http://files.sllabs.com/files/storage/xen/kamikazi/boot/isos/kamikazi32.iso
