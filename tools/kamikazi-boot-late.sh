@@ -24,11 +24,11 @@ echo -n "kamikazi-boot-late: We are: ${MYNAME}"
 # If we were told to force a specific role, then do so.
 if [ -e "/etc/kamikazi-deploy/role" ]; then
     forcedrole=$(cat /etc/kamikazi-deploy/role)
-    ${KDRES}/resources/config/roles/${forcedrole}
+    ${KDRES}/config/roles/${forcedrole}
 
 # Otherwise, if a role exists that matches our hostname, then execute it.
-elif [ -e "${KDRES}/tools/roles/${MYNAME}" ]; then
-    ${KDRES}/resources/config/roles/${MYNAME}
+elif [ -e "${KDRES}/config/roles/${MYNAME}" ]; then
+    ${KDRES}/config/roles/${MYNAME}
 fi
 
 # Attempt to find and join any local serf networks.
