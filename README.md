@@ -17,6 +17,10 @@ IRC Channel at freenode:
 http://webchat.freenode.net/?channels=kamikazi
 Commits to this repo will be displayed there.
 
+USB Image download available at:
+http://files.sllabs.com/files/storage/xen/kamikazi/kamikazi-usb.img.xz
+http://files.sllabs.com/files/storage/xen/kamikazi/sha1sums
+
 Full ISO download available at:
 
 64-bit (Approximately 800MB)
