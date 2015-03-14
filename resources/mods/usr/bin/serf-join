@@ -28,7 +28,7 @@ fi
 echo "serf-join: Searching network ${MY_NETWORK} for serf nodes..."
 
 # Search the entire local IPv4 range for other serf members on port 7946.
-for i in $(nmap -p7946 -Pn -oG --open ${MY_NETWORK} | grep "report for" | cut -d ' ' -f 6 | tr -d '()')
+for i in $(nmap -p7946 -Pn --open -oG serf-scan.txt ${MY_NETWORK} | grep "report for" | cut -d ' ' -f 6 | tr -d '()')
 do
     if [ ${i} != ${MY_IPV4ADDRESS} ]; then # we should not join ourself
         echo "serf-join: found serf node running on ${i}";
