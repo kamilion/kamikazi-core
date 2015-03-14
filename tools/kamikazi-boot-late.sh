@@ -4,6 +4,14 @@
 
 # First, make sure our bridges are up.
 service openvswitch-switch start-bridges
+# While the bridges are coming up, we also have to poke chrony.
+sleep 5;  # Give openvswitch a headstart to make the interfaces
+chronyc -a online;  # Tell Chrony to go online.
+sleep 5;  # Give chrony a chance to do some lookups.
+chronyc -a burst 5/10; # Tell Chrony to burst rapidly with other servers.
+sleep 5;  # Give chrony a chance to get some burst replies.
+chronyc -a makestep;  # Tell Chrony now is a good time to make the timestep.
+# The main bridge should come up in less than fifteen seconds, hopefully.
 
 # Second, make sure sshd is okay.
 dpkg-reconfigure openssh-server

@@ -210,6 +210,23 @@ if [ -d /root/isodevice/boot/config ]; then # the general configuration folder e
         _log_msg "Kamikazi-restore: Restored forced-role state.\n"
     fi
 fi
+
+_log_msg "Kamikazi-restore: Searching for GUI state to assume...\n"
+# If the GUI disable file exists, copy it over..
+# kamikazi-boot-late will handle this far later in the boot process..
+if [ -d /root/isodevice/boot/config ]; then # the general configuration folder exists.
+    if [ -e /root/isodevice/boot/config/nogui ]; then # we will force a specific role.
+        # Make sure the configuration directory actually exists.
+        mkdir -p /root/etc/kamikazi-deploy
+	# Overwrite the existing default configuration.
+        cp -f /root/isodevice/boot/config/nogui /root/etc/kamikazi-deploy/nogui
+        # Make sure the proper permissions are applied.
+        chmod 0644 /root/etc/kamikazi-deploy/nogui
+        _log_msg "Kamikazi-restore: Disabled GUI.\n"
+    else
+        _log_msg "Kamikazi-restore: Enabled GUI.\n"
+    fi
+fi
 _log_msg "Kamikazi-restore: All configuration required for boot has been restored.\n"
 
 log_end_msg
