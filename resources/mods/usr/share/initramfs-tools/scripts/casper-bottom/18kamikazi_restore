@@ -211,6 +211,27 @@ if [ -d /root/isodevice/boot/config ]; then # the general configuration folder e
     fi
 fi
 
+_log_msg "Kamikazi-restore: Searching for xen domains to restore...\n"
+# If a xendomains file or xenauto folder exists, copy it over..
+if [ -d /root/isodevice/boot/config ]; then # the general configuration folder exists.
+    if [ -e /root/isodevice/boot/config/xendomains ]; then # we will restore config.
+	# Overwrite the existing default configuration.
+        cp -f /root/isodevice/boot/config/xendomains /root/etc/default/xendomains
+        # Make sure the proper permissions are applied.
+        chmod 0644 /root/etc/default/xendomains
+        _log_msg "Kamikazi-restore: Restored xen domain configuration state.\n"
+    fi
+    if [ -d /root/isodevice/boot/config/xenauto ]; then # we will restore domains.
+        # Make sure the configuration directory actually exists.
+        mkdir -p /root/etc/xen/auto
+	# In this case, there should be no default configuration.
+        cp -f /root/isodevice/boot/config/xenauto/* /root/etc/xen/auto/
+        # Make sure the proper permissions are applied.
+        chmod 0644 /root/etc/xen/auto/*
+        _log_msg "Kamikazi-restore: Restored xen autostart domains.\n"
+    fi
+fi
+
 _log_msg "Kamikazi-restore: Searching for GUI state to assume...\n"
 # If the GUI disable file exists, copy it over..
 # kamikazi-boot-late will handle this far later in the boot process..
