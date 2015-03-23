@@ -120,6 +120,16 @@ chmod 0644 /root/etc/hostname
 hostname "$HOST"
 _log_msg "Kamikazi-restore: Created hosts file and restored hostname ${HOST}.\n"
 
+_log_msg "Kamikazi-restore: Checking if WAN (br0) DHCP requests should be disabled...\n"
+if [ -d /root/isodevice/boot/config ]; then # the general configuration folder exists.
+    if [ -e /root/isodevice/boot/config/nodhcp ]; then # we don't want WAN dhcp
+        touch /root/etc/kamikazi-deploy/nodhcp
+        # Make sure the proper permissions are applied.
+        chmod 0644 /root/etc/kamikazi-deploy/nodhcp
+        _log_msg "Kamikazi-restore: Disabled DHCP requests on WAN (br0).\n"
+    fi
+fi
+
 _log_msg "Kamikazi-restore: Searching for openvswitch configurations to restore...\n"
 # Copy over any openvswitch configuration.
 # The interfaces files should be available at approximately the same time we're copying this.

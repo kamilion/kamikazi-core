@@ -4,14 +4,36 @@
 
 # First, make sure our bridges are up.
 service openvswitch-switch start-bridges
+
 # While the bridges are coming up, we also have to poke chrony.
-sleep 5;  # Give openvswitch a headstart to make the interfaces
+sleep 1;  # Give openvswitch a headstart to make the external interfaces
+
+# We kind of expect to have a external static IP configured in a lot of cases.
+if [ ! -e "/etc/kamikazi-deploy/nodhcp" ]; then  # We should get external dhcp.
+    if [ -e "/etc/network/interfaces.d/br0" ]; then  # We have an external if.
+        while [ ! -d "/sys/class/net/br0" ]; do sleep 2; done  # Wait for it
+        sleep 2;  # Wait for openvswitch to deal with bringing it up.
+        dhclient br0;  # If there's a dhcp server, get an IP if needed.
+    fi
+fi
+
+# We don't expect to have a internal static IP configured in a lot of cases.
+# Normally it should be set as a static DHCP entry in dhcpd.
+
+# Give openvswitch a headstart to make the internal interfaces
+if [ -e "/etc/network/interfaces.d/xenbr0" ]; then  # Handle the internal xen bridge.
+    while [ ! -d "/sys/class/net/xenbr0" ]; do sleep 2; done  # It exists.
+    sleep 2;  # Wait for openvswitch to deal with bringing it up.
+    dhclient xenbr0;  # If there's a dhcp server, get another IP if needed.
+fi
+
+sleep 1;  # Give dhcp a chance to bring an xenbr0 IP up if needed.
 chronyc -a online;  # Tell Chrony to go online.
-sleep 5;  # Give chrony a chance to do some lookups.
-chronyc -a burst 5/10; # Tell Chrony to burst rapidly with other servers.
-sleep 5;  # Give chrony a chance to get some burst replies.
+sleep 3;  # Give chrony 3000ms to do some lookups.
+chronyc -a burst 2/5; # Tell Chrony to burst rapidly with other servers.
+sleep 3;  # Give chrony 3000ms to get some burst replies.
 chronyc -a makestep;  # Tell Chrony now is a good time to make the timestep.
-# The main bridge should come up in less than fifteen seconds, hopefully.
+# The main bridges should come up in less than fifteen seconds, hopefully.
 
 # Second, make sure sshd is okay.
 dpkg-reconfigure openssh-server
