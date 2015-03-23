@@ -54,11 +54,20 @@ su -l -c ${KDHOME}/tools/enable-logs.sh ubuntu
 
 # If we were told to enable X, then do so.
 if [ ! -e "/etc/kamikazi-deploy/nogui" ]; then
-    echo "kamikazi-boot-late-boot: Enabling GUI in 10 seconds."
-    sleep 10
+    echo "kamikazi-boot-late-boot: Enabling GUI in 3 seconds."
+    sleep 3
     service lightdm start
     echo "kamikazi-boot-late-boot: GUI started."
 fi
+
+echo "kamikazi-boot-late-boot: Stopping bootchart."
+# Make sure the bootchart collector is dead, no matter what.
+pkill -f /lib/bootchart/collector
+# Make the stupid upstart script do it's post-stop.
+service start bootchart; sleep 1; service stop bootchart;
+echo "kamikazi-boot-late-boot: Stopped bootchart."
+
+
 
 echo "kamikazi-boot-late-boot: Nothing left to do."
 
