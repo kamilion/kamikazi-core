@@ -38,18 +38,20 @@ done
 # If we found any btrfs devices, check their label for uniqueness
 # and then add them to the fstab referenced by their label as best as possible.
 
-labels=""    # Create a string variable to hold the labels, then abuse string replacement.
 for device in ${devices}; do
+    echo "Kamikazi-boot: Looking at btrfs volume on ${device}"
     label=$(/bin/dd if="${device}" bs=1 skip=65835 count=256 2>/dev/null | tr -d '\000')
-    if [ -z ${labels##*$label*} ] && [ -z "${labels}" -o -n "${label}" ]; then
-        labels="${labels} ${label}"
-        echo "Kamikazi-boot: Added a btrfs volume named /mnt/btrfs/${label} on ${device} to fstab."
-        mkdir -p /mnt/btrfs/${label}
-        cat >> ${FSTAB} <<EOF
+    echo "Kamikazi-boot: Discovered label on btrfs volume on ${device} is: ${label}"
+    mkdir -p /mnt/btrfs/${label}
+    cat >> /tmp/kamikazi-fstab <<EOF
 LABEL="${label}" /mnt/btrfs/${label} btrfs defaults 0 0
 EOF
-    fi
+    echo "Kamikazi-boot: Added a btrfs volume named /mnt/btrfs/${label} on ${device} to fstab."
 done
+
+echo "Kamikazi-boot: Sorting added btrfs volumes in fstab for uniqueness."
+cat /tmp/kamikazi-fstab | sort | uniq >> ${FSTAB}
+rm /tmp/kamikazi-fstab
 
 # Mount everything we need to with early-fstab and late-fstab already in place.
 echo "Kamikazi-boot: fstab complete, making sure everything is mounted..."
