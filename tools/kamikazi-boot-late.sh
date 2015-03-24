@@ -13,7 +13,8 @@ if [ ! -e "/etc/kamikazi-deploy/nodhcp" ]; then  # We should get external dhcp.
     if [ -e "/etc/network/interfaces.d/br0" ]; then  # We have an external if.
         while [ ! -d "/sys/class/net/br0" ]; do sleep 2; done  # Wait for it
         sleep 2;  # Wait for openvswitch to deal with bringing it up.
-        dhclient br0;  # If there's a dhcp server, get an IP if needed.
+        dhclient -nw br0;  # If there's a dhcp server, get an IP if needed.
+        sleep 2;  # Wait for openvswitch to deal with bringing it up.
     fi
 fi
 
@@ -24,7 +25,8 @@ fi
 if [ -e "/etc/network/interfaces.d/xenbr0" ]; then  # Handle the internal xen bridge.
     while [ ! -d "/sys/class/net/xenbr0" ]; do sleep 2; done  # It exists.
     sleep 2;  # Wait for openvswitch to deal with bringing it up.
-    dhclient xenbr0;  # If there's a dhcp server, get another IP if needed.
+    dhclient -nw xenbr0;  # If there's a dhcp server, get another IP if needed.
+    sleep 2;  # Wait for openvswitch to deal with bringing it up.
 fi
 
 sleep 1;  # Give dhcp a chance to bring an xenbr0 IP up if needed.
