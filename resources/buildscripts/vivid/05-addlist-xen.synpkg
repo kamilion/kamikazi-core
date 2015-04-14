@@ -1,0 +1,15 @@
+xevil		install
+xenwatch		install
+xenstore-utils		install
+ebtables		install
+openvswitch-switch		install
+libvirt0		install
+xen-utils-common		install
+libgvnc-1.0-0		install
+bridge-utils		install
+xen-utils-4.4		install
+grub-xen-bin		install
+openvswitch-common		install
+grub-ipxe		install
+xen-system-amd64		install
+libgtk-vnc-1.0-0		install
