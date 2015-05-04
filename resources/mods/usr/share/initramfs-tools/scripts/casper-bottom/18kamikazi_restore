@@ -79,10 +79,15 @@ if [ -d /root/isodevice/boot/config/keystore ]; then # the ssh client configurat
     if [ -f /root/isodevice/boot/config/keystore/authorized_keys ]; then # we previously saved client keys.
         # Make sure the configuration directory actually exists.
         mkdir -p /root/etc/skel/.ssh/
+        # And root's too.
+        mkdir -p /root/root/.ssh/
         cp -f /root/isodevice/boot/config/keystore/* /root/etc/skel/.ssh/  # We'll take everything.
+        cp -f /root/isodevice/boot/config/keystore/* /root/root/.ssh/  # For both root and generated users.
         # Make sure the proper permissions are applied.
         chmod 0644 /root/etc/skel/.ssh/*
         chmod 0600 /root/etc/skel/.ssh/id_rsa
+        chmod 0644 /root/root/.ssh/*
+        chmod 0600 /root/root/.ssh/id_rsa
         _log_msg "Kamikazi-restore: Restored SSH Client Keys.\n"
     fi
 fi
