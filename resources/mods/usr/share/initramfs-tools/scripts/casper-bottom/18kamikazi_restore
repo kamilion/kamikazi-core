@@ -83,6 +83,8 @@ if [ -d /root/isodevice/boot/config/keystore ]; then # the ssh client configurat
         mkdir -p /root/root/.ssh/
         cp -f /root/isodevice/boot/config/keystore/* /root/etc/skel/.ssh/  # We'll take everything.
         cp -f /root/isodevice/boot/config/keystore/* /root/root/.ssh/  # For both root and generated users.
+        # If root needs it's own authorized_keys, provide a root_keys, otherwise both will get the same.
+        cp -f /root/isodevice/boot/config/keystore/root_keys /root/root/.ssh/authorized_keys  # Root only pubkeys.
         # Make sure the proper permissions are applied.
         chmod 0644 /root/etc/skel/.ssh/*
         chmod 0600 /root/etc/skel/.ssh/id_rsa
