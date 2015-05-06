@@ -137,6 +137,19 @@ if [ -d /root/isodevice/boot/config ]; then # the general configuration folder e
     fi
 fi
 
+_log_msg "Kamikazi-restore: Searching for DHCP configurations to restore...\n"
+# Copy over any openvswitch configuration.
+# The interfaces files should be available at approximately the same time we're copying this.
+if [ -d /root/isodevice/boot/config ]; then # the general configuration folder exists.
+    if [ -d /root/isodevice/boot/config/dhcp ]; then # we previously saved ovsconfigs.
+	# Overwrite the existing default configuration.
+        cp -f /root/isodevice/boot/config/dhcp/* /root/etc/dhcp/
+        # Make sure the proper permissions are applied.
+        chmod 0644 /root/etc/dhcp/*
+        _log_msg "Kamikazi-restore: Restored DHCP configuration.\n"
+    fi
+fi
+
 _log_msg "Kamikazi-restore: Searching for openvswitch configurations to restore...\n"
 # Copy over any openvswitch configuration.
 # The interfaces files should be available at approximately the same time we're copying this.
