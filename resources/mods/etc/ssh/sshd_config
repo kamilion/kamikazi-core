@@ -49,7 +49,7 @@ PermitEmptyPasswords no
 ChallengeResponseAuthentication no
 
 # Change to yes to enable tunnelled clear text passwords
-PasswordAuthentication no
+#PasswordAuthentication no
 
 # Kerberos options
 #KerberosAuthentication no
@@ -67,8 +67,6 @@ PrintMotd no
 PrintLastLog yes
 TCPKeepAlive yes
 #UseLogin no
-# Allow Tunnels so SSH VPN works
-PermitTunnel yes
 
 #MaxStartups 10:30:60
 #Banner /etc/issue.net
@@ -88,3 +86,36 @@ Subsystem sftp /usr/lib/openssh/sftp-server
 # PAM authentication, then enable this but set PasswordAuthentication
 # and ChallengeResponseAuthentication to 'no'.
 UsePAM yes
+
+##########################################
+# Custom kamikazi.sllabs.com Configuration
+##########################################
+
+##########################################
+# Disable Password authentication, pubkey access only.
+PasswordAuthentication no
+# Permit Tunneling so SSH VPN works.
+PermitTunnel yes
+# Allow clients to specify their own -R remote endpoints.
+#GatewayPorts clientspecified
+# Force clients to be bound to the wildcard address.
+GatewayPorts yes
+
+##########################################
+# Keep clients alive for 5 minutes
+ClientAliveInterval 30
+# Keep clients talking over 5 minutes
+ClientAliveCountMax 10
+
+##########################################
+# TCPKeepAlive operates on the TCP layer.
+# It sends an empty TCP ACK packet, which can be spoofed.
+# Firewalls can be configured to ignore these packets,
+# so if you go through a firewall that drops idle connections,
+# these may not keep the connection alive.
+#
+# Client/ServerAliveInterval operates on the ssh layer.
+# It will actually send data through ssh, so the TCP packet has encrypted data
+# in and a firewall cannot tell if it is a keepalive, or a legitimate packet,
+# so these work better in practice.
+TCPKeepAlive no
