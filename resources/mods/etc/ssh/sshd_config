@@ -65,7 +65,7 @@ X11Forwarding yes
 X11DisplayOffset 10
 PrintMotd no
 PrintLastLog yes
-TCPKeepAlive yes
+#TCPKeepAlive yes
 #UseLogin no
 
 #MaxStartups 10:30:60
@@ -119,3 +119,28 @@ ClientAliveCountMax 10
 # in and a firewall cannot tell if it is a keepalive, or a legitimate packet,
 # so these work better in practice.
 TCPKeepAlive no
+
+##########################################
+# 
+#AllowGroups sshallow sshclient sshsafe
+#
+#Match Group sshpass
+#    PasswordAuthentication yes
+#
+#Match Group sshport
+#    AllowTcpForwarding yes
+#
+#Match group sshclient
+#    PasswordAuthentication yes
+#    ChrootDirectory /mnt/btrfs/kamikazi-store/@home/%u
+#    AllowTcpForwarding yes
+#    PermitOpen localhost:28015 127.0.0.1:28015
+#
+#Match group sshsafe
+#    ChrootDirectory %h
+#    X11Forwarding no
+#    AllowTcpForwarding no
+#    ForceCommand internal-sftp
+#
+#
+
