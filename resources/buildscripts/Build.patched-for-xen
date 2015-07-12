@@ -214,6 +214,7 @@ rm -rf /var/log/*.gz
 rm -rf /var/lib/dbus/machine-id
 rm -rf /sbin/initctl
 dpkg-divert --rename --remove /sbin/initctl
+rm -rf /usr/sbin/policy-rc.d
 umount -lf /proc
 umount -lf /sys
 umount -lf /dev/pts
