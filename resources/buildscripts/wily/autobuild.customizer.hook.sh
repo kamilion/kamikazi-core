@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "Installing git."
-apt-get install -y git
+apt-get install -y --no-install-recommends git
 echo "Configuring git."
 git config --global user.email "kamilion@gmail.com"
 git config --global user.name "Graham Cantin"
