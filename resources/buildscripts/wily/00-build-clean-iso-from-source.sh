@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "[kamikazi-deploy] Building Clean ISO from lubuntu-15.04-amd64.iso"
+echo "[kamikazi-deploy] Building Clean ISO from lubuntu-15.10-amd64.iso"
 
 echo "[kamikazi-deploy] Replacing firefox with midori."
 packages=$(awk '{print $1} ' 01-add-replacement-browser.synpkg)
