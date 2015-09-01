@@ -12,5 +12,5 @@ git clone https://kamilion@github.com/kamilion/kamikazi-deploy.git
 echo "Attempting to rebuild ISO contents..."
 cd /home/git/kamikazi-deploy/resources/buildscripts/wily/
 apt update
-apt full-upgrade
+apt full-upgrade -y
 ./00-build-clean-iso-from-source.sh
