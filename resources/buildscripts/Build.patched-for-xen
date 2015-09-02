@@ -123,6 +123,9 @@ case $CDNAME in
 	vivid)
 		CODENAME="Vivid Vervet"
 		;;
+	wily)
+		CODENAME="Wily Werewolf"
+		;;
 esac
 
 echo "               [DONE]"
