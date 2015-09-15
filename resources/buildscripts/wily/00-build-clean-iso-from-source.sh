@@ -27,6 +27,11 @@ echo "[kamikazi-deploy] Adding Ceph network block device packages."
 packages=$(awk '{print $1} ' 06-addlist-ceph.synpkg)
 echo ${packages}
 apt-get install -y ${packages}
+echo "[kamikazi-deploy] Adding open-vm-tools packages."
+packages=$(awk '{print $1} ' 07-addlist-openvmtools.synpkg)
+echo ${packages}
+apt-get install -y ${packages}
+
 
 # Remove this socket that causes unpacking squashfs to warn.
 rm -f /run/synaptic.socket

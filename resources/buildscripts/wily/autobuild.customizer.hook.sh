@@ -9,8 +9,8 @@ git config --global user.name "Graham Cantin"
 git config --global push.default simple
 mkdir -p /home/git
 cd /home/git
-echo "KAMIKAZI: Checking out kamikazi-deploy repository..."
-git clone https://kamilion@github.com/kamilion/kamikazi-deploy.git
+echo "KAMIKAZI: Checking out kamikazi-core repository..."
+git clone https://kamilion@github.com/kamilion/kamikazi-core.git
 echo "KAMIKAZI: Attempting to rebuild ISO contents..."
 cd /home/git/kamikazi-deploy/resources/buildscripts/wily/
 apt full-upgrade -y

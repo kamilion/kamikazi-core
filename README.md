@@ -1,12 +1,9 @@
-kamikazi-deploy
+kamikazi-core
 ===============
 
 This is a Xen livecd based on Lubuntu.
 
-NOTE: This project has a new repository for systemd based images:
-https://github.com/kamilion/kamikazi-core
-
-This repository is currently based on Lubuntu 14.10 and the Upstart init system.
+This repository is currently based on Lubuntu 15.10 and the systemd init system.
 
 ![Desktop](http://files.sllabs.com/files/long-term/screenshots/kamikazi/kamikazi-builder-14.10-2015-02-04-00-35-08.png)
 
@@ -22,22 +19,22 @@ Commits to this repo will be displayed there.
 
 USB Image download available at:
 
-http://files.sllabs.com/files/storage/xen/kamikazi/kamikazi-usb.img.xz
-http://files.sllabs.com/files/storage/xen/kamikazi/sha1sums
+http://files.sllabs.com/files/long-term/downloads/isos/kamikazi/latest-usb/kamikazi-usb.img.xz
+http://files.sllabs.com/files/long-term/downloads/isos/kamikazi/latest-usb/sha1sums
 
 Full ISO download available at:
 
 64-bit (Approximately 800MB)
 
-http://files.sllabs.com/files/storage/xen/kamikazi/boot/isos/kamikazi64.iso
-http://files.sllabs.com/files/storage/xen/kamikazi/boot/isos/sha1sum
-http://files.sllabs.com/files/storage/xen/kamikazi/boot/isos/md5sum
+http://files.sllabs.com/files/long-term/downloads/isos/kamikazi/latest/kamikazi-amd64-15.10.iso
+http://files.sllabs.com/files/long-term/downloads/isos/kamikazi/latest/sha1sum
+http://files.sllabs.com/files/long-term/downloads/isos/kamikazi/latest/md5sum
 
 32-bit
-http://files.sllabs.com/files/storage/xen/kamikazi/boot/isos/kamikazi32.iso
+http://files.sllabs.com/files/long-term/downloads/isos/kamikazi/latest/kamikazi-i686-15.10.iso
 (Unfinished, but bootable. 64BIT XEN, 32BIT USERSPACE)
 
-Why kamikazi-deploy?
+Why use kamikazi?
 ===============
 
 This is about as close as I can come to 'open source ESXi with a sane Local/Remote GUI'.
