@@ -1,0 +1,3 @@
+deb http://ubuntu.localmsp.org/ubuntu/ wily main restricted universe multiverse
+deb http://ubuntu.localmsp.org/ubuntu/ wily-updates main restricted universe multiverse
+deb http://ubuntu.localmsp.org/ubuntu/ wily-security main restricted universe multiverse
