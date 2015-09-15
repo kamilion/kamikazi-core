@@ -9,7 +9,7 @@ service openvswitch-switch start-bridges
 sleep 1;  # Give openvswitch a headstart to make the external interfaces
 
 # We kind of expect to have a external static IP configured in a lot of cases.
-if [ ! -e "/etc/kamikazi-deploy/nodhcp" ]; then  # We should get external dhcp.
+if [ ! -e "/etc/kamikazi-core/nodhcp" ]; then  # We should get external dhcp.
     if [ -e "/etc/network/interfaces.d/br0" ]; then  # We have an external if.
         while [ ! -d "/sys/class/net/br0" ]; do sleep 2; done  # Wait for it
         sleep 2;  # Wait for openvswitch to deal with bringing it up.
@@ -54,8 +54,8 @@ echo -n "kamikazi-boot-late: We are: ${MYNAME}"
 
 
 # If we were told to force a specific role, then do so.
-if [ -e "/etc/kamikazi-deploy/role" ]; then
-    forcedrole=$(cat /etc/kamikazi-deploy/role)
+if [ -e "/etc/kamikazi-core/role" ]; then
+    forcedrole=$(cat /etc/kamikazi-core/role)
     ${KCRES}/config/roles/${forcedrole}
 
 # Otherwise, if a role exists that matches our hostname, then execute it.
@@ -77,7 +77,7 @@ echo "kamikazi-boot-late-boot: Enabling additional log files."
 su -l -c ${KCHOME}/tools/enable-logs.sh ubuntu
 
 # If we were told to enable X, then do so.
-if [ ! -e "/etc/kamikazi-deploy/nogui" ]; then
+if [ ! -e "/etc/kamikazi-core/nogui" ]; then
     echo "kamikazi-boot-late-boot: Enabling GUI in 3 seconds."
     sleep 3
     service lightdm start

@@ -130,9 +130,9 @@ _log_msg "Kamikazi-restore: Created hosts file and restored hostname ${HOST}.\n"
 _log_msg "Kamikazi-restore: Checking if WAN (br0) DHCP requests should be disabled...\n"
 if [ -d /root/isodevice/boot/config ]; then # the general configuration folder exists.
     if [ -e /root/isodevice/boot/config/nodhcp ]; then # we don't want WAN dhcp
-        touch /root/etc/kamikazi-deploy/nodhcp
+        touch /root/etc/kamikazi-core/nodhcp
         # Make sure the proper permissions are applied.
-        chmod 0644 /root/etc/kamikazi-deploy/nodhcp
+        chmod 0644 /root/etc/kamikazi-core/nodhcp
         _log_msg "Kamikazi-restore: Disabled DHCP requests on WAN (br0).\n"
     fi
 fi
@@ -218,13 +218,13 @@ _log_msg "Kamikazi-restore: Searching for additional roles to restore...\n"
 if [ -d /root/isodevice/boot/config ]; then # the general configuration folder exists.
     if [ -d /root/isodevice/boot/config/roles ]; then # we previously saved additional roles.
 	# Overwrite the existing default configuration.
-        cp -f /root/isodevice/boot/config/roles/* /root/home/git/kamikazi-deploy/resources/config/roles/
+        cp -f /root/isodevice/boot/config/roles/* /root/home/git/kamikazi-core/resources/latest/config/roles/
         # Make sure the proper permissions are applied.
-        chmod 0755 /root/home/git/kamikazi-deploy/resources/config/roles/*
+        chmod 0755 /root/home/git/kamikazi-core/resources/latest/config/roles/*
         _log_msg "Kamikazi-restore: Restored additional roles.\n"
     fi
 fi
-# kamikazi-deploy will stash any local changes made to it's repo, pull, and pop the stash.
+# kamikazi-core will stash any local changes made to it's repo, pull, and pop the stash.
 
 _log_msg "Kamikazi-restore: Searching for a forced role to assume...\n"
 # If a forced role exists, copy it over..
@@ -232,11 +232,11 @@ _log_msg "Kamikazi-restore: Searching for a forced role to assume...\n"
 if [ -d /root/isodevice/boot/config ]; then # the general configuration folder exists.
     if [ -e /root/isodevice/boot/config/role ]; then # we will force a specific role.
         # Make sure the configuration directory actually exists.
-        mkdir -p /root/etc/kamikazi-deploy
+        mkdir -p /root/etc/kamikazi-core
 	# Overwrite the existing default configuration.
-        cp -f /root/isodevice/boot/config/role /root/etc/kamikazi-deploy/role
+        cp -f /root/isodevice/boot/config/role /root/etc/kamikazi-core/role
         # Make sure the proper permissions are applied.
-        chmod 0644 /root/etc/kamikazi-deploy/role
+        chmod 0644 /root/etc/kamikazi-core/role
         _log_msg "Kamikazi-restore: Restored forced-role state.\n"
     fi
 fi
@@ -268,11 +268,11 @@ _log_msg "Kamikazi-restore: Searching for GUI state to assume...\n"
 if [ -d /root/isodevice/boot/config ]; then # the general configuration folder exists.
     if [ -e /root/isodevice/boot/config/nogui ]; then # we will force a specific role.
         # Make sure the configuration directory actually exists.
-        mkdir -p /root/etc/kamikazi-deploy
+        mkdir -p /root/etc/kamikazi-core
 	# Overwrite the existing default configuration.
-        cp -f /root/isodevice/boot/config/nogui /root/etc/kamikazi-deploy/nogui
+        cp -f /root/isodevice/boot/config/nogui /root/etc/kamikazi-core/nogui
         # Make sure the proper permissions are applied.
-        chmod 0644 /root/etc/kamikazi-deploy/nogui
+        chmod 0644 /root/etc/kamikazi-core/nogui
         _log_msg "Kamikazi-restore: Disabled GUI.\n"
     else
         _log_msg "Kamikazi-restore: Enabled GUI.\n"
