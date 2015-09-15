@@ -15,7 +15,7 @@ echo -n "kamikazi-role-wipemaster: We are: ${MYNAME}"
 if [ "${MYNAME}" == "wipemaster" ]; then
     echo "kamikazi-role-wipemaster: I am the wipemaster, responsible for data storage."
     # Change the role in the configuration file, in case serf restarts on it's own.
-    echo -e '{\n  "role": "wipemaster"\n}\n' > ${KDRES}/config/serf/config-role.json
+    echo -e '{\n  "role": "wipemaster"\n}\n' > ${KCRES}/config/serf/config-role.json
     sync; sync; sync;
     echo "kamikazi-role-wipemaster: Instructing serf agent to change role."
     serf tags -set role=wipemaster

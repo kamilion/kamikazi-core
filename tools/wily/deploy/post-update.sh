@@ -28,7 +28,7 @@ if [ -d /isodevice ]; then
 
     ## Check to see if the Kaizen icon exists. If not, make it.
     if [ ! -f /home/ubuntu/Desktop/kaizen.desktop ]; then
-        cp ${KDRES}/mods/etc/skel/Desktop/kaizen.desktop /home/ubuntu/Desktop/
+        cp ${KCRES}/mods/etc/skel/Desktop/kaizen.desktop /home/ubuntu/Desktop/
         chown 999:999 /home/ubuntu/Desktop/kaizen.desktop
         echo "post-update: Added Kaizen icon."
     fi
