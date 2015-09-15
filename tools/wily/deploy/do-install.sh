@@ -20,14 +20,14 @@ if [ -d /isodevice ]; then
         echo "do-install: Triggering a background update to latest image."
         echo "do-install: To abort, quickly ssh in and killall do-kamikazi-upgrade.sh"
         # Import a supervisor job to do it.
-        cp ${KCRES}/mods/etc/supervisor.d/kamikazi-upgrade.ini /etc/supervisor.d/
+        cp ${KCRES}/mods/etc/supervisor/conf.d/kamikazi-upgrade.conf /etc/supervisor/conf.d/
         sync
-        /usr/local/bin/supervisorctl reread
-        /usr/local/bin/supervisorctl update
+        supervisorctl reread
+        supervisorctl update
 
         # If we have a supervisor job to do it, prefer that.
-        if [ -f /etc/supervisor.d/kamikazi-upgrade.ini ]; then
-            /usr/local/bin/supervisorctl start kamikazi-upgrade
+        if [ -f /etc/supervisor/conf.d/kamikazi-upgrade.conf ]; then
+            supervisorctl start kamikazi-upgrade
         else  # Call the script directly.
             $(${KCHOME}/tools/latest/upgrade/do-kamikazi-upgrade.sh) &
         fi
@@ -41,14 +41,14 @@ if [ -d /isodevice ]; then
         echo "do-install: Triggering a background update to latest image."
         echo "do-install: To abort, quickly ssh in and killall do-kamikazi-upgrade.sh"
         # Import a supervisor job to do it.
-        cp ${KCRES}/mods/etc/supervisor.d/kamikazi-upgrade.ini /etc/supervisor.d/
+        cp ${KCRES}/mods/etc/supervisor/conf.d/kamikazi-upgrade.conf /etc/supervisor/conf.d/
         sync
-        /usr/local/bin/supervisorctl reread
-        /usr/local/bin/supervisorctl update
+        supervisorctl reread
+        supervisorctl update
 
         # If we have a supervisor job to do it, prefer that.
-        if [ -f /etc/supervisor.d/kamikazi-upgrade.ini ]; then
-            /usr/local/bin/supervisorctl start kamikazi-upgrade
+        if [ -f /etc/supervisor/conf.d/kamikazi-upgrade.conf ]; then
+            supervisorctl start kamikazi-upgrade
         else  # Call the script directly.
             $(${KCHOME}/tools/latest/upgrade/do-kamikazi-upgrade.sh) &
         fi
@@ -61,14 +61,14 @@ if [ -d /isodevice ]; then
         echo "do-install: Triggering a background update to latest image."
         echo "do-install: To abort, quickly ssh in and killall do-kamikazi-upgrade.sh"
         # Import a supervisor job to do it.
-        cp ${KCRES}/mods/etc/supervisor.d/kamikazi-upgrade.ini /etc/supervisor.d/
+        cp ${KCRES}/mods/etc/supervisor/conf.d/kamikazi-upgrade.conf /etc/supervisor/conf.d/
         sync
-        /usr/local/bin/supervisorctl reread
-        /usr/local/bin/supervisorctl update
+        supervisorctl reread
+        supervisorctl update
 
         # If we have a supervisor job to do it, prefer that.
-        if [ -f /etc/supervisor.d/kamikazi-upgrade.ini ]; then
-            /usr/local/bin/supervisorctl start kamikazi-upgrade
+        if [ -f /etc/supervisor/conf.d/kamikazi-upgrade.conf ]; then
+            supervisorctl start kamikazi-upgrade
         else  # Call the script directly.
             $(${KCHOME}/tools/latest/upgrade/do-kamikazi-upgrade.sh) &
         fi

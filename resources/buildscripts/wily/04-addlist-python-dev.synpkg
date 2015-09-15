@@ -96,6 +96,7 @@ python-wheel		install
 run-one		install
 screen		install
 sdparm		install
+supervisor		install
 timelimit		install
 tmux		install
 virtualenv		install
