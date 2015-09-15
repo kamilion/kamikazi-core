@@ -8,9 +8,7 @@ dc3dd		install
 dpkg-dev		install
 ethtool		install
 fakeroot		install
-g++-4.9		install
 gawk		install
-gcc-4.9		install
 gcc		install
 g++		install
 htop		install
@@ -34,7 +32,6 @@ libdpkg-perl		install
 libexpat1-dev		install
 libfakeroot		install
 libfile-fcntllock-perl		install
-libgcc-4.9-dev		install
 libgomp1		install
 libio-string-perl		install
 libitm1		install
@@ -49,7 +46,6 @@ libpython-dev		install
 libsensors4		install
 libsigsegv2		install
 libsnmp-base		install
-libstdc++-4.9-dev		install
 libsub-name-perl		install
 libtomcrypt0		install
 libtommath0		install
