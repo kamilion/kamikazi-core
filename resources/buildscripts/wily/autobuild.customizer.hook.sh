@@ -25,6 +25,8 @@ cp -f /home/git/kamikazi-core/resources/latest/mods/etc/apt/sources.list /etc/ap
 echo "KAMIKAZI: Updating package lists..."
 apt update
 apt list --upgradable
+echo "KAMIKAZI: Enabling squid-deb-proxy-client for local network..."
+apt install squid-deb-proxy-client -y
 echo "KAMIKAZI: Updating packages to current..."
 apt full-upgrade -y
 echo "KAMIKAZI: Running builder script..."
