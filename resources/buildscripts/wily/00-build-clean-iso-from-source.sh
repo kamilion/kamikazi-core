@@ -36,4 +36,17 @@ apt-get install -y ${packages}
 # Remove this socket that causes unpacking squashfs to warn.
 rm -f /run/synaptic.socket
 
+# Change the default boot target to multi-user.target from graphical.target
+cd /lib/systemd/system
+ln -sf multi-user.target default.target
+
+# Apply our inner filesystem modifications.
+cd /home/git/kamikazi-core/resources/latest/mods/
+cp -r usr/* /usr/
+cp -r lib/* /lib/
+cp -r etc/* /etc/
+
+# Force the generated initramfs to be up to date.
+update-initramfs -u
+
 echo "[kamikazi-build] Ready to Build ISO."
