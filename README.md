@@ -3,7 +3,10 @@ kamikazi-deploy
 
 This is a Xen livecd based on Lubuntu.
 
-It's currently based on Lubuntu 14.10.
+NOTE: This project has a new repository for systemd based images:
+https://github.com/kamilion/kamikazi-core
+
+This repository is currently based on Lubuntu 14.10 and the Upstart init system.
 
 ![Desktop](http://files.sllabs.com/files/long-term/screenshots/kamikazi/kamikazi-builder-14.10-2015-02-04-00-35-08.png)
 
