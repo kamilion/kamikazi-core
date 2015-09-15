@@ -31,7 +31,7 @@ http://files.sllabs.com/files/long-term/downloads/isos/kamikazi/latest/sha1sum
 http://files.sllabs.com/files/long-term/downloads/isos/kamikazi/latest/md5sum
 
 32-bit
-http://files.sllabs.com/files/long-term/downloads/isos/kamikazi/latest/kamikazi-i686-15.10.iso
+http://files.sllabs.com/files/long-term/downloads/isos/kamikazi/latest/kamikazi-i386-15.10.iso
 (Unfinished, but bootable. 64BIT XEN, 32BIT USERSPACE)
 
 Why use kamikazi?
