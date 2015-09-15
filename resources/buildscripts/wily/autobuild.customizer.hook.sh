@@ -7,6 +7,7 @@ deb http://ubuntu.localmsp.org/ubuntu/ wily-security main restricted universe mu
 EOF
 echo "KAMIKAZI: Updating package lists..."
 apt update
+apt list --upgradable
 echo "KAMIKAZI: Installing git."
 apt-get install -y --no-install-recommends git
 echo "KAMIKAZI: Configuring git."
@@ -23,6 +24,7 @@ echo "KAMIKAZI: Updating package mirror..."
 cp -f /home/git/kamikazi-core/resources/latest/mods/etc/apt/sources.list /etc/apt/sources.list
 echo "KAMIKAZI: Updating package lists..."
 apt update
+apt list --upgradable
 echo "KAMIKAZI: Updating packages to current..."
 apt full-upgrade -y
 echo "KAMIKAZI: Running builder script..."

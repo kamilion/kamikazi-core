@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "[kamikazi-build] Building Clean ISO from lubuntu-15.10-amd64.iso"
-
+apt-get autoremove -y
 echo "[kamikazi-build] Replacing firefox with midori."
 packages=$(awk '{print $1} ' 01-add-replacement-browser.synpkg)
 apt-get install -y ${packages}

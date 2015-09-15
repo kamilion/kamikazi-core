@@ -33,3 +33,7 @@ ethtool		install
 iftop		install
 libsnmp30		install
 libparse-debianchangelog-perl		install
+supervisor		install
+dkms		install
+open-vm-tools		install
+open-vm-tools-desktop		install
