@@ -46,9 +46,7 @@ sleep 2
 # Trip off the next set of scripts.
 ./10-add-iso-customizer.sh
 sleep 2
-./12-add-serf.sh
-sleep 2
-./15-add-ppas.sh
+./20-add-ppas.sh
 
 sleep 2
 echo "[kamikazi-build] Modifying systemd init defaults..."
@@ -72,6 +70,10 @@ cp -r lib/* /lib/
 cp -r etc/* /etc/
 # Force the generated initramfs to be up to date.
 update-initramfs -u
+
+# Serf needs to come after we apply our filesystem modifications.
+sleep 2
+./30-add-serf.sh
 
 sleep 2
 echo "[kamikazi-build] Cleaning up..."

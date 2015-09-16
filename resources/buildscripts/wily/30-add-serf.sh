@@ -21,6 +21,12 @@ rm 0.6.4_linux_*.zip
 cd /tmp
 rmdir serfdom
 
+# Ask systemctl to create the link (Not sure if this needs dbus)
+systemctl enable serf
+# Fall back and ensure the link is created ourselves.
+cd /etc/systemd/system/multi-user.target.wants/
+ln -vfs /etc/systemd/system/serf.service serf.service
+
 cd ${OLDDIR}
 
 echo "[kamikazi-build] serf binary injection complete."
