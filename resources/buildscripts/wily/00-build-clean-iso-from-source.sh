@@ -31,6 +31,8 @@ echo "[kamikazi-build] Adding open-vm-tools packages."
 packages=$(awk '{print $1} ' 07-addlist-openvmtools.synpkg)
 echo ${packages}
 apt-get install -y ${packages}
+# Purge the qt4-doc package, it's a hundred megs of incompressableness.
+apt-get purge -y qt4-doc
 
 # Trip off the next set of scripts.
 ./10-add-iso-customizer.sh
