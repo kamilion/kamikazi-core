@@ -6,7 +6,7 @@ apt-get autoremove -y
 echo "[kamikazi-build] Injecting x2go repository"
 #wajig addrepo ppa:kamilion/x2go-kamikazi
 add-apt-repository -y -u ppa:kamilion/x2go-kamikazi
-packages="x2goserver x2golxdebindings"
+packages="x2goserver x2golxdebindings x2godesktopsharing pyhoca-gui x2goclient"
 apt-get install -y ${packages}
 
 
