@@ -1,4 +1,5 @@
 #!/bin/bash
+OLDDIR=${PWD}
 
 echo "[kamikazi-build] Building Clean ISO from lubuntu-15.10-amd64.iso"
 apt-get autoremove -y
@@ -71,6 +72,7 @@ cp -r etc/* /etc/
 # Force the generated initramfs to be up to date.
 update-initramfs -u
 
+cd ${OLDDIR}
 # Serf needs to come after we apply our filesystem modifications.
 sleep 2
 ./30-add-serf.sh
