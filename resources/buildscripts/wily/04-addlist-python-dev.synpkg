@@ -62,6 +62,7 @@ python3-distlib		install
 python3-html5lib		install
 python3-newt		install
 python3-pip		install
+python3-pyqt4		install
 python3-requests		install
 python3-setuptools		install
 python3-urllib3		install
@@ -78,6 +79,7 @@ python-html5lib-whl		install
 python-pip		install
 python-pip-whl		install
 python-pycurl		install
+python-qt4		install
 python-requests		install
 python-requests-whl		install
 python-setuptools		install
@@ -88,6 +90,9 @@ python-urllib3		install
 python-urllib3-whl		install
 python-virtualenv		install
 python-wheel		install
+pyqt4-dev-tools		install
+qt4-dev-tools		install
+qt4-linguist-tools		install
 run-one		install
 screen		install
 sdparm		install

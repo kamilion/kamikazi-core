@@ -4,7 +4,9 @@ ipmitool		install
 dc3dd		install
 tmux		install
 jq		install
+biosdevname		install
 openipmi		install
+openssh-server		install
 libio-string-perl		install
 libcwidget3v5		install
 libsensors4		install
@@ -22,6 +24,8 @@ libopenipmi0		install
 libsub-name-perl		install
 aptitude-common		install
 libsigsegv2		install
+dpkg-dev		install
+debhelper		install
 wajig		install
 libtommath0		install
 aptitude		install
@@ -34,6 +38,13 @@ iftop		install
 libsnmp30		install
 libparse-debianchangelog-perl		install
 supervisor		install
+x11-xserver-utils		install
+xserver-xephyr		install
+build-essential		install
+fakeroot		install
+make		install
+squashfs-tools		install
+xorriso		install
 dkms		install
 open-vm-tools		install
 open-vm-tools-desktop		install

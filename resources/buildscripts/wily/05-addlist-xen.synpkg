@@ -13,3 +13,4 @@ openvswitch-common		install
 grub-ipxe		install
 xen-system-amd64		install
 libgtk-vnc-1.0-0		install
+qemu-kvm		install

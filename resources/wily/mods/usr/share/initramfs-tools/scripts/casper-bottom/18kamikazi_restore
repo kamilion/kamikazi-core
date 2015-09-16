@@ -280,4 +280,7 @@ if [ -d /root/isodevice/boot/config ]; then # the general configuration folder e
 fi
 _log_msg "Kamikazi-restore: All configuration required for boot has been restored.\n"
 
+# Allow the messages on the screen to have a possiblity of being read.
+sleep 3;
+
 log_end_msg
