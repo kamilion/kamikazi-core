@@ -12,6 +12,7 @@ ln -sf multi-user.target default.target
 sleep 2
 echo "[kamikazi-build] Modifying casper liveiso defaults..."
 ### Alter Casper configuration for kamikazi:
+rm /etc/ssh/ssh_host_*
 # Disable trying to import a package pool from the cdrom media.
 rm /usr/share/initramfs-tools/scripts/casper-bottom/41apt_cdrom
 # Remove the built in hostname script that generates /etc/hosts
