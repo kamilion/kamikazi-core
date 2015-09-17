@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "[kamikazi-build] Injecting PPAs and packages."
-apt-get autoremove -y
+apt-get autoremove --purge -y
 
 echo "[kamikazi-build] Injecting x2go repository"
 #wajig addrepo ppa:kamilion/x2go-kamikazi
