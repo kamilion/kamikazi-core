@@ -23,10 +23,6 @@ cp -r usr/* /usr/
 cp -r lib/* /lib/
 # Apply our modifications to /etc/, 18kamikazi_restore will populate over it.
 cp -r etc/* /etc/
-# Force the generated initramfs to be up to date.
-# Note: This will probably fail because we shouldn't have a kernel right now.
-# It gets installed after 00-build-clean-ios-from-source finishes.
-update-initramfs -u
 
 cd ${OLDDIR}
 echo "[kamikazi-build] Applied filesystem modifications."
