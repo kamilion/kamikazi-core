@@ -12,6 +12,8 @@ ln -sf multi-user.target default.target
 sleep 2
 echo "[kamikazi-build] Modifying casper liveiso defaults..."
 ### Alter Casper configuration for kamikazi:
+# Disable trying to import a package pool from the cdrom media.
+rm /usr/share/initramfs-tools/scripts/casper-bottom/41apt_cdrom
 # Remove the built in hostname script that generates /etc/hosts
 rm /usr/share/initramfs-tools/scripts/casper-bottom/18hostname
 # This will be replaced with 18kamikazi_restore from our repo.
@@ -22,6 +24,8 @@ cp -r lib/* /lib/
 # Apply our modifications to /etc/, 18kamikazi_restore will populate over it.
 cp -r etc/* /etc/
 # Force the generated initramfs to be up to date.
+# Note: This will probably fail because we shouldn't have a kernel right now.
+# It gets installed after 00-build-clean-ios-from-source finishes.
 update-initramfs -u
 
 cd ${OLDDIR}

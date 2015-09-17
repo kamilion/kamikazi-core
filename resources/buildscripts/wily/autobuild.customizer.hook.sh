@@ -20,7 +20,7 @@ echo "KAMIKAZI: Cleaning old kernels so DKMS does not complain."
 apt-get purge -y linux-image* -q
 echo "KAMIKAZI: Updating packages to current..."
 apt full-upgrade -y
-apt-get autoremove -y
+apt-get autoremove --purge -y
 echo "KAMIKAZI: Running builder script..."
 ./00-build-clean-iso-from-source.sh
 echo "KAMIKAZI: Installing fresh generic kernel image."
