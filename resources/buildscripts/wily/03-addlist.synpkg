@@ -37,6 +37,7 @@ ethtool		install
 iftop		install
 libsnmp30		install
 libparse-debianchangelog-perl		install
+libprotobuf9v5		install
 supervisor		install
 x11-xserver-utils		install
 xserver-xephyr		install
