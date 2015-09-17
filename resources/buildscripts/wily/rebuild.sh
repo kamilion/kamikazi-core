@@ -1,6 +1,4 @@
 #!/bin/bash
-echo "KAMIKAZI-REBUILD: Saving packages from previous run..."
-mv /home/kamikazi-15.10/FileSystem/var/cache/apt/archives /home/kamikazi-15.10/archives
 echo "KAMIKAZI-REBUILD: Cleaning up previous run..."
 customizer -t
 echo "KAMIKAZI-REBUILD: Extracting ISO..."
@@ -18,6 +16,8 @@ rm -Rf /home/kamikazi-15.10/ISO/pics/
 echo "KAMIKAZI-REBUILD: Removing package pool from ISO..."
 rm -Rf /home/kamikazi-15.10/ISO/dist/
 rm -Rf /home/kamikazi-15.10/ISO/pool/
+echo "KAMIKAZI-REBUILD: Saving packages from previous run..."
+mv /home/kamikazi-15.10/FileSystem/var/cache/apt/archives /home/kamikazi-15.10/archives
 echo "KAMIKAZI-REBUILD: Building output ISO..."
 customizer -r
 echo "KAMIKAZI-REBUILD: Complete."
