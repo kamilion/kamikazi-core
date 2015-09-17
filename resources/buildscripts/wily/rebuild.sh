@@ -1,8 +1,12 @@
 #!/bin/bash
+echo "KAMIKAZI-REBUILD: Saving packages from previous run..."
+mv /home/kamikazi-15.10/FileSystem/var/cache/apt/archives /home/kamikazi-15.10/archives
 echo "KAMIKAZI-REBUILD: Cleaning up previous run..."
 customizer -t
 echo "KAMIKAZI-REBUILD: Extracting ISO..."
 customizer -e
+echo "KAMIKAZI-REBUILD: Restoring packages from previous run..."
+mv /home/kamikazi-15.10/archives /home/kamikazi-15.10/FileSystem/var/cache/apt/archives
 echo "KAMIKAZI-REBUILD: Triggering custom hook..."
 customizer -k
 echo "KAMIKAZI-REBUILD: Fixing xen on ISO..."
