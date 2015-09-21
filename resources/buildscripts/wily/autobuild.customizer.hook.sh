@@ -17,6 +17,9 @@ git clone https://kamilion@github.com/kamilion/kamikazi-core.git
 echo "KAMIKAZI: Attempting to rebuild ISO contents..."
 cd /home/git/kamikazi-core/resources/buildscripts/wily/
 echo "KAMIKAZI: Updating packages to current..."
+# Work around annoying recommends
+apt-get install -y --no-install-recommends libgs9-common 
+# Do the upgrade
 apt full-upgrade -y
 apt-get autoremove --purge -y
 echo "KAMIKAZI: Running builder script..."
