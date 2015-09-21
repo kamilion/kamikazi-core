@@ -15,5 +15,11 @@ add-apt-repository -y -u ppa:kamilion/whdd
 packages="whdd"
 apt-get install -y ${packages}
 
+# Wily currently ships btrfs-tools 4.0.0 -- there's been lots of fixes
+# since april when it was released, including a crashfix for subvol list.
+echo "[kamikazi-build] Injecting btrfs-tools 4.2 repository"
+add-apt-repository -y -u ppa:nemh/btrfs
+packages="btrfs-tools"
+apt-get install -y ${packages}
 
 echo "[kamikazi-build] PPA injection complete."
