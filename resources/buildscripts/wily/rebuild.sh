@@ -1,4 +1,5 @@
 #!/bin/bash
+cp customizer-rebuild.conf /etc/customizer.conf
 echo "KAMIKAZI-REBUILD: Cleaning up previous run..."
 customizer -t
 echo "KAMIKAZI-REBUILD: Extracting ISO..."
