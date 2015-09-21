@@ -12,7 +12,7 @@ rm -f /home/kamikazi-15.10/ISO/wubi.exe
 rm -f /home/kamikazi-15.10/ISO/autorun.inf
 rm -Rf /home/kamikazi-15.10/ISO/pics/
 echo "KAMIKAZI-REBUILD: Removing package pool from ISO..."
-rm -Rf /home/kamikazi-15.10/ISO/dist/
+rm -Rf /home/kamikazi-15.10/ISO/dists/
 rm -Rf /home/kamikazi-15.10/ISO/pool/
 echo "KAMIKAZI-REBUILD: Clearing annoyances from filesystem..."
 rm -Rf /home/kamikazi-15.10/FileSystem/var/cache/apt/archives
