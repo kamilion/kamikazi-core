@@ -47,8 +47,8 @@ make		install
 squashfs-tools		install
 xorriso		install
 dkms		install
-open-vm-tools		install
-open-vm-tools-desktop		install
 zenmap		install
 sysdig		install
 nwipe		install
+open-vm-tools-desktop		install
+open-vm-tools		install
