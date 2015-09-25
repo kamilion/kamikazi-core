@@ -50,5 +50,9 @@ dkms		install
 zenmap		install
 sysdig		install
 nwipe		install
+gedit		install
+gedit-plugins		install
+gedit-development-plugins		install
+gnome-terminal		 install
 open-vm-tools-desktop		install
 open-vm-tools		install
