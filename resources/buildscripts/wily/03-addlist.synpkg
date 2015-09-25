@@ -51,4 +51,6 @@ open-vm-tools		install
 open-vm-tools-desktop		install
 zenmap		install
 sysdig		install
+nwipe		install
+
 
