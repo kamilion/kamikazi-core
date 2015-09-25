@@ -14,7 +14,7 @@ echo "KAMIKAZI-REBUILD: Removing package pool from ISO..."
 rm -Rf /home/minilubuntu/ISO/dists/
 rm -Rf /home/minilubuntu/ISO/pool/
 echo "KAMIKAZI-REBUILD: Clearing annoyances from filesystem..."
-rm -Rf /home/git
+rm -Rf /home/minilubuntu/FileSystem/home/git
 rm -Rf /home/minilubuntu/FileSystem/var/cache/apt/archives
 mkdir -p /home/minilubuntu/FileSystem/var/cache/apt/archives/partial
 echo "KAMIKAZI-REBUILD: Clearing apport crash reports from filesystem..."
