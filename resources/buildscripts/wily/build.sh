@@ -1,5 +1,9 @@
 #!/bin/bash
 cp customizer-rebuild.conf /etc/customizer.conf
+echo "KAMIKAZI-REBUILD: Cleaning up previous run..."
+customizer -t
+echo "KAMIKAZI-REBUILD: Extracting ISO..."
+customizer -e
 echo "KAMIKAZI-REBUILD: Triggering custom hook..."
 customizer -k
 echo "KAMIKAZI-REBUILD: Fixing xen on ISO..."
