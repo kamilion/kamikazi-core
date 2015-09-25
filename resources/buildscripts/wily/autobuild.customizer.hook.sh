@@ -14,8 +14,10 @@ mkdir -p /home/git
 cd /home/git
 echo "KAMIKAZI: Checking out kamikazi-core repository..."
 git clone https://kamilion@github.com/kamilion/kamikazi-core.git
+sleep 5
 echo "KAMIKAZI: Attempting to rebuild ISO contents..."
 cd /home/git/kamikazi-core/resources/buildscripts/wily/
+git pull
 echo "KAMIKAZI: Updating packages to current..."
 # Work around annoying recommends
 apt-get install -y --no-install-recommends libgs9-common 
