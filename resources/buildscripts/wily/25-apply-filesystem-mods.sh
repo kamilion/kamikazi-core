@@ -24,6 +24,8 @@ cp -r usr/* /usr/
 cp -r lib/* /lib/
 # Apply our modifications to /etc/, 18kamikazi_restore will populate over it.
 cp -r etc/* /etc/
+# Apply our modifications to /var/log
+cp -r var/* /var/
 
 cd ${OLDDIR}
 echo "[kamikazi-build] Applied filesystem modifications."
