@@ -8,6 +8,9 @@ echo "[kamikazi-build] Modifying systemd init defaults..."
 cd /lib/systemd/system
 # Change the default boot target to multi-user.target from graphical.target
 ln -sf multi-user.target default.target
+# Disable NetworkMangler and ModemMangler...
+systemctl disable NetworkManager ModemManager
+# Gee, it sure is nice to have the verb first.
 
 sleep 2
 echo "[kamikazi-build] Modifying casper liveiso defaults..."

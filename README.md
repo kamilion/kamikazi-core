@@ -44,6 +44,8 @@ X2GO Server is installed. Clients: http://wiki.x2go.org/doku.php
 Xen 4.4 is included and bootable from the isolinux startup menu by default.
 
 Openvswitch is included. See /etc/network/interfaces.examples/* for configuration details.
+All network interfaces with a backing device will be added to xenbr0 by default.
+See https://github.com/kamilion/kamikazi-core/blob/master/resources/wily/mods/usr/share/initramfs-tools/scripts/casper-bottom/18kamikazi_restore for details.
 
 Ceph packages are included but currently unconfigured.
 
@@ -67,59 +69,68 @@ You may also burn the .ISO file to any writable optical media larger than the IS
 Later versions may lift the local writable storage requirement by placing configuration into a database of some form.
 
 
-Changes made from lubuntu 14.10 source media:
+Changes made from lubuntu 15.10 source media:
 ===============
 
 Replaced default GUI browser with midori.
 
-Removed Firefox and all desktop applications and media playback libraries from Lubuntu 14.10 64bit.
+Removed Firefox and all desktop applications and media playback libraries from Lubuntu 15.10 64bit.
 
-Added many server management tools such as ipmitool, htop, byobu, wajig, dc3dd, sdparm, iftop...
+Added many server management tools such as ipmitool, htop, byobu, wajig, dc3dd, sdparm, iftop, nwipe...
 
 Added build-essential and python-dev so python libraries requiring C compilation (uwsgi, scrypt) work.
 
-Added Xen 4.4, added mboot.c32 to ISO, configured isolinux to multiboot Xen and default TORAM=Yes
+Added Xen 4.5, added mboot.c32 to ISO, configured isolinux to multiboot Xen and default TORAM=Yes
 
-Added pv-grub from a Xen 4.5.0RC build, placed in /usr/lib/xen-4.4/boot next to existing hvmloader.
+Added pv-grub from a Xen 4.5.0RC build, placed in /usr/lib/xen-4.5/boot next to existing hvmloader.
 
-Added Openvswitch 2.1.3, created example /etc/network/interfaces.d/ files demonstrating various bridges.
+Added Openvswitch 2.4.0, created example /etc/network/interfaces.d/ files demonstrating various bridges.
 
-Added Ceph 0.80.7, left unconfigured but will restore configuration from /isodevice/boot/config/ if found.
+Added Ceph 0.94.3, left unconfigured but will restore configuration from /isodevice/boot/config/ if found.
 
 Added casper script to restore limited host configuration from /isodevice/boot/config/* if found.
 
 Configuration restored is: hostname, dbus machine-id, ssh hostkeys, openvswitch .db, ceph.conf
 
-Added Rethinkdb 1.15.1, altered the initscript a bit to enable access to the undocumented 'proxy' functionality.
+Added Rethinkdb 2.1.4, altered the initscript a bit to enable access to the undocumented 'proxy' functionality.
 
-Added Serf 0.6.3, created upstart job to start agent with a default role of 'actor'. This default will change to 'dummy' soon.
+Added Serf 0.6.4, created upstart job to start agent with a default role of 'dummy'.
 
 Added X2GO-server and X2GO client for remotely accessing the Lubuntu GUI over long-distance-SSH.
 
 Added supervisord, configured several post-boot scripts for role specialization via Serf
 
 Added update mechanism that will attempt to use this GIT repository to overlay new updates on old isos. (beware!)
+Fork this repository, edit the autobuild script to check out your own repo fork URL.
+Don't worry about squashing development, It's better to see what people have tried and failed to do.
 
 Added nginx-extra, lua, and uwsgi to support a future web-interface API. 
 
 Provided a simple sample site providing read-only access to /isodevice to allow other kamikazi instances to obtain the ISO from a currently running instance.
 
-Added ubuntu-builder, patched to handle above xen isolinux, can be used to update/remaster the ISO file directly from GUI.
+Added Customizer, patched to handle above xen isolinux, can be used to update/remaster the ISO file directly from GUI.
+(This has replaced the GAMBAS3 application, ubuntu-builder, which is no longer being maintained.)
+https://github.com/clearkimura/Customizer
 
 TODO:
 ===============
 
 Look into writing a generator for /etc/interfaces.d/xenbr0 and br0 to automatically assign biosdevnamed hardware ethernet devices to the LAN vswitch or the WAN vswitch. Current policy will likely be 'em1 and P?P?' to xenbr0, and em2 to br0 if the 'firewall' role is selected. Thoughts?
+DONE as of a815b770ad8d2dfc5d066b297f844687e18fa677
 
 Need more work done on ceph, namely some form of autoconfig advertising via Serf tags.
 
-Need more work done on Serf, the current script that uses nmap to scan the local lan segment for other serf members could use some love. (And encryption support would be nice, too...)
+Need more work done on Serf, the current script that uses nmap to scan the local lan segment for other serf members could use some love. 
+NOT DONE!
+(And encryption support would be nice, too...)
+DONE!
 
 Need more work done on locking down nginx... Right now we assume VM host machines will behind a firewall instance.
 
 Need more work done on security... Right now we are focused on using scrypt to protect secret data at rest (GPG/SSH private keyrings, perhaps?) and enabling as much transport security for as many of our required services as possible.
 
 Provide a OpenWRT domU image as 'SimpleRouter'. Default configuration provides xenbr0 with NAT, DHCP and other services.
+PARTIALLY DONE!
 
 Provide a Vyatta domU image as 'AdvancedRouter'. Supports advanced network routing such as BGP or OSPF.
 
