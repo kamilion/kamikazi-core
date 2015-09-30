@@ -44,6 +44,7 @@ libpython-dev		install
 libsensors4		install
 libsigsegv2		install
 libsnmp-base		install
+libssl-dev		install
 libsub-name-perl		install
 libtomcrypt0		install
 libtommath0		install
@@ -55,7 +56,6 @@ manpages-dev		install
 python2.7-dev		install
 python3.5-dev		install
 python3-colorama		install
-python3-dev		install
 python3-distlib		install
 python3-html5lib		install
 python3-newt		install
