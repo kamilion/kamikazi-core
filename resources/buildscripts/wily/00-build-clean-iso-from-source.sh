@@ -33,8 +33,13 @@ packages=$(awk '{print $1} ' 06-addlist-ceph.synpkg)
 echo ${packages}
 apt-get install -y ${packages}
 sleep 2
+echo "[kamikazi-build] Adding webserver packages."
+packages=$(awk '{print $1} ' 07-addlist-nginx-server.synpkg)
+echo ${packages}
+apt-get install -y ${packages}
+sleep 2
 echo "[kamikazi-build] Adding open-vm-tools packages."
-packages=$(awk '{print $1} ' 07-addlist-openvmtools.synpkg)
+packages=$(awk '{print $1} ' 08-addlist-openvmtools.synpkg)
 echo ${packages}
 apt-get install -y ${packages}
 sleep 2
