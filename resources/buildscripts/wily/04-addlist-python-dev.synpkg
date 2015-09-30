@@ -39,9 +39,7 @@ liblsan0		install
 libopenipmi0		install
 libparse-debianchangelog-perl		install
 libpython2.7-dev		install
-libpython3.4-dev		install
-libpython3.4		install
-libpython3-dev		install
+libpython3.5-dev		install
 libpython-dev		install
 libsensors4		install
 libsigsegv2		install
@@ -55,7 +53,7 @@ linux-libc-dev		install
 make		install
 manpages-dev		install
 python2.7-dev		install
-python3.4-dev		install
+python3.5-dev		install
 python3-colorama		install
 python3-dev		install
 python3-distlib		install
