@@ -1,5 +1,6 @@
 nginx-extras		install
 libjansson-dev		install
+libpcre3-dev		install
 python3-asyncssh		install
 python-flask		install
 python3-flask		install
