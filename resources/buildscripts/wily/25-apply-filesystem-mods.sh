@@ -13,6 +13,12 @@ systemctl disable NetworkManager ModemManager
 # Gee, it sure is nice to have the verb first.
 
 sleep 2
+echo "[kamikazi-build] Modifying nginx defaults..."
+### Alter nginx configuration for kamikazi:
+# Disable the default nginx site so autoconfig.conf can take over.
+rm /etc/nginx/sites-enabled/default
+
+sleep 2
 echo "[kamikazi-build] Modifying casper liveiso defaults..."
 ### Alter Casper configuration for kamikazi:
 rm /etc/ssh/ssh_host_*
