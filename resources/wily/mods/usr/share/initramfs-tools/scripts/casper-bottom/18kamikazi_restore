@@ -246,9 +246,7 @@ EOF
         # Now we need to do it again, this time making an entry for each interface.
         for device in /sys/class/net/*/device; do # an iteration over the interfaces.
             name=$(basename ${device%*/device})  # Capture the name of the interface.
-            speed=$(cat /sys/class/net/${name}/speed)  # Capture the speed of the interface.
-            is_up=$(cat /sys/class/net/${name}/carrier)  # Capture the carrier status of the interface.
-            _log_msg "Kamikazi-restore: ${name}: Speed: ${speed} Connected: ${is_up}\n"
+            _log_msg "Kamikazi-restore: Added ${name} to xenbr0\n"
             cat >> "${IFFILE}" <<EOF
 allow-xenbr0 ${name}
 iface ${name} inet manual
