@@ -41,7 +41,7 @@ This is about as close as I can come to 'open source ESXi with a sane Local/Remo
 
 X2GO Server is installed. Clients: http://wiki.x2go.org/doku.php
 
-Xen 4.4 is included and bootable from the isolinux startup menu by default.
+Xen 4.5.1 is included and bootable from the isolinux startup menu by default.
 
 Openvswitch is included. See /etc/network/interfaces.examples/* for configuration details.
 All network interfaces with a backing device will be added to xenbr0 by default.
@@ -80,7 +80,7 @@ Added many server management tools such as ipmitool, htop, byobu, wajig, dc3dd, 
 
 Added build-essential and python-dev so python libraries requiring C compilation (uwsgi, scrypt) work.
 
-Added Xen 4.5, added mboot.c32 to ISO, configured isolinux to multiboot Xen and default TORAM=Yes
+Added Xen 4.5.1, added mboot.c32 to ISO, configured isolinux to multiboot Xen and default TORAM=Yes
 
 Added pv-grub from a Xen 4.5.0RC build, placed in /usr/lib/xen-4.5/boot next to existing hvmloader.
 
