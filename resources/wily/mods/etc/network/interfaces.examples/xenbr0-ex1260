@@ -1,0 +1,43 @@
+
+# Virtual Machine bridge
+
+allow-ovs xenbr0
+iface xenbr0 inet manual
+    ovs_type OVSBridge
+    ovs_extra set Bridge xenbr0 stp_enable=true
+    ovs_ports p20p1 p21p1 p22p1 p23p1 p25p1 p26p1
+
+#allow-xenbr0 em1
+#iface em1 inet manual
+#    ovs_bridge xenbr0
+#    ovs_type OVSPort
+
+allow-xenbr0 p20p1
+iface p20p1 inet manual
+    ovs_bridge xenbr0
+    ovs_type OVSPort
+
+allow-xenbr0 p21p1
+iface p21p1 inet manual
+    ovs_bridge xenbr0
+    ovs_type OVSPort
+
+allow-xenbr0 p22p1
+iface p22p1 inet manual
+    ovs_bridge xenbr0
+    ovs_type OVSPort
+
+allow-xenbr0 p23p1
+iface p23p1 inet manual
+    ovs_bridge xenbr0
+    ovs_type OVSPort
+
+allow-xenbr0 p25p1
+iface p25p1 inet manual
+    ovs_bridge xenbr0
+    ovs_type OVSPort
+
+allow-xenbr0 p26p1
+iface p26p1 inet manual
+    ovs_bridge xenbr0
+    ovs_type OVSPort

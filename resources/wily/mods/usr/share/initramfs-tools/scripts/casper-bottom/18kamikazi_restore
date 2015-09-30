@@ -189,24 +189,74 @@ if [ -d /root/isodevice/boot/config ]; then # the general configuration folder e
     fi
 fi
 
+MAKE_BRIDGE_CONFIG=true
 _log_msg "Kamikazi-restore: Searching for network interface configurations to restore...\n"
 # One of the pecularities of the FAT filesystem is a directory and a file can share the same name.
 # Simple advice: Don't. Pick one or the other -- 14.04+ will include interfaces.d if ip=frommedia
 if [ -d /root/isodevice/boot/config ]; then # the general configuration folder exists.
-    # If it's a directory named interfaces, just put the files in interfaces.d
-    if [ -d /root/isodevice/boot/config/interfaces ]; then # we probably saved bridges.
-        cp -f /root/isodevice/boot/config/interfaces/* /root/etc/network/interfaces.d/
-        # Make sure the proper permissions are applied.
-        chmod 0644 /root/etc/network/interfaces.d/*
-        _log_msg "Kamikazi-restore: Restored network interface directory.\n"
-    fi
-    # Otherwise if it's just a file, copy it.
+    # If it's just a file, copy it over, removing interfaces.d from being imported by default.
     if [ -f /root/isodevice/boot/config/nics ]; then # we probably saved simple interfaces file.
         cp -f /root/isodevice/boot/config/nics /root/etc/network/interfaces
         # Make sure the proper permissions are applied.
         chmod 0644 /root/etc/network/interfaces
+        MAKE_BRIDGE_CONFIG=false
         _log_msg "Kamikazi-restore: Restored network interface file.\n"
     fi
+    # If it's a directory named interfaces, just put the files in interfaces.d
+    if [ -d /root/isodevice/boot/config/interfaces ]; then # we probably saved bridge configs.
+        cp -f /root/isodevice/boot/config/interfaces/* /root/etc/network/interfaces.d/
+        # Make sure the proper permissions are applied.
+        chmod 0644 /root/etc/network/interfaces.d/*
+        MAKE_BRIDGE_CONFIG=false
+        _log_msg "Kamikazi-restore: Restored network interface directory.\n"
+    fi
+fi
+
+if [ "$MAKE_BRIDGE_CONFIG" = true ]; then
+    _log_msg "Kamikazi-restore: Network Configuration did not exist, making a default xenbr0 bridge.\n"
+    IFFILE="/root/etc/network/interfaces.d/xenbr0"
+    # First stuff a header in the file.
+    cat >> "${IFFILE}" <<EOF
+# Virtual Machine bridge
+#
+# This is an example of a configuration with many biosdevname
+# physical network adapters added to the openvswitch bridge.
+# Spanning tree is enabled by default so it is harder to get in trouble.
+#
+# You should not use the 'auto' directive for openvswitch bridges.
+# Instead, 'service openvswitch-switch start-bridges' should be executed later in boot.
+
+allow-ovs xenbr0
+iface xenbr0 inet manual
+    ovs_type OVSBridge
+    ovs_extra set Bridge xenbr0 stp_enable=true
+EOF
+        # Now we need to make a list of the devices we've found.
+        # Note, this only grabs interfaces that have a backing device.
+        BRIDGE_PORTS=""
+        for device in /sys/class/net/*/device; do # an iteration over the interfaces.
+            name=$(basename ${device%*/device})  # Capture the name of the interface.
+            BRIDGE_PORTS="${BRIDGE_PORTS} ${name}"
+        done
+        _log_msg "Kamikazi-restore: xenbr0: ${BRIDGE_PORTS}\n"
+        cat >> "${IFFILE}" <<EOF
+    ovs_ports ${BRIDGE_PORTS}
+
+EOF
+        # Now we need to do it again, this time making an entry for each interface.
+        for device in /sys/class/net/*/device; do # an iteration over the interfaces.
+            name=$(basename ${device%*/device})  # Capture the name of the interface.
+            speed=$(cat /sys/class/net/${name}/speed)  # Capture the speed of the interface.
+            is_up=$(cat /sys/class/net/${name}/carrier)  # Capture the carrier status of the interface.
+            _log_msg "Kamikazi-restore: ${name}: Speed: ${speed} Connected: ${is_up}\n"
+            cat >> "${IFFILE}" <<EOF
+allow-xenbr0 ${name}
+iface ${name} inet manual
+    ovs_bridge xenbr0
+    ovs_type OVSPort
+
+EOF
+        done
 fi
 
 # If this stuff exists before 23networking runs, it will be used instead of generated.
