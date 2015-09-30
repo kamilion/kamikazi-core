@@ -58,6 +58,8 @@ sleep 2
 sleep 2
 ./30-add-serf.sh
 # Serf needs a systemd unit, it's in our filesystem mods, must be applied first.
+sleep 2
+./35-add-python-stuff.sh
 
 sleep 2
 echo "[kamikazi-build] Cleaning up..."
