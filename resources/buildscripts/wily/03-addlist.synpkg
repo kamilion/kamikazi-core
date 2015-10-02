@@ -54,5 +54,7 @@ gedit		install
 gedit-plugins		install
 gedit-developer-plugins		install
 gnome-terminal		 install
+p7zip-full		install
+p7zip-rar		install
 open-vm-tools-desktop		install
 open-vm-tools		install
