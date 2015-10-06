@@ -61,6 +61,10 @@ sleep 2
 sleep 2
 ./35-add-python-stuff.sh
 # uwsgi needs a systemd unit too. Filesystem mods must be applied first.
+sleep 2
+./40-build-pvgrub2-image.share
+# We have a pvgrub1 image from xen 4.5.0RC next to the hvmloader already.
+# Might as well build a 64bit pvgrub2 image from grub-xen-bin while we're at it.
 
 sleep 2
 echo "[kamikazi-build] Cleaning up..."
