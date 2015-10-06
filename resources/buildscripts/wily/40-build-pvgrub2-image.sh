@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "[kamikazi-build] Building 64bit pvgrub2 image from grub-xen-bin..."
+echo "[kamikazi-build] Building pvgrub2 images from grub-xen-bin package..."
 
 OLDDIR=${PWD}
 
@@ -17,15 +17,33 @@ if search -s -f /usr/lib/grub-xen/grub-x86_64-xen.bin ; then
         boot
 fi
 
+if search -s -f /usr/lib/grub-xen/grub-i386-xen.bin ; then
+        echo "Chainloading (${root})/usr/lib/grub-xen/grub-i386-xen.bin"
+        multiboot "/usr/lib/grub-xen/grub-i386-xen.bin"
+        boot
+fi
+
 if search -s -f /boot/xen/pvboot-x86_64.elf ; then
         echo "Chainloading (${root})/boot/xen/pvboot-x86_64.elf"
         multiboot "/boot/xen/pvboot-x86_64.elf"
         boot
 fi
 
+if search -s -f /boot/xen/pvboot-i386.elf ; then
+        echo "Chainloading (${root})/boot/xen/pvboot-i386.elf"
+        multiboot "/boot/xen/pvboot-i386.elf"
+        boot
+fi
+
 if search -s -f /xen/pvboot-x86_64.elf ; then
         echo "Chainloading (${root})/xen/pvboot-x86_64.elf"
         multiboot "/xen/pvboot-x86_64.elf"
+        boot
+fi
+
+if search -s -f /xen/pvboot-i386.elf ; then
+        echo "Chainloading (${root})/xen/pvboot-i386.elf"
+        multiboot "/xen/pvboot-i386.elf"
         boot
 fi
 
@@ -50,10 +68,14 @@ echo "[kamikazi-build] Building grub-x86_64-xen.bin..."
 grub-mkimage -O x86_64-xen -c grub.cfg -m memdisk.tar -o grub-x86_64-xen.bin /usr/lib/grub/x86_64-xen/*.mod
 echo "[kamikazi-build] Copying to /usr/lib/xen-4.5/boot/grub-x86_64-xen.bin..."
 cp grub-x86_64-xen.bin /usr/lib/xen-4.5/boot/grub-x86_64-xen.bin
+echo "[kamikazi-build] Building grub-i386-xen.bin..."
+grub-mkimage -O i386-xen -c grub.cfg -m memdisk.tar -o grub-i386-xen.bin /usr/lib/grub/i386-xen/*.mod
+echo "[kamikazi-build] Copying to /usr/lib/xen-4.5/boot/grub-i386-xen.bin..."
+cp grub-i386-xen.bin /usr/lib/xen-4.5/boot/grub-i386-xen.bin
 echo "[kamikazi-build] Cleaning up..."
 cd /tmp
 rm -Rf /tmp/grub/
 
 cd ${OLDDIR}
 
-echo "[kamikazi-build] Built 64bit pvgrub2 image at /usr/lib/xen-4.5/boot/"
+echo "[kamikazi-build] Built pvgrub2 images at /usr/lib/xen-4.5/boot/"
