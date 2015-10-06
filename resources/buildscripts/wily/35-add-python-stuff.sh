@@ -11,7 +11,7 @@ pip3 install scrypt
 echo "[kamikazi-build] Compiling uwsgi for python3..."
 pip3 install uwsgi
 echo "[kamikazi-build] Removing uwsgi sysvinit script for python3..."
-rm /etc/init.d/uwsgi
+rm -f /etc/init.d/uwsgi
 echo "[kamikazi-build] Enabling uwsgi emperor for python3..."
 systemctl enable emperor.uwsgi.service
 

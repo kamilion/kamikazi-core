@@ -53,7 +53,6 @@ cp grub-x86_64-xen.bin /usr/lib/xen-4.5/boot/grub-x86_64-xen.bin
 echo "[kamikazi-build] Cleaning up..."
 cd /tmp
 rm -Rf /tmp/grub/
-rmdir /tmp/grub
 
 cd ${OLDDIR}
 
