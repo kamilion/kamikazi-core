@@ -9,6 +9,10 @@ add-apt-repository -y -u ppa:kamilion/x2go-kamikazi
 packages="x2goserver x2golxdebindings x2godesktopsharing pyhoca-gui x2goclient"
 apt-get install -y ${packages}
 
+echo "[kamikazi-build] Injecting midori repository"
+add-apt-repository -y -u ppa:midori/ppa
+packages="midori"
+apt-get install -y ${packages}
 
 echo "[kamikazi-build] Injecting whdd repository"
 add-apt-repository -y -u ppa:kamilion/whdd
