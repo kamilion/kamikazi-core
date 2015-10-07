@@ -29,10 +29,10 @@ libabiword-3.0		purge
 libass5		purge
 libassuan0		purge
 libaudcore2		purge
-libavcodec56		purge
-libavformat56		purge
-libavresample2		purge
-libavutil54		purge
+libavcodec-ffmpeg56		purge
+libavformat-ffmpeg56		purge
+libavresample-ffmpeg2		purge
+libavutil-ffmpeg54		purge
 libbabeltrace1		purge
 libbabeltrace-ctf1		purge
 libbinio1v5		purge
@@ -113,7 +113,8 @@ libschroedinger-1.0-0		purge
 libsdl1.2debian		purge
 libsgutils2-2		purge
 libsidplayfp4		purge
-libswscale3		purge
+libswresample-ffmpeg1		purge
+libswscale-ffmpeg3		purge
 libtelepathy-glib0		purge
 libtidy-0.99-0		purge
 libuniconf4.6		purge
