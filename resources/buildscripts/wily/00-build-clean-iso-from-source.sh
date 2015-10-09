@@ -11,7 +11,7 @@ packages=$(awk '{print $1} ' 02-purgelist.synpkg)
 apt-get purge -y ${packages}
 sleep 2
 echo "[kamikazi-build] Adding base server packages."
-packages=$(awk '{print $1} ' 03-addlist.synpkg)
+packages=$(awk '{print $1} ' 13-addlist.synpkg)
 echo ${packages}
 apt-get install -y ${packages}
 sleep 2
@@ -19,27 +19,27 @@ sleep 2
 rm -f /run/chronyd.pid
 apt-get purge -y ntp
 echo "[kamikazi-build] Adding python 2.x and 3.x development kit."
-packages=$(awk '{print $1} ' 04-addlist-python-dev.synpkg)
+packages=$(awk '{print $1} ' 14-addlist-python-dev.synpkg)
 echo ${packages}
 apt-get install -y ${packages}
 sleep 2
 echo "[kamikazi-build] Adding Xen hypervisor and openvswitch packages."
-packages=$(awk '{print $1} ' 05-addlist-xen.synpkg)
+packages=$(awk '{print $1} ' 15-addlist-xen.synpkg)
 echo ${packages}
 apt-get install -y ${packages}
 sleep 2
 echo "[kamikazi-build] Adding Ceph network block device packages."
-packages=$(awk '{print $1} ' 06-addlist-ceph.synpkg)
+packages=$(awk '{print $1} ' 16-addlist-ceph.synpkg)
 echo ${packages}
 apt-get install -y ${packages}
 sleep 2
 echo "[kamikazi-build] Adding webserver packages."
-packages=$(awk '{print $1} ' 07-addlist-nginx-server.synpkg)
+packages=$(awk '{print $1} ' 17-addlist-nginx-server.synpkg)
 echo ${packages}
 apt-get install -y ${packages}
 sleep 2
 echo "[kamikazi-build] Adding open-vm-tools packages."
-packages=$(awk '{print $1} ' 08-addlist-openvmtools.synpkg)
+packages=$(awk '{print $1} ' 18-addlist-openvmtools.synpkg)
 echo ${packages}
 apt-get install -y ${packages}
 sleep 2
@@ -48,7 +48,7 @@ apt-get purge -y qt4-doc
 
 sleep 2
 # Trip off the next set of scripts.
-./10-add-iso-customizer.sh
+./19-add-iso-customizer.sh
 sleep 2
 ./20-add-ppas.sh
 sleep 2

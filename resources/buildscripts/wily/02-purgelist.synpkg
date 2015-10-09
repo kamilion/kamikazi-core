@@ -98,7 +98,7 @@ libopus0		purge
 libots0		purge
 libpisock9		purge
 libportaudio2		purge
-libpostproc52		purge
+libpostproc-ffmpeg53		purge
 libpurple0		purge
 libpurple-bin		purge
 libquvi7		purge
@@ -129,7 +129,7 @@ libwnck-3-0		purge
 libwnck-3-common		purge
 libwpd-0.10-10v5		purge
 libwpg-0.3-3		purge
-libwps-0.4-4v5		purge
+libwps-0.4-4		purge
 libwv-1.2-4		purge
 libwvstreams4.6-base		purge
 libwvstreams4.6-extras		purge
