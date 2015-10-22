@@ -19,8 +19,8 @@ rm -Rf /home/minilubuntu/FileSystem/var/cache/apt/archives
 mkdir -p /home/minilubuntu/FileSystem/var/cache/apt/archives/partial
 echo "KAMIKAZI-REBUILD: Clearing apport crash reports from filesystem..."
 rm -f /home/minilubuntu/FileSystem/var/crash/*
-#echo "KAMIKAZI-REBUILD: Building output ISO..."
-#customizer -r
+echo "KAMIKAZI-REBUILD: Building output ISO..."
+customizer -r
 echo "KAMIKAZI-REBUILD: Complete."
 exit 0
 
