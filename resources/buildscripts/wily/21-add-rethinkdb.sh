@@ -8,12 +8,12 @@ cd /tmp/rethinkdb
 
 #if [ "$(uname -m)" == "x86_64" ]; then
 if [ -d /lib/x86_64-linux-gnu ]; then
-  wget http://files.sllabs.com/files/long-term/downloads/packages/rethinkdb_2.1.4~0_amd64.deb
+  wget http://files.sllabs.com/files/long-term/downloads/packages/rethinkdb_2.1.5+fallback~0_amd64.deb
 elif [ -d /lib/i386-linux-gnu ]; then
-  wget http://files.sllabs.com/files/long-term/downloads/packages/rethinkdb_2.1.4~0_i386.deb
+  wget http://files.sllabs.com/files/long-term/downloads/packages/rethinkdb_2.1.5+fallback~0_i386.deb
 fi
 
-dpkg -i rethinkdb_2.1.4~0_*.deb
+dpkg -i rethinkdb_2.1.5+fallback~0_*.deb
 
 pip install rethinkdb
 pip3 install rethinkdb
