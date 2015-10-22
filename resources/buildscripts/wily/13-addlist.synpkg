@@ -55,6 +55,7 @@ gedit		install
 gedit-plugins		install
 gedit-developer-plugins		install
 gnome-terminal		 install
+rdiff-backup		install
 lcdproc		install
 p7zip-full		install
 p7zip-rar		install
