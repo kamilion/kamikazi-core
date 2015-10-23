@@ -12,7 +12,7 @@ echo -n "kamikazi-vswitch: We are: ${MYNAME}"
 
 echo -n "kamikazi-vswitch: Detecting environment..."
 VIRTWHAT=$(virt-what)
-if [ "${VIRTWHAT:0:5}" == "vmware" ]; then
+if [ "${VIRTWHAT:0:6}" == "vmware" ]; then
     VMWAREWHAT=$(vmware-checkvm -p)
     VMWAREWHATHW=$(vmware-checkvm -h)
     echo -n "kamikazi-vswitch: VMWare ${VMWAREWHAT} environment..."
