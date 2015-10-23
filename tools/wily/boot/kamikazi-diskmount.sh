@@ -53,4 +53,7 @@ rm /tmp/kamikazi-fstab
 # Mount everything we need to with early-fstab and late-fstab already in place.
 echo "kamikazi-diskmount: fstab complete, making sure everything is mounted..."
 mount -av
+
+# Keep supervisord from complaining this job is too short.
+sleep 3
 echo "kamikazi-diskmount: Nothing left to do."
