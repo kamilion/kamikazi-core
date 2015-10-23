@@ -14,7 +14,7 @@ cd /home/git/
 supervisorctl start kamikazi-vswitch
 
 # Check for the oneshot process to complete.
-while ! supervisorctl status kamikazi-switch | grep -q 'EXITED'; do sleep 1; done
+while ! supervisorctl status kamikazi-vswitch | grep -q 'EXITED'; do sleep 1; done
 # Wait for the while loop to break out signalling success.
 
 echo "Kamikazi-boot: Network start complete, attempting to update from git..."
