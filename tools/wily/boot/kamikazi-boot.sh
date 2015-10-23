@@ -1,5 +1,10 @@
 #!/bin/bash
 
+TIME=0  # Call timerbailout with the number of seconds to bailout after.
+abortafter() { sleep 1; let TIME++; if [ ${TIME} -gt ${1} ]; then 
+    echo "Kamikazi-boot: Failed to perform action after ${TIME} seconds, moving on...";
+    break; fi }
+
 # Stick a singleton in the filesystem to notate we're inside of a boot process.
 touch /tmp/kamikazi-boot.stamp
 
@@ -14,8 +19,9 @@ cd /home/git/
 supervisorctl start kamikazi-vswitch
 
 # Check for the oneshot process to complete.
-while ! supervisorctl status kamikazi-vswitch | grep -q 'EXITED'; do sleep 1; done
+while ! supervisorctl status kamikazi-vswitch | grep -q 'EXITED'; do abortafter 120; done
 # Wait for the while loop to break out signalling success.
+TIME=0; # Set the timeout to zero
 
 echo "Kamikazi-boot: Network start complete, attempting to update from git..."
 
@@ -25,8 +31,9 @@ echo "Kamikazi-boot: Network start complete, attempting to update from git..."
 supervisorctl start kamikazi-deploy
 
 # Check for the oneshot process to complete.
-while ! supervisorctl status kamikazi-deploy | grep -q 'EXITED'; do sleep 1; done
+while ! supervisorctl status kamikazi-deploy | grep -q 'EXITED'; do abortafter 120; done
 # Wait for the while loop to break out signalling success.
+TIME=0; # Set the timeout to zero
 
 echo "Kamikazi-boot: Git update complete, attempting to mount disks..."
 
@@ -36,8 +43,9 @@ echo "Kamikazi-boot: Git update complete, attempting to mount disks..."
 supervisorctl start kamikazi-diskmount
 
 # Check for the oneshot process to complete.
-while ! supervisorctl status kamikazi-diskmount | grep -q 'EXITED'; do sleep 1; done
+while ! supervisorctl status kamikazi-diskmount | grep -q 'EXITED'; do abortafter 120; done
 # Wait for the while loop to break out signalling success.
+TIME=0; # Set the timeout to zero
 
 
 # CEPH: Requirements: network & mounted disks

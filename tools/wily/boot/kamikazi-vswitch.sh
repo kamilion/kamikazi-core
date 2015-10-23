@@ -2,20 +2,41 @@
 
 # V0.8.0 runs this during kamikazi-boot.sh to specialize system networking.
 
+TIME=0  # Call timerbailout with the number of seconds to bailout after.
+abortafter() { sleep 1; let TIME++; if [ ${TIME} -gt ${1} ]; then 
+    echo "Kamikazi-boot: Failed to perform action after ${TIME} seconds, moving on...";
+    break; fi }
+
 MYNAME=$(hostname)
 echo -n "kamikazi-vswitch: We are: ${MYNAME}"
+
+echo -n "kamikazi-vswitch: Detecting environment..."
+VIRTWHAT=$(virt-what)
+if [ "${VIRTWHAT:0:5}" == "vmware" ]; then
+    VMWAREWHAT=$(vmware-checkvm -p)
+    VMWAREWHATHW=$(vmware-checkvm -h)
+    echo -n "kamikazi-vswitch: VMWare ${VMWAREWHAT} environment..."
+    echo -n "kamikazi-vswitch: ${VMWAREWHATHW}"
+    sleep 2; # Keeps supervisord from freaking out.
+    systemctl start NetworkManager; # Fire up NetworkMangler...
+    echo -n "kamikazi-vswitch: Can't nest VMs, no need to init openvswitch."
+    exit 0; # Exit early, we don't need bridges where we're going.
+fi
+
 echo -n "kamikazi-vswitch: Bringing up all openvswitchs."
 # First, make sure our bridges are up.
 service openvswitch-switch start-bridges
 
 # While the bridges are coming up, we also have to poke chrony.
 sleep 1;  # Give openvswitch a headstart to make the external interfaces
+TIME=0; # Set the timeout to zero
 
 # We kind of expect to have a external static IP configured in a lot of cases.
 if [ ! -e "/etc/kamikazi-core/nodhcp" ]; then  # We should get external dhcp.
     echo -n "kamikazi-vswitch: Will attempt to DHCP on external interfaces."
     if [ -e "/etc/network/interfaces.d/br0" ]; then  # We have an external if.
-        while [ ! -d "/sys/class/net/br0" ]; do sleep 2; done  # Wait for it
+        echo -n "kamikazi-vswitch: Waiting for br0 to come up..."
+        while [ ! -d "/sys/class/net/br0" ]; do abortafter 10; done  # Wait for it
         echo -n "kamikazi-vswitch: Attepting to spawn a dhclient for br0."
         sleep 2;  # Wait for openvswitch to deal with bringing it up.
         dhclient -nw br0;  # If there's a dhcp server, get an IP if needed.
@@ -25,10 +46,12 @@ fi
 
 # We don't expect to have a internal static IP configured in a lot of cases.
 # Normally it should be set as a static DHCP entry in dhcpd.
+TIME=0; # Set the timeout to zero
 
 # Give openvswitch a headstart to make the internal interfaces
 if [ -e "/etc/network/interfaces.d/xenbr0" ]; then  # Handle the internal xen bridge.
-    while [ ! -d "/sys/class/net/xenbr0" ]; do sleep 2; done  # It exists.
+    echo -n "kamikazi-vswitch: Waiting for xenbr0 to come up..."
+    while [ ! -d "/sys/class/net/xenbr0" ]; do abortafter 10; done  # It exists.
     echo -n "kamikazi-vswitch: Attepting to spawn a dhclient for xenbr0."
     sleep 2;  # Wait for openvswitch to deal with bringing it up.
     dhclient -nw xenbr0;  # If there's a dhcp server, get another IP if needed.
