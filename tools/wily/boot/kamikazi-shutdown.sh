@@ -3,7 +3,7 @@
 # V0.8.0 uses this to shut down.
 
 MYNAME=$(hostname)
-echo -n "kamikazi-shutdown: We are: ${MYNAME}"
+echo "kamikazi-shutdown: We are: ${MYNAME}"
 
 if [ "${1}" == "all" ]; then
   supervisorctl start kamikazi-shutdown-real

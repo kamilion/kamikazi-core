@@ -11,7 +11,7 @@ KCRES="${KCHOME}/resources/latest"
 cp ${KCRES}/mods/etc/init.d/rethinkdb /etc/init.d/rethinkdb
 
 MYNAME=$(hostname)
-echo -n "kamikazi-boot-late: We are: ${MYNAME}"
+echo "kamikazi-boot-late: We are: ${MYNAME}"
 
 
 # If we were told to force a specific role, then do so.
