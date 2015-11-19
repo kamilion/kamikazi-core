@@ -59,5 +59,7 @@ rdiff-backup		install
 lcdproc		install
 p7zip-full		install
 p7zip-rar		install
+sg3-utils		install
+sg3-utils-udev		install
 open-vm-tools-desktop		install
 open-vm-tools		install
