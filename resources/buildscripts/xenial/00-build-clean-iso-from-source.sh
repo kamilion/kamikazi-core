@@ -52,7 +52,7 @@ sleep 2
 sleep 2
 echo ./20-add-ppas.sh
 sleep 2
-echo ./21-add-rethinkdb.sh
+./21-add-rethinkdb.sh
 sleep 2
 ./25-apply-filesystem-mods.sh
 sleep 2

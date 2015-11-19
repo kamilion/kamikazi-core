@@ -61,6 +61,7 @@ python3-html5lib		install
 python3-newt		install
 python3-pip		install
 python3-pyqt4		install
+python3-pyqt5		install
 python3-requests		install
 python3-setuptools		install
 python3-urllib3		install
