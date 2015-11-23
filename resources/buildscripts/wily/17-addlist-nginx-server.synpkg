@@ -12,7 +12,7 @@ python-netfilter		install
 python3-netfilter		install
 python-paramiko		install
 python3-paramiko		install
-python-parted
+python-parted		install
 python3-parted		install
 python-psutil		install
 python3-psutil		install
@@ -20,7 +20,7 @@ python-ptyprocess		install
 python3-ptyprocess		install
 python-pudb		install
 python3-pudb		install
-python-pypdf2
+python-pypdf2		install
 python3-pypdf2		install
 python-pyroute2		install
 python3-pyroute2		install

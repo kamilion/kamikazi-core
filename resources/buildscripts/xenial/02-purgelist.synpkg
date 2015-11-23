@@ -27,7 +27,6 @@ liba52-0.7.4		purge
 libaacs0		purge
 libabiword-3.0		purge
 libass5		purge
-libassuan0		purge
 libaudcore2		purge
 libavcodec-ffmpeg56		purge
 libavformat-ffmpeg56		purge
@@ -63,7 +62,6 @@ libgmtk1-data		purge
 libgmtk1		purge
 libgoffice-0.10-10-common		purge
 libgoffice-0.10-10		purge
-libgpgme11		purge
 libgpod4		purge
 libgpod-common		purge
 libgsf-1-114		purge
@@ -75,7 +73,6 @@ libguess1		purge
 libgusb2		purge
 libguvcview-1.1-1		purge
 libieee1284-3		purge
-libjs-jquery		purge
 liblink-grammar4		purge
 libloudmouth1-0		purge
 libmad0		purge
@@ -90,11 +87,9 @@ libmpg123-0		purge
 libmusicbrainz3-6v5		purge
 libnatpmp1		purge
 libneon27-gnutls		purge
-libonig2		purge
 libopencore-amrnb0		purge
 libopencore-amrwb0		purge
 libopenjpeg5		purge
-libopus0		purge
 libots0		purge
 libpisock9		purge
 libportaudio2		purge
@@ -110,8 +105,6 @@ librevenge-0.0-0		purge
 libsane-common		purge
 libsane		purge
 libschroedinger-1.0-0		purge
-libsdl1.2debian		purge
-libsgutils2-2		purge
 libsidplayfp4		purge
 libswresample-ffmpeg1		purge
 libswscale-ffmpeg3		purge
