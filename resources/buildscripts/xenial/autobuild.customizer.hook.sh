@@ -15,6 +15,9 @@ cd /home/git
 echo "KAMIKAZI: Checking out kamikazi-core repository..."
 git clone https://kamilion@github.com/kamilion/kamikazi-core.git
 sleep 5
+echo "KAMIKAZI: Checking out disker-gui repository..."
+git clone https://kamilion@github.com/kamilion/disker-gui.git
+sleep 5
 echo "KAMIKAZI: Attempting to rebuild ISO contents..."
 cd /home/git/kamikazi-core/resources/buildscripts/xenial/
 git pull
