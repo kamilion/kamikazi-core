@@ -9,7 +9,7 @@ else
   apt-get install --no-install-recommends -y git gksu build-essential fakeroot make binutils g++ python python-dev python-qt4 python3-pyqt4 pyqt4-dev-tools squashfs-tools xorriso x11-xserver-utils xserver-xephyr qemu-kvm dpkg-dev debhelper qt4-dev-tools qt4-linguist-tools 
   mkdir -p /home/kamikazi-16.04/
   mkdir -p /home/minilubuntu/
-  ./10-add-iso-customizer.sh
+  ./19-add-iso-customizer.sh
 
   # Might wanna comment this out if you're not doing this from lubuntu.
   # I havn't tested it on xubuntu, gnome-desktop, KDE, or Unity.
