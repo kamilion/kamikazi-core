@@ -7,7 +7,7 @@ libvirt0		install
 xen-utils-common		install
 libgvnc-1.0-0		install
 bridge-utils		install
-xen-utils-4.5		install
+xen-utils-4.6		install
 grub-xen-bin		install
 openvswitch-common		install
 grub-ipxe		install
