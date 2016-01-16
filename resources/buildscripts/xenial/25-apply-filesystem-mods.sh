@@ -36,5 +36,9 @@ cp -r etc/* /etc/
 # Apply our modifications to /var/log
 cp -r var/* /var/
 
+# Enable supervisor in 16.04+...
+systemctl enable supervisor
+# Gee, it sure is nice to have the verb first.
+
 cd ${OLDDIR}
 echo "[kamikazi-build] Applied filesystem modifications."
