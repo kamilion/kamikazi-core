@@ -27,7 +27,7 @@ rm /usr/share/initramfs-tools/scripts/casper-bottom/41apt_cdrom
 # Remove the built in hostname script that generates /etc/hosts
 rm /usr/share/initramfs-tools/scripts/casper-bottom/18hostname
 # This will be replaced with 18kamikazi_restore from our repo.
-cd /home/git/kamikazi-core/resources/latest/mods/
+cd /home/git/kamikazi-core/resources/wily/mods/
 cp -r usr/* /usr/
 # Apply some additional udev rules for NICs.
 cp -r lib/* /lib/
