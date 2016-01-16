@@ -15,7 +15,6 @@ liba52-0.7.4		purge
 libaacs0		purge
 libabiword-3.0		purge
 libass5		purge
-libaudcore2		purge
 libavcodec-ffmpeg56		purge
 libavformat-ffmpeg56		purge
 libavresample-ffmpeg2		purge
