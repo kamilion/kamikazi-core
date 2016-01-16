@@ -6,8 +6,20 @@ echo "[kamikazi-build] Replacing firefox with midori."
 packages=$(awk '{print $1} ' 01-add-replacement-browser.synpkg)
 apt-get install -y ${packages}
 sleep 2
-echo "[kamikazi-build] Removing packages."
+echo "[kamikazi-build] Removing application packages."
 packages=$(awk '{print $1} ' 02-purgelist.synpkg)
+apt-get purge -y ${packages}
+sleep 2
+echo "[kamikazi-build] Removing application library packages."
+packages=$(awk '{print $1} ' 03-purgelist.synpkg)
+apt-get purge -y ${packages}
+sleep 2
+echo "[kamikazi-build] Removing system library packages."
+packages=$(awk '{print $1} ' 04-purgelist.synpkg)
+apt-get purge -y ${packages}
+sleep 2
+echo "[kamikazi-build] Removing media packages."
+packages=$(awk '{print $1} ' 05-purgelist.synpkg)
 apt-get purge -y ${packages}
 sleep 2
 echo "[kamikazi-build] Adding base server packages."
