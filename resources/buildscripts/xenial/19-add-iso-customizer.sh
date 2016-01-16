@@ -3,17 +3,17 @@
 echo "[kamikazi-build] Injecting Customizer from git."
 
 OLDDIR=${PWD}
-mkdir -p /tmp/customizer
-cd /tmp/customizer
+mkdir -p /tmp/customizer-build
+cd /tmp/customizer-build
 
-git clone https://github.com/clearkimura/Customizer.git
-cd Customizer
+git clone https://github.com/kamilion/customizer.git
+cd customizer
 make && make install
 cd ..
-rm -Rf Customizer
+rm -Rf customizer
 
 cd /tmp
-rmdir customizer
+rmdir customizer-build
 
 cd ${OLDDIR}
 
