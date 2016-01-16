@@ -17,7 +17,6 @@ libclass-accessor-perl		install
 screen		install
 libboost-iostreams1.58.0		install
 libsnmp-base		install
-libperl5.20		install
 libtomcrypt0		install
 run-one		install
 libopenipmi0		install
