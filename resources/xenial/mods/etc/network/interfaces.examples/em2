@@ -1,0 +1,6 @@
+# Primary Ethernet (DHCP)
+
+auto em2
+iface em2 inet dhcp
+
+

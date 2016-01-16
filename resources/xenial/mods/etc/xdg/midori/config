@@ -1,0 +1,8 @@
+[settings]
+default-encoding=ISO-8859-1
+enable-site-specific-quirks=true
+homepage=http://localhost:8181
+
+[extensions]
+libadblock.so=true
+

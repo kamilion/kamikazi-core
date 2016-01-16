@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+Name=Disk Wiper
+Name[en_US]=Disk Wiper
+Icon=gnome-fs-blockdev
+TryExec=gnome-terminal
+Exec=gnome-terminal --geometry=132x60 -e 'sudo /usr/sbin/nwipe -m zero'
+Comment[en_US]=NCurses Disk Wiper

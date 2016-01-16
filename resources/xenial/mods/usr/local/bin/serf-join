@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# Search for any other serf members on the internal LAN to join up with.
+# Serf supports encryption if a key is stored in /isodevice/boot/config/serfkey
+# Connections to an encrypted cluster will be denied if the key is missing or incorrect.
+
+# Default adapter:
+MY_ADAPTER="xenbr0"
+# Discovered IP:
+MY_IPV4ADDRESS="$(ip addr show ${MY_ADAPTER} | grep "inet " | cut -d ' ' -f 6 | cut -d '/' -f 1)"
+# Discovered LAN:
+MY_NETWORK="$(echo ${MY_IPV4ADDRESS} | cut -d '.' -f 1,2,3).0/24"
+# Discovered Hostname:
+MY_NAME=$(hostname)
+
+echo "serf-join: We are: ${MY_NAME} at ${MY_IPV4ADDRESS} on network ${MY_NETWORK}"
+
+# Look for any serf encryption keys on disk and load them to the agent.
+if [ -d /isodevice/boot/config ]; then # the general configuration folder exists.
+    if [ -e /isodevice/boot/config/serfkey ]; then # we will use a serf key
+        SERFKEY=$(cat /isodevice/boot/config/serfkey)
+        echo "serf-join: Using discovered serf encryption key of ${SERFKEY}"
+        serf keys -install=${SERFKEY}
+        serf keys -use=${SERFKEY}
+    fi
+fi
+
+echo "serf-join: Searching network ${MY_NETWORK} for serf nodes..."
+
+# Search the entire local IPv4 range for other serf members on port 7946.
+for i in $(nmap -p7946 -Pn --open -oG serf-scan.txt ${MY_NETWORK} | grep "report for" | cut -d ' ' -f 6 | tr -d '()')
+do
+    if [ ${i} != ${MY_IPV4ADDRESS} ]; then # we should not join ourself
+        echo "serf-join: found serf node running on ${i}";
+        serf join ${i}
+    fi
+done

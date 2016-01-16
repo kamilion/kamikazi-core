@@ -1,0 +1,416 @@
+#!/usr/bin/env python
+#
+# sesctl
+#
+# Control device slot and drive status in SCSI enclousures using the sg_ses
+# command from the sg3_utils package.
+#
+# The following diagrams are based on information in the T10 SES-2 specication
+# for SCSI Enclosure Services - 2 (SES-2), Rev 8.0, May 14, 2008.
+# 
+#               Figure 1: Enclosure Control diagnostic page 2 format
+#
+#          -----------------------------------------------------------------
+# Byte\Bit |   7   |   6   |   5   |   4   |   3   |   2   |   1   |   0   |
+#          -----------------------------------------------------------------
+#       0  |                         Page Code (0x2)                       |
+#          -----------------------------------------------------------------
+#       1  |        RESERVED               |  INFO |NONCRIT|  CRIT |UNRECOV|
+#          -----------------------------------------------------------------
+#       2  |                                                               |
+#          -----------                 PAGE LENGTH                ----------
+#       3  |                                                               |
+#          -----------------------------------------------------------------
+#       4  |                                                               |
+#          -----------          EXPECTED GENERATION CODE          ----------
+#       7  |                                                               |
+#          -----------------------------------------------------------------
+#       8  |                                                               |
+#          -----------          OVERALL CONTROL ELEMENT (first)   ----------
+#          |                                                               |
+#          -----------------------------------------------------------------
+#          |                                                               |
+#          -----------          INDIVIDUAL CONTROL ELEMENT        ----------
+#          |                                                               |
+#          -----------------------------------------------------------------
+#          |                                                               |
+#          -----------                    ...                     ----------
+#          |                                                               |
+#          -----------------------------------------------------------------
+#          |                                                               |
+#          -----------          INDIVIDUAL CONTROL ELEMENT (last) ----------
+#       n  |                                                               |
+#          -----------------------------------------------------------------
+#
+#               Figure 2: Device Slot control element
+#
+#          -----------------------------------------------------------------
+# Byte\Bit |   7   |   6   |   5   |   4   |   3   |   2   |   1   |   0   |
+#          -----------------------------------------------------------------
+#          |                      Common Control                           |
+#       0  |SELECT |PRDFAIL|DISABLE|RSTSWAP|         RESERVED              |
+#          -----------------------------------------------------------------
+#       1  |                        Reserved                               |
+#          -----------------------------------------------------------------
+#          |RQST   |DO NOT |RESERVD|RQST   |RQST   |RQST   |RQST   |RESERVD|
+#       2  |ACTIVE |REMOVE |       |MISSING|INSERT |REMOVE |IDENT  |       |
+#          -----------------------------------------------------------------
+#          |    RESERVED   | RQST  |DEVICE |ENABLE |ENABLE |    RESERVED   |
+#       3  |               | FAULT |OFF    |BYP A  |BYP B  |               |
+#          -----------------------------------------------------------------
+#
+# sg_ses omits the first four bytes in Figure 1 when writing a status page to
+# STDOUT in raw format.  It likewise expects the first four bytes to be omitted
+# from the input when sending a control diagnostic page.  The first n
+# individual control elements in the diagnostic page correspond to the first n
+# Device Slots in the enclosure (based on observation; I haven't actually seen
+# this documented in the standard).  To perform a control operation we
+# generate a diagnostic page and set the SELECT and other relevant bits in the
+# device slot control element for the desired slot.  This page is then sent to
+# the enclosure with 'sg_ses -p 2 -r -d- --control /dev/sgX', where the page
+# data is read from STDIN.
+
+import os
+from subprocess import *
+import re
+import string
+import sys
+import optparse
+import stat
+
+# Can be overridden with command line options.
+num_retries = 3
+verbose = False
+
+# Diagnostic page field lengths (Figure 1).
+SLOT_ELEM_LEN = 4
+GEN_CODE_LEN = 4
+OVERALL_ELEM_LEN = 4
+
+# Bitmasks for flags in device slot control element descriptor (Figure 2).
+SELECT     = 0x80000000
+RQST_IDENT = 0x200
+RQST_FAULT = 0x20
+DEVICE_OFF = 0x10
+
+# Usage summary.
+usage = """\
+usage: %prog [options] [operation drive]
+
+%prog controls device slot and drive status in SCSI enclousures using the
+sg_ses command from the sg3_utils package.  
+
+drive may specified by the block device (i.e. sda) or by the slot designation
+(i.e. A7).  The latter form requires the links exist in the directory
+/dev/disk/by-vdev mapping the slot name to the block device.
+
+operation may be one of:
+    id          identify the element by a visual indication
+    fail        visually indicate that a fault is present
+    off         fail and remove power from the device
+    on          restore power to the device
+    clear       clear all visual indicators and restore power
+"""
+
+def run_sg_util(command, input=None, retries=num_retries):
+    """
+    Run command, retrying up to retries times for certain return codes.
+    Return the contents of stdout as a string, or None on failure.
+    """
+    retry_exit_codes = [
+       2,   # Device not ready
+       6,   # Unit attention
+       11,  # Command aborted
+       20,  # Check condition
+       33,  # Command timed out
+       97,  # Invalid response
+       98,  # Unknown check condition
+       99   # Unkown error
+    ]
+    ignore_exit_codes = [
+        0,  # Success
+        8   # Response too short (always get this reading page 10)
+    ]
+    stdin=None
+    if input:
+        stdin=PIPE
+    if verbose:
+        print "Running command: " + string.join(command, ' ')
+    p = Popen(command, stdout=PIPE, stderr=PIPE, stdin=stdin)
+    ret = p.communicate(input)
+    if p.returncode in ignore_exit_codes:
+        return ret[0]
+    else:
+    	retries -= 1
+        sys.stderr.write("'%s' exited with return code %d.\n" %
+                         (string.join(command, ' '), p.returncode))
+        sys.stderr.write("Error messages follow:\n" + ret[1])
+        if p.returncode in retry_exit_codes and retries > 0:
+            sys.stderr.write("\nRetrying (%d tries remaining).\n" %
+                             (retries))
+            return run_sg_util(command, input, retries)
+        else:
+            return None
+
+def get_status_page(sg, num):
+    """
+    Return a list of bytes making up a SES enclosure status diagnostic page.
+    """
+    output = run_sg_util(["/usr/bin/sg_ses","-p",str(num),"-r",sg])
+    if output:
+        return output.split()
+
+def send_control_page(page, num, sg):
+    """
+    Send a SES enclosure control diagnostic page.
+    """
+    return run_sg_util(["/usr/bin/sg_ses","-p",str(num),"-r","-d-","-c",sg],
+                       string.join(page, " "))
+
+def get_enclosure_sgs():
+    """
+    Return a list of sg devices corresponding to SCSI enclosures.
+    """
+    sgdevs = []
+    output = run_sg_util(["/usr/bin/sg_map"])
+    if not output:
+        return None
+    for line in string.split(output, "\n"):
+        fields = line.split()
+        if len(fields) == 1:
+            sgdevs.append(fields[0])
+    return sgdevs
+
+def get_zpool_disk(drive):
+    """
+    Return the block device name that /dev/disk/by-vdev/drive links to,
+    or None if no such link exists.
+    """
+    zpool_dir = "/dev/disk/by-vdev"
+    link = os.path.join(zpool_dir, drive)
+    if not os.path.islink(link):
+        sys.stderr.write("Error: '" + link +
+                         "' is not an existing symbolic link.\n")
+        return None
+    old_cwd = os.getcwd()
+    os.chdir(zpool_dir)
+    target = os.readlink(link)
+    ret = None
+    if os.path.exists(target):
+        ret = os.path.basename(target)
+    else:
+        sys.stderr.write("Error: '" + target +
+                         "': no such file or directory.\n")
+    os.chdir(old_cwd)
+    return ret
+    
+def drive_info(drive):
+    """
+    Return a two-element tuple containing the enclosure sas address and slot id
+    of drive, or None if they could not be determined.  Relies on the hierarchy
+    of the directory tree beneath the sysfs path given by 
+    'udevadm info -q path -p /sys/block/<drive>'.
+    """
+    sysfs_dir = '/sys/block/' + drive
+    if not os.path.isdir(sysfs_dir):
+        sys.stderr.write("Error: '" + sysfs_dir + "' does not exist.\n")
+        return None
+
+    command=['/sbin/udevadm','info','-q','path','-p',sysfs_dir]
+    p = Popen(command, stdout=PIPE, stderr=PIPE, stdin=None)
+    dir = p.communicate(None)[0].rstrip()
+    sas_device_dir = '/sys' + dir + '/../../../../sas_device'
+    end_device_dir = sas_device_dir + '/' + os.listdir(sas_device_dir)[0]
+    ret = []
+    with open(end_device_dir + '/enclosure_identifier') as f:
+        ret.append(f.read().rstrip())
+    with open(end_device_dir + '/bay_identifier') as f:
+        ret.append(f.read().rstrip())
+    
+    print ret
+    return ret
+
+def enclosure_sg(sas_addr):
+    """
+    Return the scsi generic device in sgs whose sas address matches sas_addr.
+    """
+    pat = re.compile(r'^[ \t]*attached SAS address: (0x[a-f0-9]{16})\s*$')
+
+    sgs = get_enclosure_sgs()
+    if not sgs:
+    	return None
+    for sg in sgs:
+        addr = None
+        output = run_sg_util(["/usr/bin/sg_ses","-p","0xa",sg])
+        if not output:
+            break
+        for line in string.split(output, "\n"):
+            m = re.search(pat, line)
+            if m:
+                addr = m.group(1)
+                break
+        # The last 4 digits of enclosure ids in /dev/disk/by-path names are
+        # zero, but in the sg_ses output they are non-zero, so we compare only
+        # the first 12 digits (plus the leading 0x).
+        if addr and sas_addr[0:14] == addr[0:14]:
+            return sg
+    sys.stderr.write("Error: unable to locate an enclosure with sas address " +
+                     sas_addr + ".\n")
+    return None
+
+def get_slot_element_id(slot, enc_sg):
+    """
+    Return the ordinal element identifier of slot.  This value determines
+    the position of the slot element descriptor in the diagnostic page 2
+    data.
+    """
+    output = run_sg_util(["/usr/bin/sg_ses","-p","0x7",enc_sg])
+    if not output:
+        return None
+    pat = re.compile(r'^[ \t]*Element ([0-9]+) descriptor: Slot +([0-9]+)\s*$')
+    for line in string.split(output, "\n"):
+        m = re.search(pat, line)
+        if m:
+            id, s = m.group(1), m.group(2)
+            if s == slot:
+                return int(id,10)
+    sys.stderr.write("Error: unable to determine element id for slot " +
+                     string(slot) + ".\n")
+    return None
+
+def make_desc(op, orig):
+    """
+    Return an array of byte strings representing an element control descriptor.
+    """
+    desc = int(string.join(orig,''), 16)
+    if op == "id":
+        desc |= SELECT|RQST_IDENT
+    elif op == "fail":
+        desc |= SELECT|RQST_FAULT
+    elif op == "off":
+        desc |= SELECT|DEVICE_OFF
+    elif op == "clear":
+        desc |= SELECT
+        desc &= ~(RQST_IDENT|RQST_FAULT|DEVICE_OFF)
+    ret = []
+    for i in range(3,-1,-1):
+        ret.append("%02x" % ((desc >> i * 8) & 0xff))
+    return ret
+
+def verify(op, offset, sg):
+    """
+    Check whether the relevant bits of the page 2 status descriptor indicate
+    a successful completion of control operation op.
+    """
+    page2 = get_status_page(sg,2)
+    if not page2 or len(page2) < offset + 4:
+        return None
+    desc = int(string.join(page2[offset:offset+4], ''), 16)
+    if op == "id":
+        return bool(desc & RQST_IDENT)
+    elif op == "fail":
+        return bool(desc & RQST_FAULT)
+    elif op == "off":
+        return bool(desc & DEVICE_OFF)
+    elif op == "on":
+        return not bool(desc & DEVICE_OFF)
+    elif op == "clear":
+        return not bool(desc & (RQST_FAULT|DEVICE_OFF|RQST_IDENT))
+
+def check_drive(drive):
+    """
+    Check if drive is the name of an existing scsi disk device
+    or a link to one from /dev/disk/by-vdev.  Return name of the
+    scsi disk device or None if an error occurs.
+    """
+    # Assume if the drive name does not look like a scsi disk device
+    # then it is a device in a zpool.
+    if not re.search(r'^sd[a-z]+', drive):
+        drive = get_zpool_disk(drive)
+        if not drive:
+            return None
+    dev = "/dev/" + drive
+    if not os.path.exists(dev):
+        sys.stderr.write("Error: '" + dev + "' does not exist.\n")
+        return None
+    mode = os.stat(dev)[0]
+    if not stat.S_ISBLK(mode):  
+        sys.stderr.write("Error: '" + dev + "' is not a block device.")
+        return None
+    return drive
+
+def driveop(op, drive, do_verify=True):
+    """
+    Perform a control operation on an SES slot device.
+    """
+    if not op in ['id', 'fail', 'off', 'on', 'clear']:
+        sys.stderr.write('Unrecognized slot operation: %s\n' % (op))
+        return None
+
+    drive = check_drive(drive)
+    if not drive:
+        return None
+
+    info = drive_info(drive)
+    if not info:
+        return None
+    sas_address, slot = info
+
+    enc_sg = enclosure_sg(sas_address)
+    if not enc_sg:
+        return None
+
+    elem_id = get_slot_element_id(slot, enc_sg)
+    if elem_id == None:
+        return None
+
+    page2 = get_status_page(enc_sg, 2)
+    if not page2:
+        return None
+    
+    offset = GEN_CODE_LEN + OVERALL_ELEM_LEN + (elem_id - 1) * SLOT_ELEM_LEN
+    desc = make_desc(op, page2[offset:offset + SLOT_ELEM_LEN])
+    page2[offset:offset + 4] = desc
+    
+    result = send_control_page(page2, 2, enc_sg)
+    if result and do_verify:
+        if not verify(op, offset, enc_sg):
+            sys.stderr.write("Command verification failed.\n")
+            result = None
+    return result
+
+def main():
+    """
+    Parse command line arguments and call function to perform control operation.
+    """
+    global num_retries, verbose
+    # Parse command-line options
+    p = optparse.OptionParser(usage=usage)
+    p.add_option('-r', '--retries', action='store', dest='retries', type='int',
+                 help='set number of retry attempts for sg commands ' +
+                      '[default=3]')
+    p.add_option('-n', '--noverify', action='store_false', dest='verify',
+                 help='do not verify that the device status was actually ' +
+                      'updated')
+    p.add_option('-v', '--verbose', action='store_true', dest='verbose',
+                 help='print messages about what is happening during execution')
+    p.set_defaults(retries=3)
+    p.set_defaults(verify=True)
+    p.set_defaults(verbose=False)
+    options, args = p.parse_args()
+    if len(args) < 2:
+            sys.stderr.write("Missing drive or operation on command line.\n")
+            p.print_help()
+            return 1
+    num_retries = options.retries
+    verbose = options.verbose
+
+    (op, drive) = args
+    # Convert to shell return code.
+    if driveop(op, drive, options.verify):
+        return 0
+    else:
+        return 1
+
+if __name__ == '__main__':
+    sys.exit(main())

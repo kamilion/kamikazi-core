@@ -1,0 +1,5 @@
+# Primary Loopback (trigger openvswitch bridges on pre-up)
+
+auto lo
+iface lo inet loopback
+

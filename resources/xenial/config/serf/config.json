@@ -1,0 +1,8 @@
+{
+  "event_handlers": [
+    "user:kamikazi-deploy=/usr/local/bin/supervisorctl start kamikazi-deploy",
+    "user:kamikazi-upgrade=/usr/local/bin/supervisorctl start kamikazi-upgrade",
+    "user:kamikazi-reboot=/usr/local/bin/supervisorctl start kamikazi-reboot",
+    "user:kamikazi-shutdown=/usr/local/bin/supervisorctl start kamikazi-shutdown"
+  ]
+}
