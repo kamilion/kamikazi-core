@@ -4,7 +4,6 @@ fonts-lyx		purge
 fonts-nanum		purge
 gir1.2-gstreamer-1.0		purge
 gir1.2-wnck-3.0		purge
-gnome-desktop-data		purge
 gnome-mplayer		purge
 guvcview		purge
 i965-va-driver		purge
