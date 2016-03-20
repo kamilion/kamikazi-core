@@ -79,7 +79,6 @@ python-requests		install
 python-setuptools		install
 python-software-properties		install
 python-urllib3		install
-python-urllib3-whl		install
 python-virtualenv		install
 python-wheel		install
 pyqt4-dev-tools		install
