@@ -2,7 +2,6 @@ blueman		purge
 ffmpegthumbnailer		purge
 fonts-lyx		purge
 fonts-nanum		purge
-gecko-mediaplayer		purge
 gir1.2-gstreamer-1.0		purge
 gir1.2-wnck-3.0		purge
 gnome-desktop-data		purge
@@ -27,7 +26,7 @@ libbs2b0		purge
 libcddb2		purge
 libchamplain-0.12-0		purge
 libchamplain-gtk-0.12-0		purge
-libcolamd2.8.0		purge
+libcolamd2.9.1		purge
 libcompfaceg1		purge
 libcue1		purge
 libdca0		purge
@@ -107,7 +106,7 @@ libwhoopsie0		purge
 libwmf0.2-7		purge
 libwnck-3-0		purge
 libwnck-3-common		purge
-libwpd-0.10-10v5		purge
+libwpd-0.10-10		purge
 libwpg-0.3-3		purge
 libwps-0.4-4		purge
 libwv-1.2-4		purge
@@ -122,7 +121,7 @@ light-locker-settings		purge
 link-grammar-dictionaries-en		purge
 lm-sensors		purge
 lp-solve		purge
-mplayer2		purge
+mplayer		purge
 python3-apport		purge
 python3-problem-report		purge
 uvcdynctrl-data		purge

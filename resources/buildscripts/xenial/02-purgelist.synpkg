@@ -7,7 +7,6 @@ audacious-plugins-data		purge
 audacious-plugins		purge
 audacious		purge
 firefox		purge
-gnome-desktop-data		purge
 gnumeric-common		purge
 gnumeric-doc		purge
 gnumeric		purge

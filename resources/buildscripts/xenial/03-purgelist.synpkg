@@ -1,7 +1,6 @@
 blueman		purge
 fonts-lyx		purge
 fonts-nanum		purge
-gnome-desktop-data		purge
 indicator-application-gtk2		purge
 language-selector-gnome		purge
 libabiword-3.0		purge
@@ -10,7 +9,7 @@ libbabeltrace1		purge
 libbabeltrace-ctf1		purge
 libchamplain-0.12-0		purge
 libchamplain-gtk-0.12-0		purge
-libcolamd2.8.0		purge
+libcolamd2.9.1		purge
 libcompfaceg1		purge
 libdirectfb-1.2-9		purge
 libfile-desktopentry-perl		purge
@@ -61,7 +60,7 @@ libwhoopsie0		purge
 libwmf0.2-7		purge
 libwnck-3-0		purge
 libwnck-3-common		purge
-libwpd-0.10-10v5		purge
+libwpd-0.10-10		purge
 libwpg-0.3-3		purge
 libwps-0.4-4		purge
 libwv-1.2-4		purge
