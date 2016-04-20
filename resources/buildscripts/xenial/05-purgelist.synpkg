@@ -2,6 +2,7 @@ blueman		purge
 ffmpegthumbnailer		purge
 fonts-lyx		purge
 fonts-nanum		purge
+fonts-noto-cjk		purge
 gir1.2-gstreamer-1.0		purge
 gir1.2-wnck-3.0		purge
 gnome-mplayer		purge
