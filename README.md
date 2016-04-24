@@ -3,7 +3,7 @@ kamikazi-core
 
 This is a Xen livecd based on Lubuntu.
 
-This repository is currently based on Lubuntu 15.10 and the systemd init system.
+This repository is currently based on Lubuntu 16.04 and the systemd init system.
 
 ![Desktop](http://files.sllabs.com/files/long-term/screenshots/kamikazi/kamikazi-builder-14.10-2015-02-04-00-35-08.png)
 
@@ -17,22 +17,9 @@ IRC Channel at freenode:
 http://webchat.freenode.net/?channels=kamikazi
 Commits to this repo will be displayed there.
 
-USB Image download available at:
+Download available at the github releases page:
 
-http://files.sllabs.com/files/long-term/downloads/isos/kamikazi/latest-usb/kamikazi-usb.img.xz
-http://files.sllabs.com/files/long-term/downloads/isos/kamikazi/latest-usb/sha1sums
-
-Full ISO download available at:
-
-64-bit (Approximately 800MB)
-
-http://files.sllabs.com/files/long-term/downloads/isos/kamikazi/latest/kamikazi-amd64-15.10.iso
-http://files.sllabs.com/files/long-term/downloads/isos/kamikazi/latest/sha1sum
-http://files.sllabs.com/files/long-term/downloads/isos/kamikazi/latest/md5sum
-
-32-bit
-http://files.sllabs.com/files/long-term/downloads/isos/kamikazi/latest/kamikazi-i386-15.10.iso
-(Unfinished, but bootable. 64BIT XEN, 32BIT USERSPACE)
+https://github.com/kamilion/kamikazi-core/releases
 
 Why use kamikazi?
 ===============
@@ -41,7 +28,7 @@ This is about as close as I can come to 'open source ESXi with a sane Local/Remo
 
 X2GO Server is installed. Clients: http://wiki.x2go.org/doku.php
 
-Xen 4.5.1 is included and bootable from the isolinux startup menu by default.
+Xen 4.6 is included and bootable from the isolinux startup menu by default.
 
 Openvswitch is included. See /etc/network/interfaces.examples/* for configuration details.
 All network interfaces with a backing device will be added to xenbr0 by default.
@@ -69,32 +56,32 @@ You may also burn the .ISO file to any writable optical media larger than the IS
 Later versions may lift the local writable storage requirement by placing configuration into a database of some form.
 
 
-Changes made from lubuntu 15.10 source media:
+Changes made from lubuntu 16.04 source media:
 ===============
 
-Replaced default GUI browser with midori.
+Replaced default GUI browser with qupzilla.
 
-Removed Firefox and all desktop applications and media playback libraries from Lubuntu 15.10 64bit.
+Removed Firefox and all desktop applications and media playback libraries from Lubuntu 16.04 64bit.
 
 Added many server management tools such as ipmitool, htop, byobu, wajig, dc3dd, sdparm, iftop, nwipe...
 
 Added build-essential and python-dev so python libraries requiring C compilation (uwsgi, scrypt) work.
 
-Added Xen 4.5.1, added mboot.c32 to ISO, configured isolinux to multiboot Xen and default TORAM=Yes
+Added Xen 4.6.0, added mboot.c32 to ISO, configured isolinux to multiboot Xen and default TORAM=Yes
 
-Added pv-grub from a Xen 4.5.0RC build, placed in /usr/lib/xen-4.5/boot next to existing hvmloader.
+Added pv-grub from a Xen 4.5.0RC build, placed in /usr/lib/xen-4.6/boot next to existing hvmloader.
 
-Added Openvswitch 2.4.0, created example /etc/network/interfaces.d/ files demonstrating various bridges.
+Added Openvswitch 2.5.0, created example /etc/network/interfaces.d/ files demonstrating various bridges.
 
-Added Ceph 0.94.3, left unconfigured but will restore configuration from /isodevice/boot/config/ if found.
+Added Ceph 'Jewel' 10.1.2, left unconfigured but will restore configuration from /isodevice/boot/config/ if found.
 
 Added casper script to restore limited host configuration from /isodevice/boot/config/* if found.
 
 Configuration restored is: hostname, dbus machine-id, ssh hostkeys, openvswitch .db, ceph.conf
 
-Added Rethinkdb 2.1.4, altered the initscript a bit to enable access to the undocumented 'proxy' functionality.
+Added Rethinkdb 2.3.0, altered the initscript a bit to enable access to the undocumented 'proxy' functionality.
 
-Added Serf 0.6.4, created upstart job to start agent with a default role of 'dummy'.
+Added Serf 0.7.0, created upstart job to start agent with a default role of 'dummy'.
 
 Added X2GO-server and X2GO client for remotely accessing the Lubuntu GUI over long-distance-SSH.
 
@@ -110,7 +97,7 @@ Provided a simple sample site providing read-only access to /isodevice to allow 
 
 Added Customizer, patched to handle above xen isolinux, can be used to update/remaster the ISO file directly from GUI.
 (This has replaced the GAMBAS3 application, ubuntu-builder, which is no longer being maintained.)
-https://github.com/clearkimura/Customizer
+https://github.com/kamilion/customizer
 
 TODO:
 ===============
