@@ -2,7 +2,7 @@
 OLDDIR=${PWD}
 
 echo "[kamikazi-build] Building Clean ISO from lubuntu-16.04-amd64.iso"
-echo "[kamikazi-build] Replacing firefox with midori."
+echo "[kamikazi-build] Replacing firefox with qupzilla."
 packages=$(awk '{print $1} ' 01-add-replacement-browser.synpkg)
 apt-get install -y ${packages}
 sleep 2
@@ -62,7 +62,7 @@ sleep 2
 # Trip off the next set of scripts.
 ./19-add-iso-customizer.sh
 sleep 2
-echo ./20-add-ppas.sh
+./20-add-ppas.sh
 sleep 2
 ./21-add-rethinkdb.sh
 sleep 2
