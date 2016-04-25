@@ -8,7 +8,7 @@ echo "[kamikazi-build] Injecting x2go repository"
 #wajig addrepo ppa:kamilion/x2go-kamikazi
 # Stable Repo
 add-apt-repository -y -u ppa:x2go/stable
-packages="x2goserver x2golxdebindings x2godesktopsharing pyhoca-gui x2goclient"
+packages="x2goserver x2golxdebindings pyhoca-gui x2goclient"
 apt-get install -y ${packages}
 
 echo "[kamikazi-build] Injecting whdd repository"
