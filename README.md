@@ -45,7 +45,7 @@ Ubuntu-builder is included. It can be used to unpack the ISO and apply new packa
 Hardware Configuration
 ===============
 
-For best results, you should use a 2GB or larger USB stick, formatted FAT32 or NTFS, with the grub2 bootloader installed.
+For best results, you should use a 4GB or larger USB stick, formatted FAT32 or NTFS, with the grub2 bootloader installed.
 
 If the included buildscripts/xengrub.cfg is placed in boot/grub/grub.cfg and the iso is saved as boot/isos/kamikazi64.iso then everything should 'just work'.
 
@@ -54,6 +54,15 @@ Any btrfs volumes with a plaintext label should be found and the default primary
 You may also burn the .ISO file to any writable optical media larger than the ISO's size (Mini-DVDR, DVD+R, wasting a BD-R...) but configuration restoration will be impaired without a writable storage device available.
 
 Later versions may lift the local writable storage requirement by placing configuration into a database of some form.
+
+
+USB Image:
+===============
+The USB image uses boot code from Intel's BITS toolkits, available from:
+
+http://biosbits.org
+
+This integrates Python 2.7 into Grub2, and is bootable from 32bit and 64bit systems.
 
 
 Changes made from lubuntu 16.04 source media:
@@ -79,7 +88,7 @@ Added casper script to restore limited host configuration from /isodevice/boot/c
 
 Configuration restored is: hostname, dbus machine-id, ssh hostkeys, openvswitch .db, ceph.conf
 
-Added Rethinkdb 2.3.0, altered the initscript a bit to enable access to the undocumented 'proxy' functionality.
+Added Rethinkdb 2.3.1, altered the initscript a bit to enable access to the undocumented 'proxy' functionality.
 
 Added Serf 0.7.0, created upstart job to start agent with a default role of 'dummy'.
 
