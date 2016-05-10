@@ -42,3 +42,6 @@ systemctl enable supervisor
 
 cd ${OLDDIR}
 echo "[kamikazi-build] Applied filesystem modifications."
+apt-get update
+echo "[kamikazi-build] Refreshed package cache."
+

@@ -2,8 +2,8 @@
 
 echo "[kamikazi-build] Injecting disque binaries."
 
-echo "[kamikazi-build] Installing tcl 8.6 packages for disque: make test."
-apt-get install -y tcl8.6
+echo "[kamikazi-build] Installing tcl 8.5 packages for disque: make test."
+apt-get install -y tcl8.5
 sleep 2
 
 OLDDIR=${PWD}
@@ -42,7 +42,7 @@ cd /etc/systemd/system/multi-user.target.wants/
 ln -vfs /etc/systemd/system/disque.service disque.service
 
 echo "[kamikazi-build] Removing tcl packages."
-apt-get purge -y libtcl8.6 tcl8.6
+apt-get purge -y libtcl8.5 tcl8.5
 sleep 2
 
 cd ${OLDDIR}
