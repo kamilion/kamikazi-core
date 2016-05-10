@@ -6,7 +6,8 @@ OLDDIR=${PWD}
 
 # Big thanks to https://github.com/bibanon/Coreboot-ThinkPads/wiki/Compiling-GRUB2-for-Coreboot
 # Really helped out figuring out how to build an image.
-
+echo "[kamikazi-build] Updating apt to get build dependancies for grub2..."
+apt update
 echo "[kamikazi-build] Installing build dependancies for grub2..."
 # Get build dependancies
 apt build-dep grub2
