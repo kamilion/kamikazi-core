@@ -20,9 +20,9 @@ sleep 2
 # Cleanup
 cd /tmp
 # Remove the checked out git repo.
-#rm -Rf /tmp/firehol/*
+rm -Rf /tmp/firehol/*
 # Remove the now-empty directory the git repo was in.
-#rmdir firehol
+rmdir firehol
 sleep 2
 
 # Ask systemctl to create the link (Not sure if this needs dbus)
