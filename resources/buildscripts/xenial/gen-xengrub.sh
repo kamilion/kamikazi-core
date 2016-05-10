@@ -1,15 +1,21 @@
 #!/bin/bash
 
+if [[ $EUID -ne 0 ]]; then
+  echo "You must be a root user" 2>&1
+  exit 1
+fi
+
 echo "[kamikazi-build] Building early boot xen grub2 images from grub-xen-bin package..."
 
 OLDDIR=${PWD}
 
 # Big thanks to https://github.com/bibanon/Coreboot-ThinkPads/wiki/Compiling-GRUB2-for-Coreboot
 # Really helped out figuring out how to build an image.
+# Make sure source repos are enabled.
 echo "[kamikazi-build] Updating apt to get build dependancies for grub2..."
 apt update
 echo "[kamikazi-build] Installing build dependancies for grub2..."
-# Get build dependancies
+# Get build dependancies for grub2 onto the buildbox.
 apt build-dep -y grub2
 
 mkdir -p /tmp/grub-early/
@@ -35,6 +41,7 @@ make install > /tmp/grub-early/multiboot-install.log
 cd /usr/local/grub/root/lib/grub/
 # Swipe the multiboot build artifacts so we can use the platform's grub-mkimage
 cp -R i386-multiboot /usr/lib/grub/
+cp -R i386-multiboot /home/git/kamikazi-core/resources/latest/mods/usr/lib/grub/
 # Clean out the rest of the build, we don't need it.
 cd /usr/local
 rm -Rf /usr/local/grub/
@@ -84,8 +91,9 @@ echo "[kamikazi-build] Creating outer grub.cfg..."
 echo -e "normal (memdisk)/grub.cfg\n" > "/tmp/grub-early/grub.cfg"
 mkdir -p /usr/lib/xen-4.6/boot/
 echo "[kamikazi-build] Building grub-i386-isoxen.bin..."
-/usr/local/grub/root/bin/grub-mkimage -v -O i386-multiboot -c grub.cfg -m memdisk.tar -o grub-i386-isoxen.bin /usr/lib/grub/i386-multiboot/*.mod
+grub-mkimage -v -O i386-multiboot -c grub.cfg -m memdisk.tar -o grub-i386-isoxen.bin /usr/lib/grub/i386-multiboot/*.mod
 echo "[kamikazi-build] Copying to /usr/lib/xen-4.6/boot/grub-i386-isoxen.bin..."
+cp grub-i386-isoxen.bin /home/git/kamikazi-core/resources/latest/mods/usr/lib/xen-4.6/boot/grub-i386-isoxen.bin
 cp grub-i386-isoxen.bin /usr/lib/xen-4.6/boot/grub-i386-isoxen.bin
 echo "[kamikazi-build] Cleaning up..."
 cd /tmp
@@ -94,3 +102,4 @@ rm -Rf /tmp/grub-early/
 cd ${OLDDIR}
 
 echo "[kamikazi-build] Built early boot xen grub2 images at /usr/lib/xen-4.6/boot/"
+
