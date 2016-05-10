@@ -45,8 +45,11 @@ echo "[kamikazi-build] Creating outer grub.cfg..."
 # instead of the minimal one available at early boot, which should chainload.
 echo -e "normal (memdisk)/grub.cfg\n" > "/tmp/grub-early/grub.cfg"
 mkdir -p /usr/lib/xen-4.6/boot/
+cat > /tmp/grub-early/modlist.cfg <<EOF
+normal linux linux16 loopback search ntldr ntfscomp freedos usbserial_usbdebug usb_keyboard usbms btrfs tar multiboot multiboot2 http efiemu xnu gfxmenu all_video biosdisk blocklist bsd cat cbfs cbls cbmemc cbtable cbtime cmosdump cmostest cmp configfile cpio_be cpio crc64 datehook date dm_nv drivemap echo ehci eval exfat ext2 fat file font gfxterm_background gfxterm_menu gfxterm gptsync gzio halt hashsum hdparm hexdump hwmatch iorw iso9660 jpeg keylayouts keystatus ldm loadenv lsacpi lsmmap ls lspci lvm lzopio memdisk memrw msdospart nativedisk newc nilfs2 odc ohci part_bsd parttool pata pcidump play png probe procfs progress pxechain pxe raid5rec raid6rec read reboot regexp romfs sendkey setjmp setpci sleep squash4 syslinuxcfg terminfo tftp tga time tr true udf uhci usbserial_ftdi usbserial_pl2303 vga_text videoinfo videotest xfs xzio
+EOF
 echo "[kamikazi-build] Building grub-i386-pc-isoxen.bin..."
-grub-mkimage -O i386-pc -c grub.cfg -m memdisk.tar -o grub-i386-pc-isoxen.bin /usr/lib/grub/i386-pc/*.mod
+grub-mkimage -v -O i386-pc -c grub.cfg -m memdisk.tar -o grub-i386-pc-isoxen.bin $(cat /tmp/grub-early/modlist.cfg)
 echo "[kamikazi-build] Copying to /usr/lib/xen-4.6/boot/grub-i386-pc-isoxen.bin..."
 cp grub-i386-pc-isoxen.bin /usr/lib/xen-4.6/boot/grub-i386-pc-isoxen.bin
 echo "[kamikazi-build] Cleaning up..."
