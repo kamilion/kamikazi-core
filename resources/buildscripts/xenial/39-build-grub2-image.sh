@@ -10,13 +10,13 @@ echo "[kamikazi-build] Updating apt to get build dependancies for grub2..."
 apt update
 echo "[kamikazi-build] Installing build dependancies for grub2..."
 # Get build dependancies
-apt build-dep grub2
+apt build-dep -y grub2
 
 mkdir -p /tmp/grub-early/
 cd /tmp/grub-early/
 
 echo "[kamikazi-build] Fetching grub2 from git..."
-git clone http://git.savannah.gnu.org/r/grub.git
+git clone http://git.savannah.gnu.org/r/grub.git --depth 1
 cd grub
 # Hit the clean make target first
 make clean
