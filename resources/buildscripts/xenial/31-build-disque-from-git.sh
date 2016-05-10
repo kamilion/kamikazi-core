@@ -11,7 +11,7 @@ mkdir -p /tmp/disque
 cd /tmp/disque
 
 # Get from git.
-git clone https://github.com/antirez/disque
+git clone https://github.com/antirez/disque --depth=1
 cd disque
 sleep 2
 # Run make.

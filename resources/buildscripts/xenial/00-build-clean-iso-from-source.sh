@@ -74,6 +74,9 @@ sleep 2
 ./31-build-disque-from-git.sh
 # Disque needs a systemd unit, it's in our filesystem mods, must be applied first.
 sleep 2
+./32-build-netdata-from-git.sh
+# netdata needs a systemd unit, it comes with it's own netdata.service.
+sleep 2
 ./35-add-python-stuff.sh
 # uwsgi needs a systemd unit too. Filesystem mods must be applied first.
 sleep 2
