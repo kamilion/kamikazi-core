@@ -1,22 +1,18 @@
-# deb cdrom:[Lubuntu 16.04 LTS _Xenial Xerus_ - Alpha amd64 (20151111)]/ xenial main multiverse restricted universe
-
 # See http://help.ubuntu.com/community/UpgradeNotes for how to upgrade to
 # newer versions of the distribution.
 deb http://us.archive.ubuntu.com/ubuntu/ xenial main restricted
-deb-src http://us.archive.ubuntu.com/ubuntu/ xenial main restricted
+deb-src http://us.archive.ubuntu.com/ubuntu/ xenial main restricted universe multiverse
 
 ## Major bug fix updates produced after the final release of the
 ## distribution.
 deb http://us.archive.ubuntu.com/ubuntu/ xenial-updates main restricted
-deb-src http://us.archive.ubuntu.com/ubuntu/ xenial-updates main restricted
+deb-src http://us.archive.ubuntu.com/ubuntu/ xenial-updates main restricted universe multiverse
 
 ## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu
 ## team. Also, please note that software in universe WILL NOT receive any
 ## review or updates from the Ubuntu security team.
 deb http://us.archive.ubuntu.com/ubuntu/ xenial universe
-deb-src http://us.archive.ubuntu.com/ubuntu/ xenial universe
 deb http://us.archive.ubuntu.com/ubuntu/ xenial-updates universe
-deb-src http://us.archive.ubuntu.com/ubuntu/ xenial-updates universe
 
 ## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu 
 ## team, and may not be under a free licence. Please satisfy yourself as to 
@@ -24,9 +20,7 @@ deb-src http://us.archive.ubuntu.com/ubuntu/ xenial-updates universe
 ## multiverse WILL NOT receive any review or updates from the Ubuntu
 ## security team.
 deb http://us.archive.ubuntu.com/ubuntu/ xenial multiverse
-deb-src http://us.archive.ubuntu.com/ubuntu/ xenial multiverse
 deb http://us.archive.ubuntu.com/ubuntu/ xenial-updates multiverse
-deb-src http://us.archive.ubuntu.com/ubuntu/ xenial-updates multiverse
 
 ## N.B. software from this repository may not have been tested as
 ## extensively as that contained in the main release, although it includes
@@ -37,11 +31,9 @@ deb http://us.archive.ubuntu.com/ubuntu/ xenial-backports main restricted univer
 deb-src http://us.archive.ubuntu.com/ubuntu/ xenial-backports main restricted universe multiverse
 
 deb http://security.ubuntu.com/ubuntu xenial-security main restricted
-deb-src http://security.ubuntu.com/ubuntu xenial-security main restricted
+deb-src http://security.ubuntu.com/ubuntu xenial-security main restricted universe multiverse
 deb http://security.ubuntu.com/ubuntu xenial-security universe
-deb-src http://security.ubuntu.com/ubuntu xenial-security universe
 deb http://security.ubuntu.com/ubuntu xenial-security multiverse
-deb-src http://security.ubuntu.com/ubuntu xenial-security multiverse
 
 ## Uncomment the following two lines to add software from Canonical's
 ## 'partner' repository.
