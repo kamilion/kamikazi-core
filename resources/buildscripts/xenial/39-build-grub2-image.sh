@@ -21,13 +21,16 @@ cd grub
 # Hit the clean make target first
 make clean
 # Then we need to generate configure
-./autogen.sh
+./autogen.sh > /tmp/grub-early/multiboot-autogen.log
+echo "[kamikazi-build] Configuring grub2 from git..."
 # Tell configure to stuff this in a corner we can delete in a moment
-./configure --prefix=/usr/local/grub/root --sbindir=/usr/local/grub/sbin --sysconfdir=/usr/local/grub/etc --with-platform=multiboot
+./configure --prefix=/usr/local/grub/root --sbindir=/usr/local/grub/sbin --sysconfdir=/usr/local/grub/etc --with-platform=multiboot > /tmp/grub-early/multiboot-configure.log
 # Do the actual build with-platform=multiboot to get the right type of binary BITS likes.
-make > /tmp/grub-early/multiboot.log
+echo "[kamikazi-build] Building grub2 from git..."
+make > /tmp/grub-early/multiboot-build.log
 # This should limit things to /usr/local/grub/ hopefully
-make install
+echo "[kamikazi-build] Installing grub2 from git..."
+make install > /tmp/grub-early/multiboot-install.log
 # Change into the installed directory...
 cd /usr/local/grub/root/lib/grub/
 # Swipe the multiboot build artifacts so we can use the platform's grub-mkimage
@@ -37,7 +40,8 @@ cd /usr/local
 rm -Rf /usr/local/grub/
 # Head back to the tmp directory
 cd /tmp/grub-early/
-
+mkdir -p /var/log/kamikazi-build
+cp *.log /var/log/kamikazi-build/
 # To work around BITS's multiboot failing to load xen, we'll build a binary.
 # Then we'll get BITS to load the multiboot binary instead.
 # Note: 'search' and 'if' are only available in the 'normal' grub interpreter.
