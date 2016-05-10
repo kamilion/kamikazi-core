@@ -25,7 +25,7 @@ make clean
 # Tell configure to stuff this in a corner we can delete in a moment
 ./configure --prefix=/usr/local/grub/root --sbindir=/usr/local/grub/sbin --sysconfdir=/usr/local/grub/etc --with-platform=multiboot
 # Do the actual build with-platform=multiboot to get the right type of binary BITS likes.
-make
+make > /tmp/grub-early/multiboot.log
 # This should limit things to /usr/local/grub/ hopefully
 make install
 # Change into the installed directory...
