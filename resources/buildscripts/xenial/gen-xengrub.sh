@@ -5,7 +5,7 @@ if [[ $EUID -ne 0 ]]; then
   exit 1
 fi
 
-echo "[kamikazi-build] Building early boot xen grub2 images from grub-xen-bin package..."
+echo "[kamikazi-build] Building early boot xen grub2 image from grub-xen-bin package..."
 
 OLDDIR=${PWD}
 
@@ -53,11 +53,14 @@ cp *.log /var/log/kamikazi-build/
 # Then we'll get BITS to load the multiboot binary instead.
 # Note: 'search' and 'if' are only available in the 'normal' grub interpreter.
 echo "[kamikazi-build] Creating inner grub.cfg..."
-cat > "/tmp/grub-early/grub.cfg" <<EOF
+# EOF needs to be quoted so variable expansion does not occur.
+cat > "/tmp/grub-early/grub.cfg" <<'EOF'
 # Allow overriding this inner grub2 with a kamikazi xengrub config file
-search.fs_label boot myboot
-set root=$myboot
+echo "Looking for a filesystem named 'boot'..."
+# if we find it, assign it to the variable 'root' so grub will use it.
+search.fs_label boot root
 
+echo "Looking for xengrub.cfg on ${root}..."
 if search -s -f /boot/config/xengrub.cfg ; then
         echo "Reading (${root})/boot/config/xengrub.cfg"
         configfile /boot/config/xengrub.cfg
@@ -68,6 +71,7 @@ if search -s -f /boot/grub/xengrub.cfg ; then
         configfile /boot/grub/xengrub.cfg
 fi
 
+echo "Did not find any overrides, trying ISO..."
 # Did not find an override file, dip into the ISO and boot xen.
 # To override this, copy the following into one of the above paths.
 if search -s -f /boot/isos/kamikazi-amd64-16.04.iso ; then
@@ -93,13 +97,14 @@ mkdir -p /usr/lib/xen-4.6/boot/
 echo "[kamikazi-build] Building grub-i386-isoxen.bin..."
 grub-mkimage -v -O i386-multiboot -c grub.cfg -m memdisk.tar -o grub-i386-isoxen.bin /usr/lib/grub/i386-multiboot/*.mod
 echo "[kamikazi-build] Copying to /usr/lib/xen-4.6/boot/grub-i386-isoxen.bin..."
-cp grub-i386-isoxen.bin /home/git/kamikazi-core/resources/latest/mods/usr/lib/xen-4.6/boot/grub-i386-isoxen.bin
 cp grub-i386-isoxen.bin /usr/lib/xen-4.6/boot/grub-i386-isoxen.bin
+echo "[kamikazi-build] Copying to kamikazi-core/resources/latest/mods/usr/lib/xen-4.6/boot/grub-i386-isoxen.bin..."
+cp grub-i386-isoxen.bin /home/git/kamikazi-core/resources/latest/mods/usr/lib/xen-4.6/boot/grub-i386-isoxen.bin
 echo "[kamikazi-build] Cleaning up..."
 cd /tmp
 rm -Rf /tmp/grub-early/
 
 cd ${OLDDIR}
 
-echo "[kamikazi-build] Built early boot xen grub2 images at /usr/lib/xen-4.6/boot/"
+echo "[kamikazi-build] Built early boot xen grub2 image at /usr/lib/xen-4.6/boot/"
 

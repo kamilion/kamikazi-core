@@ -1,1 +1,5 @@
 qupzilla		install
+snapd		install
+ubuntu-core-launcher		install
+snapcraft		install
+
