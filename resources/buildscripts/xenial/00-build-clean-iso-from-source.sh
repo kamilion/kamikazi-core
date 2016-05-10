@@ -71,6 +71,9 @@ sleep 2
 ./30-add-serf.sh
 # Serf needs a systemd unit, it's in our filesystem mods, must be applied first.
 sleep 2
+./31-build-disque-from-git.sh
+# Disque needs a systemd unit, it's in our filesystem mods, must be applied first.
+sleep 2
 ./35-add-python-stuff.sh
 # uwsgi needs a systemd unit too. Filesystem mods must be applied first.
 sleep 2

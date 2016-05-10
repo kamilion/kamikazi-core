@@ -1,0 +1,16 @@
+# Disque Agent (systemd service unit)
+[Unit]
+Description=Disque Agent
+After=syslog.target
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/disque-server /etc/disque/disque.conf
+KillSignal=SIGINT
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+
