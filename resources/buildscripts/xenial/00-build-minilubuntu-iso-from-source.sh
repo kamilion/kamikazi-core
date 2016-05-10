@@ -22,6 +22,10 @@ echo "[kamikazi-build] Removing media packages."
 packages=$(awk '{print $1} ' 05-purgelist.synpkg)
 apt-get purge -y ${packages}
 sleep 2
+# Customizer will detect there is no kernel and install linux-image-generic.
+echo "[kamikazi-build] Removing kernel packages."
+apt-get purge -y linux-image*
+sleep 2
 
 echo "[kamikazi-build] Cleaning up..."
 ### Begin cleaning up the filesystem
