@@ -19,6 +19,7 @@ pip install rethinkdb
 pip3 install rethinkdb
 
 cd /tmp
+rm -Rf /tmp/rethinkdb/*
 rmdir rethinkdb
 
 # Ask systemctl to create the link (Not sure if this needs dbus)

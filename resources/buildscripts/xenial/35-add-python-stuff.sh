@@ -4,6 +4,8 @@ echo "[kamikazi-build] Adding more python stuff..."
 
 OLDDIR=${PWD}
 
+echo "[kamikazi-build] Compiling xonsh for python3..."
+pip3 install xonsh
 echo "[kamikazi-build] Compiling scrypt for python2..."
 pip2 install scrypt
 echo "[kamikazi-build] Compiling scrypt for python3..."
