@@ -4,15 +4,48 @@ echo "[kamikazi-build] Building early boot xen grub2 images from grub-xen-bin pa
 
 OLDDIR=${PWD}
 
+# Big thanks to https://github.com/bibanon/Coreboot-ThinkPads/wiki/Compiling-GRUB2-for-Coreboot
+# Really helped out figuring out how to build an image.
+
+echo "[kamikazi-build] Installing build dependancies for grub2..."
+# Get build dependancies
+apt build-dep grub2
+
 mkdir -p /tmp/grub-early/
 cd /tmp/grub-early/
 
+echo "[kamikazi-build] Fetching grub2 from git..."
+git clone http://git.savannah.gnu.org/r/grub.git
+cd grub
+# Hit the clean make target first
+make clean
+# Then we need to generate configure
+./autogen.sh
+# Tell configure to stuff this in a corner we can delete in a moment
+./configure --prefix=/usr/local/grub/root --sbindir=/usr/local/grub/sbin --sysconfdir=/usr/local/grub/etc --with-platform=multiboot
+# Do the actual build with-platform=multiboot to get the right type of binary BITS likes.
+make
+# This should limit things to /usr/local/grub/ hopefully
+make install
+# Change into the installed directory...
+cd /usr/local/grub/root/lib/grub/
+# Swipe the multiboot build artifacts so we can use the platform's grub-mkimage
+cp -R i386-multiboot /usr/lib/grub/
+# Clean out the rest of the build, we don't need it.
+cd /usr/local
+rm -Rf /usr/local/grub/
+# Head back to the tmp directory
+cd /tmp/grub-early/
+
 # To work around BITS's multiboot failing to load xen, we'll build a binary.
-# Then we'll get BITS to load the binary instead.
+# Then we'll get BITS to load the multiboot binary instead.
 # Note: 'search' and 'if' are only available in the 'normal' grub interpreter.
 echo "[kamikazi-build] Creating inner grub.cfg..."
 cat > "/tmp/grub-early/grub.cfg" <<EOF
 # Allow overriding this inner grub2 with a kamikazi xengrub config file
+search.fs_label boot myboot
+set root=$myboot
+
 if search -s -f /boot/config/xengrub.cfg ; then
         echo "Reading (${root})/boot/config/xengrub.cfg"
         configfile /boot/config/xengrub.cfg
@@ -45,17 +78,14 @@ echo "[kamikazi-build] Creating outer grub.cfg..."
 # instead of the minimal one available at early boot, which should chainload.
 echo -e "normal (memdisk)/grub.cfg\n" > "/tmp/grub-early/grub.cfg"
 mkdir -p /usr/lib/xen-4.6/boot/
-cat > /tmp/grub-early/modlist.cfg <<EOF
-normal linux linux16 loopback search ntldr ntfscomp freedos usbserial_usbdebug usb_keyboard usbms btrfs tar multiboot multiboot2 http efiemu xnu gfxmenu all_video biosdisk blocklist bsd cat cbfs cbls cbmemc cbtable cbtime cmosdump cmostest cmp configfile cpio_be cpio crc64 datehook date dm_nv drivemap echo ehci eval exfat ext2 fat file font gfxterm_background gfxterm_menu gfxterm gptsync gzio halt hashsum hdparm hexdump hwmatch iorw iso9660 jpeg keylayouts keystatus ldm loadenv lsacpi lsmmap ls lspci lvm lzopio memdisk memrw msdospart nativedisk newc nilfs2 odc ohci part_bsd parttool pata pcidump play png probe procfs progress pxechain pxe raid5rec raid6rec read reboot regexp romfs sendkey setjmp setpci sleep squash4 syslinuxcfg terminfo tftp tga time tr true udf uhci usbserial_ftdi usbserial_pl2303 vga_text videoinfo videotest xfs xzio
-EOF
-echo "[kamikazi-build] Building grub-i386-pc-isoxen.bin..."
-grub-mkimage -v -O i386-pc -c grub.cfg -m memdisk.tar -o grub-i386-pc-isoxen.bin $(cat /tmp/grub-early/modlist.cfg)
-echo "[kamikazi-build] Copying to /usr/lib/xen-4.6/boot/grub-i386-pc-isoxen.bin..."
-cp grub-i386-pc-isoxen.bin /usr/lib/xen-4.6/boot/grub-i386-pc-isoxen.bin
+echo "[kamikazi-build] Building grub-i386-isoxen.bin..."
+/usr/local/grub/root/bin/grub-mkimage -v -O i386-multiboot -c grub.cfg -m memdisk.tar -o grub-i386-isoxen.bin /usr/lib/grub/i386-multiboot/*.mod
+echo "[kamikazi-build] Copying to /usr/lib/xen-4.6/boot/grub-i386-isoxen.bin..."
+cp grub-i386-isoxen.bin /usr/lib/xen-4.6/boot/grub-i386-isoxen.bin
 echo "[kamikazi-build] Cleaning up..."
 cd /tmp
 rm -Rf /tmp/grub-early/
 
 cd ${OLDDIR}
 
-echo "[kamikazi-build] Built early boot xen grub2 image at /usr/lib/xen-4.6/boot/"
+echo "[kamikazi-build] Built early boot xen grub2 images at /usr/lib/xen-4.6/boot/"

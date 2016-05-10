@@ -9,6 +9,8 @@ libgvnc-1.0-0		install
 bridge-utils		install
 xen-utils-4.6		install
 grub-xen-bin		install
+grub-efi-amd64-bin		install
+grub-efi-ia32-bin		install
 openvswitch-common		install
 grub-ipxe		install
 xen-system-amd64		install
