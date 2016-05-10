@@ -14,14 +14,15 @@ cd /tmp/firehol
 git clone https://github.com/firehol/netdata --depth=1
 cd netdata
 sleep 2
-./netdata-installer.sh
+./netdata-installer.sh --dont-wait --dont-start-it
+cp system/netdata.service /etc/systemd/system/netdata.service
 sleep 2
 # Cleanup
 cd /tmp
 # Remove the checked out git repo.
-rm -Rf /tmp/firehol/*
+#rm -Rf /tmp/firehol/*
 # Remove the now-empty directory the git repo was in.
-rmdir firehol
+#rmdir firehol
 sleep 2
 
 # Ask systemctl to create the link (Not sure if this needs dbus)
