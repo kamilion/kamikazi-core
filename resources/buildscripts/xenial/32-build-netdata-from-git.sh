@@ -3,7 +3,7 @@
 echo "[kamikazi-build] Injecting firehol/netdata binaries."
 
 echo "[kamikazi-build] Installing packages for netdata."
-apt-get install -y zlib1g-dev gcc make git autoconf autogen automake pkg-config nodejs-legacy
+apt-get install -y zlib1g-dev uuid-dev gcc make git autoconf autogen automake pkg-config nodejs-legacy
 sleep 2
 
 OLDDIR=${PWD}
