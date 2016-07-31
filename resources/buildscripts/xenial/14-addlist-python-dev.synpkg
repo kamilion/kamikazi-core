@@ -16,6 +16,7 @@ iftop		install
 iotop		install
 ipmitool		install
 jq		install
+curl		install
 libalgorithm-diff-perl		install
 libalgorithm-diff-xs-perl		install
 libalgorithm-merge-perl		install
