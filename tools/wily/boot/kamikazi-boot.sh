@@ -8,10 +8,22 @@ abortafter() { sleep 1; let TIME++; if [ ${TIME} -gt ${1} ]; then
 # Stick a singleton in the filesystem to notate we're inside of a boot process.
 touch /tmp/kamikazi-boot.stamp
 
-echo "Kamikazi-boot: Attempting to start network..."
-
 # Get into our main directory for it to be the CWD for the rest.
 cd /home/git/
+
+
+echo "Kamikazi-boot: Attempting to initialize IPMI Board Management Controllers..."
+
+# IPMI: Requirements: None
+# Deal with starting up the management controller.
+supervisorctl start kamikazi-ipmi
+
+# Check for the oneshot process to complete.
+while ! supervisorctl status kamikazi-ipmi | grep -q 'EXITED'; do abortafter 120; done
+# Wait for the while loop to break out signalling success.
+TIME=0; # Set the timeout to zero
+
+echo "Kamikazi-boot: IPMI initialized, attempting to start the network..."
 
 
 # NETWORK: Requirements: None, config restored by kamikazi-restore.
@@ -35,7 +47,19 @@ while ! supervisorctl status kamikazi-deploy | grep -q 'EXITED'; do abortafter 1
 # Wait for the while loop to break out signalling success.
 TIME=0; # Set the timeout to zero
 
-echo "Kamikazi-boot: Git update complete, attempting to mount disks..."
+echo "Kamikazi-boot: Git update complete, attempting to initialize disk arrays..."
+
+
+# DISKARRAY: Requirements: SAS HBA.
+# Deal with initializing our disk arrays.
+supervisorctl start kamikazi-diskarray
+
+# Check for the oneshot process to complete.
+while ! supervisorctl status kamikazi-diskarray | grep -q 'EXITED'; do abortafter 120; done
+# Wait for the while loop to break out signalling success.
+TIME=0; # Set the timeout to zero
+
+echo "Kamikazi-boot: Disk Array initialized, attempting to mount disks..."
 
 
 # DISKMOUNT: Requirements: BTRFS partitions on disk, with labels set.
