@@ -4,6 +4,7 @@ ipmitool		install
 dc3dd		install
 tmux		install
 jq		install
+vim		install
 biosdevname		install
 openipmi		install
 openssh-server		install

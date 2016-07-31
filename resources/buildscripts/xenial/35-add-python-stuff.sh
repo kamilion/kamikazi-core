@@ -4,6 +4,11 @@ echo "[kamikazi-build] Adding more python stuff..."
 
 OLDDIR=${PWD}
 
+echo "[kamikazi-build] Upgrading pip for python3..."
+pip3 install --upgrade pip
+echo "[kamikazi-build] Upgrading pip for python2..."
+pip2 install --upgrade pip
+
 echo "[kamikazi-build] Compiling xonsh for python3..."
 pip3 install xonsh
 echo "[kamikazi-build] Compiling dask and distributed for python3..."
