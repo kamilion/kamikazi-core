@@ -40,6 +40,7 @@ libparse-debianchangelog-perl		install
 libprotobuf9v5		install
 system-config-samba		install
 supervisor		install
+httpfs2		install
 x11-xserver-utils		install
 xserver-xephyr		install
 xserver-xorg-video-all		install

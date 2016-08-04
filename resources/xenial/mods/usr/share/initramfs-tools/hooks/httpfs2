@@ -1,0 +1,26 @@
+#!/bin/sh
+
+set -e
+
+PREREQ="fuse"
+
+prereqs () {
+	echo "${PREREQ}"
+}
+
+case "${1}" in
+	prereqs)
+		prereqs
+		exit 0
+		;;
+esac
+
+. /usr/share/initramfs-tools/hook-functions
+
+copy_exec /usr/bin/httpfs2 /bin
+
+ln -s /bin/httpfs2 "${DESTDIR}/sbin/mount.httpfs2"
+ln -s /bin/httpfs2 "${DESTDIR}/sbin/mount.httpfs"
+ln -s /bin/httpfs2 "${DESTDIR}/sbin/mount.http"
+
+exit 0
