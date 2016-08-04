@@ -85,6 +85,17 @@ python-wheel		install
 pyqt4-dev-tools		install
 qt4-dev-tools		install
 qt4-linguist-tools		install
+qmlscene		install
+qt5-make		install
+qt5-default		install
+qtdeclarative5-dev		install
+qtdeclarative5-controls-plugin		install
+qtdeclarative5-dialogs-plugin		install
+qtdeclarative5-localstorage-plugin		install
+qtdeclarative5-qtquick2-plugin		install
+qtdeclarative5-window-plugin		install
+libqt5qml-graphicaleffects		install
+qdbus-qt5		install
 run-one		install
 screen		install
 sdparm		install
