@@ -4,9 +4,16 @@ echo "kamikazi-diskarrays: Searching for disk array devices..."
 
 HBATYPE=""
 
-load_3w_9xxx() {
+load_3w_97xx() {
     HBATYPE="3ware"
-    echo "kamikazi-diskarrays: Loading 3Ware 9XXX driver."
+    echo "kamikazi-diskarrays: Loading 3Ware 97XX driver."
+    modprobe 3w-sas
+    return $?
+}
+
+load_3w_96xx() {
+    HBATYPE="3ware"
+    echo "kamikazi-diskarrays: Loading 3Ware 96XX driver."
     modprobe 3w_9xxx
     return $?
 }
@@ -34,8 +41,17 @@ load_lsisas1() {
 
 
 # Just try the drivers we blacklisted for now, in descending order.
-if [[ ! -z $(lspci -d 13c1:) ]]; then load_3w_9xxx(); fi
 
+# 3Ware/Areca
+# Try 3Ware 97XX series first.
+if [[ ! -z $(lspci -d 13c1:1010) ]]; then load_3w_97xx(); fi
+if [[ ! -z $(lspci -d 13c1:) ]]; then load_3w_97xx(); fi
+
+# Try 3Ware 96XX series second.
+if [[ ! -z $(lspci -d 13c1:1004) ]]; then load_3w_96xx(); fi
+if [[ ! -z $(lspci -d 13c1:) ]]; then load_3w_96xx(); fi
+
+# LSI/Avago
 # Try LSI SAS3xxx first. (SAS3008/3118) -- Will also deal with 2XXX devices.
 if [[ ! -z $(lspci -d 1000:0097) ]]; then load_lsisas3(); fi  # LSI SAS 3008
 if [[ ! -z $(lspci -d 1000:0080) ]]; then load_lsisas3(); fi  # LSI SAS 2208

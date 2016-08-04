@@ -37,6 +37,10 @@ echo "blacklist mpt3sas" >> /etc/modprobe.d/initramfs.conf
 # Disable loading 3w_9xxx automatically on boot.
 echo "blacklist 3w_9xxx" >> /etc/modprobe.d/initramfs.conf
 # -- Kamilion
+# Disable loading 3w-sas automatically on boot.
+echo "blacklist 3w-sas" >> /etc/modprobe.d/initramfs.conf
+# -- Kamilion
+
 
 # sanity check
 [ -z "${blacklist}" ] && exit 0
