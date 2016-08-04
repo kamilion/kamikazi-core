@@ -1,0 +1,51 @@
+#!/bin/sh
+
+PREREQ=""
+
+prereqs()
+{
+       echo "$PREREQ"
+}
+
+case $1 in
+# get pre-requisites
+    prereqs)
+           prereqs
+           exit 0
+           ;;
+esac
+
+. /scripts/casper-functions
+. /scripts/lupin-helpers
+
+squash_path=
+for x in $(cat /proc/cmdline); do
+    case ${x} in
+        http-mount/url=*)
+            squash_path=${x#http-mount/url=}
+            ;;
+    esac
+done
+if [ "$squash_path" ]; then
+    # Attempt to mount the HTTPFS
+    echo "Trying to mount HTTPFS at http://${squash_path}"
+    mount -t http http://${squash_path} /isodevice/
+    # Trigger the scan like iso-scan would have.
+    if find_path "${squash_path}" /isodevice; then
+        echo "LIVEMEDIA=${FOUNDPATH}" >> /conf/param.conf
+        if [ -f "${FOUNDPATH}" ]; then
+            echo "LIVEMEDIA_OFFSET=0" >> /conf/param.conf
+        fi
+    else
+        panic "
+Could not find the SquashFS $squash_path
+This could also happen if the http server is not reachable or a network error
+has occured. Check the IP configuration you are passing on the kernel command
+line. This could also happen if you did not pass the exact path to the file
+named filesystem.squashfs. Using the http:// prefix is also not needed.
+Just use http-mount/url=user@hostname/path/to/filesystem.squashfs
+You may leave off user@ if authentication is not required.
+NGINX must be configured with max_ranges set to higher than the default of 0.
+"
+    fi
+fi

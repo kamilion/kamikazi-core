@@ -1,0 +1,55 @@
+#!/bin/sh
+
+PREREQ=""
+
+prereqs()
+{
+       echo "$PREREQ"
+}
+
+case $1 in
+# get pre-requisites
+    prereqs)
+           prereqs
+           exit 0
+           ;;
+esac
+
+. /scripts/casper-functions
+. /scripts/lupin-helpers
+
+squash_path=
+for x in $(cat /proc/cmdline); do
+    case ${x} in
+        http-scan/url=*)
+            squash_path=${x#http-scan/url=}
+            ;;
+    esac
+done
+if [ "$squash_path" ]; then
+    # Attempt to set up the hackjob.
+    echo "Trying to wget /casper/ from ${squash_path}"
+    BEFOREWGET=${PWD}
+    mkdir -p /cdrom/casper/
+    cd /cdrom/casper/
+    wget -r ${squash_path}
+    cd ${BEFOREWGET}
+    # Trigger the scan like iso-scan would have.
+    if find_path "/cdrom" /isodevice; then
+        echo "LIVEMEDIA=${FOUNDPATH}" >> /conf/param.conf
+        if [ -f "${FOUNDPATH}" ]; then
+            echo "LIVEMEDIA_OFFSET=0" >> /conf/param.conf
+        fi
+    else
+        panic "
+Could not find the SquashFS $squash_path
+This could also happen if the http server is not reachable or a network error
+has occured. Check the IP configuration you are passing on the kernel command
+line. This could also happen if you did not pass the exact path to the file
+named filesystem.squashfs. Using the http:// prefix is also not needed.
+Just use http-scan/url=user@hostname/path/to/filesystem.squashfs
+You may leave off user@ if authentication is not required.
+NGINX must be configured with max_ranges set to higher than the default of 0.
+"
+    fi
+fi
