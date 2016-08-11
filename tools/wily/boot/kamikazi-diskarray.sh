@@ -4,6 +4,13 @@ echo "kamikazi-diskarrays: Searching for disk array devices..."
 
 HBATYPE=""
 
+load_aacraid() {
+    HBATYPE="adaptec"
+    echo "kamikazi-diskarrays: Loading Adaptec AACRAID driver."
+    modprobe aacraid
+    return $?
+}
+
 load_3w_97xx() {
     HBATYPE="3ware"
     echo "kamikazi-diskarrays: Loading 3Ware 97XX driver."
@@ -41,6 +48,10 @@ load_lsisas1() {
 
 
 # Just try the drivers we blacklisted for now, in descending order.
+
+# Adaptec
+# Try Adaptec AACRAID series first.
+if [[ ! -z $(lspci -d 9005:) ]]; then load_aacraid; fi
 
 # 3Ware/Areca
 # Try 3Ware 97XX series first.
