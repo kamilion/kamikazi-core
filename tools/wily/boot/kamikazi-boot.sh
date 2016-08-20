@@ -47,7 +47,20 @@ while ! supervisorctl status kamikazi-deploy | grep -q 'EXITED'; do abortafter 1
 # Wait for the while loop to break out signalling success.
 TIME=0; # Set the timeout to zero
 
-echo "Kamikazi-boot: Git update complete, attempting to initialize disk arrays..."
+echo "Kamikazi-boot: Git update complete, attempting early mounts..."
+
+
+# DISKMOUNT: Requirements: BTRFS partitions on disk, with labels set.
+# NOTE: This is where you should declare a mount for /var/lib/ceph to use ceph.
+# Deal with mounting our disks.
+supervisorctl start kamikazi-diskmount
+
+# Check for the oneshot process to complete.
+while ! supervisorctl status kamikazi-diskmount | grep -q 'EXITED'; do abortafter 120; done
+# Wait for the while loop to break out signalling success.
+TIME=0; # Set the timeout to zero
+
+echo "Kamikazi-boot: Early mount complete, attempting to initialize disk arrays..."
 
 
 # DISKARRAY: Requirements: SAS HBA.
@@ -62,21 +75,22 @@ TIME=0; # Set the timeout to zero
 echo "Kamikazi-boot: Disk Array initialized, attempting to mount disks..."
 
 
-# DISKMOUNT: Requirements: BTRFS partitions on disk, with labels set.
+# DISKMOUNT: Requirements: BTRFS partitions on disk arrays, with labels set.
 # Deal with mounting our disks.
-supervisorctl start kamikazi-diskmount
+supervisorctl start kamikazi-diskarray-mount
 
 # Check for the oneshot process to complete.
-while ! supervisorctl status kamikazi-diskmount | grep -q 'EXITED'; do abortafter 120; done
+while ! supervisorctl status kamikazi-diskarray-mount | grep -q 'EXITED'; do abortafter 120; done
 # Wait for the while loop to break out signalling success.
 TIME=0; # Set the timeout to zero
 
 
 # CEPH: Requirements: network & mounted disks
+# NOTE: Ceph does not label it's btrfs volumes, instead udev will mount them.
 # Check if ceph has configuration around, and fire it up if we find any.
 if [ -f /isodevice/boot/config/ceph/ceph.conf ]; then # ceph configuration exists.
     echo "Kamikazi-boot: Found ceph config, attempting to start ceph-all..."
-    /usr/sbin/service ceph-all start;  # So we should start ceph.
+    /usr/sbin/service ceph start;  # So we should start ceph.
 fi
 
 echo "Kamikazi-boot: Disks mounted, attempting to start boot-late..."
