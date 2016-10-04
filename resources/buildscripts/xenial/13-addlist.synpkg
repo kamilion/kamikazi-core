@@ -5,6 +5,7 @@ dc3dd		install
 tmux		install
 jq		install
 vim		install
+duc   install
 biosdevname		install
 openipmi		install
 openssh-server		install
