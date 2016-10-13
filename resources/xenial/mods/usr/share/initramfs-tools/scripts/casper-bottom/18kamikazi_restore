@@ -167,8 +167,14 @@ _log_msg "Kamikazi-restore: Searching for ceph configurations to restore...\n"
 # Copy over any ceph configuration.
 # The interfaces files should be available at approximately the same time we're copying this.
 if [ -d /root/isodevice/boot/config ]; then # the general configuration folder exists.
+    if [ -e /root/isodevice/boot/config/noceph ]; then # we don't want to start it at boot.
+        touch /root/etc/kamikazi-core/noceph
+        # Make sure the proper permissions are applied.
+        chmod 0644 /root/etc/kamikazi-core/noceph
+        _log_msg "Kamikazi-restore: Disabled kamikazi-ceph, you must manually start ceph.\n"
+    fi
     if [ -d /root/isodevice/boot/config/ceph ]; then # we previously saved cephconfigs.
-	# Overwrite the existing default configuration.
+        # Overwrite the existing default configuration.
         cp -f /root/isodevice/boot/config/ceph/* /root/etc/ceph/
         # Make sure the proper permissions are applied.
         chmod 0644 /root/etc/ceph/*

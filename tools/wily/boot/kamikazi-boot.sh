@@ -87,10 +87,16 @@ TIME=0; # Set the timeout to zero
 
 # CEPH: Requirements: network & mounted disks
 # NOTE: Ceph does not label it's btrfs volumes, instead udev will mount them.
+# TODO: kamikazi-ceph should replace this.
 # Check if ceph has configuration around, and fire it up if we find any.
 if [ -f /isodevice/boot/config/ceph/ceph.conf ]; then # ceph configuration exists.
-    echo "Kamikazi-boot: Found ceph config, attempting to start ceph-all..."
-    /usr/sbin/service ceph start;  # So we should start ceph.
+    if [ -e /etc/kamikazi-core/noceph ]; then # we don't want to start it at boot.
+      echo "Kamikazi-boot: Found a ceph config, but not attempting to start ceph..."
+      sleep 15; # This will shut supervisord up about exiting too quickly.
+    else
+      echo "Kamikazi-boot: Found ceph config, attempting to start ceph-all..."
+      /usr/sbin/service ceph start;  # So we should start ceph.
+    fi
 fi
 
 echo "Kamikazi-boot: Disks mounted, attempting to start boot-late..."
