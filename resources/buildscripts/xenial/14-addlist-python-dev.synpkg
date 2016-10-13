@@ -32,13 +32,16 @@ libcwidget3v5		install
 libdpkg-perl		install
 libexpat1-dev		install
 libfakeroot		install
+libffi-dev		install
 libfile-fcntllock-perl		install
 libgomp1		install
 libio-string-perl		install
 libitm1		install
+libjpeg-dev		install
 liblsan0		install
 libopenipmi0		install
 libparse-debianchangelog-perl		install
+libpng-dev		install
 libpython2.7-dev		install
 libpython3.5-dev		install
 libpython-dev		install
@@ -57,9 +60,11 @@ manpages-dev		install
 python2.7-dev		install
 python3.5-dev		install
 python3-colorama		install
+python3-dbus		install
 python3-distlib		install
 python3-html5lib		install
 python3-newt		install
+python3-lxml		install
 python3-pip		install
 python3-pyqt4		install
 python3-pyqt5		install
@@ -69,9 +74,11 @@ python3-urllib3		install
 python3-virtualenv		install
 python3-wheel		install
 python-colorama		install
+python-dbus		install
 python-dev		install
 python-distlib		install
 python-html5lib		install
+python-lxml		install
 python-pip		install
 python-pip-whl		install
 python-pycurl		install
@@ -103,4 +110,5 @@ supervisor		install
 timelimit		install
 tmux		install
 virtualenv		install
+uuid-dev		install
 wajig		install
