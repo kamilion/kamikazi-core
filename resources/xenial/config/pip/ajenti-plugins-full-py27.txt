@@ -1,0 +1,14 @@
+ajenti.plugin.dashboard>=0.34
+ajenti.plugin.filemanager>=0.21
+ajenti.plugin.notepad>=0.23
+ajenti.plugin.packages>=0.26
+ajenti.plugin.plugins>=0.39
+ajenti.plugin.services>=0.25
+ajenti.plugin.settings>=0.21
+ajenti.plugin.terminal>=0.32
+ajenti.plugin.augeas>=0.13
+ajenti.plugin.traffic>=0.11
+ajenti.plugin.datetime>=0.31
+ajenti.plugin.power>=0.17
+#ajenti.plugin.supervisor>=0.14
+

@@ -76,6 +76,7 @@ dkms		install
 zenmap		install
 sysdig		install
 nwipe		install
+ntpdate		install
 gedit		install
 gedit-plugins		install
 gedit-developer-plugins		install

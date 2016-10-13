@@ -15,6 +15,8 @@ echo "[kamikazi-build] Compiling dask and distributed for python3..."
 pip3 install distributed
 echo "[kamikazi-build] Compiling dask and distributed for python2..."
 pip2 install distributed
+echo "[kamikazi-build] Compiling ajenti-requirements for python2..."
+pip2 install gevent-socketio python-daemon-3k gipc 'jadi>=1.0.3' 'pyte==0.4.9'
 echo "[kamikazi-build] Compiling scrypt for python2..."
 pip2 install scrypt
 echo "[kamikazi-build] Compiling scrypt for python3..."
