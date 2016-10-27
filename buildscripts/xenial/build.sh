@@ -1,9 +1,13 @@
 #!/bin/bash
 cp customizer-rebuild.conf /etc/customizer.conf
+echo "KAMIKAZI-REBUILD: Cleaning up previous run..."
+customizer -t
+echo "KAMIKAZI-REBUILD: Extracting ISO..."
+customizer -e
 echo "KAMIKAZI-REBUILD: Triggering custom hook..."
 customizer -k
 echo "KAMIKAZI-REBUILD: Fixing xen on ISO..."
-cp -f /home/ubuntu/git/kamikazi-core/resources/buildscripts/xenial/isomods/* /home/kamikazi-16.04/ISO/isolinux/
+cp -f /home/ubuntu/git/kamikazi-core/buildscripts/xenial/isomods/* /home/kamikazi-16.04/ISO/isolinux/
 echo "KAMIKAZI-REBUILD: Removing WUBI from ISO..."
 rm -f /home/kamikazi-16.04/ISO/wubi.exe
 rm -f /home/kamikazi-16.04/ISO/autorun.inf

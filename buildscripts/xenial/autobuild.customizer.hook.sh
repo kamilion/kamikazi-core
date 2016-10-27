@@ -13,13 +13,13 @@ git config --global push.default simple
 mkdir -p /home/git
 cd /home/git
 echo "KAMIKAZI: Checking out kamikazi-core repository..."
-git clone https://kamilion@github.com/kamilion/kamikazi-core.git
+git clone https://kamilion@github.com/kamilion/kamikazi-core.git --depth=1
 sleep 5
 echo "KAMIKAZI: Checking out disker-gui repository..."
-git clone https://kamilion@github.com/kamilion/disker-gui.git
+git clone https://kamilion@github.com/kamilion/disker-gui.git --depth=1
 sleep 5
 echo "KAMIKAZI: Attempting to rebuild ISO contents..."
-cd /home/git/kamikazi-core/resources/buildscripts/xenial/
+cd /home/git/kamikazi-core/buildscripts/xenial/
 git pull
 echo "KAMIKAZI: Updating packages to current..."
 # Work around annoying recommends
