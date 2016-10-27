@@ -1,9 +1,0 @@
-[Desktop Entry]
-Encoding=UTF-8
-Type=Application
-Name=DiskAction
-Name[en_US]=DiskAction
-Icon=konsole
-TryExec=gnome-terminal
-Exec=gnome-terminal -e /home/git/disker-gui/disker-terminal.sh
-

@@ -1,8 +1,0 @@
-#!/bin/bash
-bpctl_start
-bpctl_util all set_bypass_pwoff off
-bpctl_util all set_bypass_pwup off
-bpctl_util all set_std_nic on
-sleep 3
-bpctl_util all set_bypass off
-

@@ -1,7 +1,0 @@
-[Desktop Entry]
-Name=Root LXTerminal
-Comment=Use the command line as the superuser
-TryExec=lxterminal
-Exec=sudo lxterminal
-Icon=utilities-terminal
-Type=Application

@@ -1,8 +1,0 @@
-[Desktop Entry]
-Encoding=UTF-8
-Type=Application
-Name=Kaizen
-Name[en_US]=Kaizen
-Icon=gnome-web-browser
-Exec=/usr/bin/sensible-browser 10.0.5.253:5000
-Comment[en_US]=Connect to Kaizen

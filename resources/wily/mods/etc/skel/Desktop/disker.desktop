@@ -1,8 +1,0 @@
-[Desktop Entry]
-Encoding=UTF-8
-Type=Application
-Name=Disker
-Name[en_US]=Disker
-Icon=gnome-fs-blockdev
-Exec=/home/git/disker-gui/disker.py
-Comment[en_US]=Disker Management Console
