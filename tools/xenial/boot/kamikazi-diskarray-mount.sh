@@ -34,7 +34,7 @@ done
 # If we found any btrfs devices, check their label for uniqueness
 # and then add them to the fstab referenced by their label as best as possible.
 
-touch /tmp/kamikazi-fstab   # Make sure the file exists, silences errors.
+cp ${FSTAB} /tmp/kamikazi-fstab   # Make sure the file exists, silences errors.
 for device in ${devices}; do
     echo "kamikazi-diskarray-mount: Looking at btrfs volume on ${device}"
     label=$(/bin/dd if="${device}" bs=1 skip=65835 count=256 2>/dev/null | tr -d '\000')

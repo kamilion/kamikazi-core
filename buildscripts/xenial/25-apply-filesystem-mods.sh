@@ -11,6 +11,8 @@ ln -sf multi-user.target default.target
 # Disable NetworkMangler and ModemMangler...
 systemctl disable NetworkManager ModemManager
 # Gee, it sure is nice to have the verb first.
+systemctl disable ceph
+# We don't have upstart's override files anymore, so we have to disable ceph.
 
 sleep 2
 echo "[kamikazi-build] Modifying nginx defaults..."
