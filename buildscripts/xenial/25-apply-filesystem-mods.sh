@@ -10,9 +10,13 @@ cd /lib/systemd/system
 ln -sf multi-user.target default.target
 # Disable NetworkMangler and ModemMangler...
 systemctl disable NetworkManager ModemManager
-# Gee, it sure is nice to have the verb first.
-systemctl disable ceph
 # We don't have upstart's override files anymore, so we have to disable ceph.
+systemctl disable ceph ceph-mon ceph-mds ceph-osd@.service
+# Disable snapd from starting up automatically.
+systemctl disable snapd.service snapd.firstboot.service snapd.boot-ok.service
+# Disable lxc from starting up automatically.
+systemctl disable lxc-net.service lxc.service
+
 
 sleep 2
 echo "[kamikazi-build] Modifying nginx defaults..."

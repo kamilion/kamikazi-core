@@ -95,7 +95,7 @@ if [ -f /isodevice/boot/config/ceph/ceph.conf ]; then # ceph configuration exist
       sleep 15; # This will shut supervisord up about exiting too quickly.
     else
       echo "Kamikazi-boot: Found ceph config, attempting to start ceph-all..."
-      /usr/sbin/service ceph start;  # So we should start ceph.
+      /bin/systemctl start ceph;  # So we should start ceph.
     fi
 fi
 

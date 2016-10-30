@@ -54,6 +54,9 @@ echo "kamikazi-diskmount: Sorting added btrfs volumes in fstab for uniqueness."
 cat /tmp/kamikazi-fstab | sort | uniq >> ${FSTAB}
 rm /tmp/kamikazi-fstab
 
+echo "kamikazi-diskmount: Sorting fstab for uniqueness."
+sort -o /etc/fstab -u /etc/fstab
+
 # Mount everything we need to with early-fstab and late-fstab already in place.
 echo "kamikazi-diskmount: fstab complete, making sure everything is mounted..."
 mount -av
