@@ -56,6 +56,7 @@ libssl-dev		install
 libsub-name-perl		install
 libtomcrypt0		install
 libtommath0		install
+libtool-bin		install
 libtsan0		install
 libubsan0		install
 linux-libc-dev		install
