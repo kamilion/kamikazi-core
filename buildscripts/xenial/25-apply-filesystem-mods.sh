@@ -11,7 +11,7 @@ ln -sf multi-user.target default.target
 # Disable NetworkMangler and ModemMangler...
 systemctl disable NetworkManager ModemManager
 # We don't have upstart's override files anymore, so we have to disable ceph.
-systemctl disable ceph ceph-mon ceph-mds ceph-osd@.service
+systemctl disable ceph ceph-mon ceph-mds ceph-osd@.service ceph-disk@.service
 # Disable snapd from starting up automatically.
 systemctl disable snapd.service snapd.firstboot.service snapd.boot-ok.service
 # Disable lxc from starting up automatically.
