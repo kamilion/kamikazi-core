@@ -14,6 +14,7 @@ fakeroot		install
 gawk		install
 gcc		install
 g++		install
+gperf		install
 htop		install
 iftop		install
 iotop		install
