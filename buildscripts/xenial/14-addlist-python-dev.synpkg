@@ -141,6 +141,7 @@ python-urllib3		install
 python-virtualenv		install
 python-wheel		install
 python-yaml		install
+pyqt5-dev-tools		install
 pyqt4-dev-tools		install
 qt4-dev-tools		install
 qt4-linguist-tools		install
