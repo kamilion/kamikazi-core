@@ -130,6 +130,7 @@ python-pyasn1		install
 python-pycparser		install
 python-pycurl		install
 python-pyte		install
+python-pyqt5		install
 python-qt4		install
 python-requests		install
 python-setuptools		install
