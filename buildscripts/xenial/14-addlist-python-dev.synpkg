@@ -155,6 +155,7 @@ qtdeclarative5-dialogs-plugin		install
 qtdeclarative5-localstorage-plugin		install
 qtdeclarative5-qtquick2-plugin		install
 qtdeclarative5-window-plugin		install
+qttools5-dev-tools		install
 libqt5qml-graphicaleffects		install
 qdbus-qt5		install
 run-one		install
