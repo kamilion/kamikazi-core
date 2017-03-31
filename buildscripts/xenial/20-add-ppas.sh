@@ -16,4 +16,9 @@ add-apt-repository -y -u ppa:kamilion/whdd
 packages="whdd"
 apt-get install -y ${packages}
 
+echo "[kamikazi-build] Injecting wireguard repository"
+add-apt-repository -y -u ppa:wireguard/wireguard
+packages="wireguard-dkms wireguard-tools"
+apt-get install -y ${packages}
+
 echo "[kamikazi-build] PPA injection complete."
