@@ -22,6 +22,16 @@ echo "[kamikazi-build] Removing media packages."
 packages=$(awk '{print $1} ' 05-purgelist.synpkg)
 apt-get purge -y ${packages}
 sleep 2
+echo "[kamikazi-build] Adding base console packages."
+packages=$(awk '{print $1} ' 11-addlist-console.synpkg)
+echo ${packages}
+apt-get install -y ${packages}
+sleep 2
+echo "[kamikazi-build] Adding base xwin packages."
+packages=$(awk '{print $1} ' 12-addlist-xwin.synpkg)
+echo ${packages}
+apt-get install -y ${packages}
+sleep 2
 echo "[kamikazi-build] Adding base server packages."
 packages=$(awk '{print $1} ' 13-addlist.synpkg)
 echo ${packages}
