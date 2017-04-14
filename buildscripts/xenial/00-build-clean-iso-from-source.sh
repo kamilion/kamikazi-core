@@ -28,7 +28,7 @@ echo ${packages}
 apt-get install -y ${packages}
 sleep 2
 echo "[kamikazi-build] Adding base xwin packages."
-packages=$(awk '{print $1} ' 12-addlist-xwin.synpkg)
+packages=$(awk '{print $1} ' 12-addlist-xwin-hwe-16.04.synpkg)
 echo ${packages}
 apt-get install -y ${packages}
 sleep 2
