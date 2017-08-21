@@ -32,7 +32,7 @@ if [ "$squash_path" ]; then
     BEFOREWGET=${PWD}
     mkdir -p /cdrom/casper/
     cd /cdrom/casper/
-    wget -r ${squash_path}
+    /sbin/wget -r ${squash_path}
     cd ${BEFOREWGET}
     # Trigger the scan like iso-scan would have.
     if find_path "/cdrom" /isodevice; then
