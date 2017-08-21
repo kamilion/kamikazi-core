@@ -45,7 +45,7 @@ copy_exec /sbin/swapon /sbin
 # cifs boot
 if [ -x /sbin/mount.cifs ]; then
     copy_exec /sbin/mount.cifs /sbin
-    for x in cifs md4 des_generic; do
+    for x in cifs md4 arc4 des_generic; do
         manual_add_modules ${x}
     done
 fi
