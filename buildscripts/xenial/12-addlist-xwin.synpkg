@@ -1,5 +1,12 @@
 x11-xserver-utils		install
+xwayland		install
 xserver-xephyr		install
+xserver-xorg-legacy		install
+xserver-xorg-input-all		install
+xserver-xorg-input-evdev	install
+xserver-xorg-input-synaptic		install
+xserver-xorg-input-wacom		install
+xserver-xorg-input-libinput		install
 xserver-xorg-video-all		install
 xserver-xorg-video-amdgpu		install
 xserver-xorg-video-ast		install
@@ -22,3 +29,5 @@ xserver-xorg-video-sisusb		install
 xserver-xorg-video-trident		install
 xserver-xorg-video-vesa		install
 xserver-xorg-video-vmware		install
+weston		install
+qtwayland5		install
