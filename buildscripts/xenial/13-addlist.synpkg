@@ -46,4 +46,3 @@ sg3-utils		install
 sg3-utils-udev		install
 lsscsi		install
 open-vm-tools-desktop		install
-open-vm-tools		install

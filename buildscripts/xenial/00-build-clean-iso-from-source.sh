@@ -27,8 +27,8 @@ packages=$(awk '{print $1} ' 11-addlist-console.synpkg)
 echo ${packages}
 apt-get install -y ${packages}
 sleep 2
-echo "[kamikazi-build] Adding base xwin packages."
-packages=$(awk '{print $1} ' 12-addlist-xwin-hwe-16.04.synpkg)
+echo "[kamikazi-build] Adding open-vm-tools packages."
+packages=$(awk '{print $1} ' 12-addlist-openvmtools.synpkg)
 echo ${packages}
 apt-get install -y ${packages}
 sleep 2
@@ -60,8 +60,8 @@ packages=$(awk '{print $1} ' 17-addlist-nginx-server.synpkg)
 echo ${packages}
 apt-get install -y ${packages}
 sleep 2
-echo "[kamikazi-build] Adding open-vm-tools packages."
-packages=$(awk '{print $1} ' 18-addlist-openvmtools.synpkg)
+echo "[kamikazi-build] Adding base xwin packages."
+packages=$(awk '{print $1} ' 18-addlist-xwin-hwe-16.04.synpkg)
 echo ${packages}
 apt-get install -y ${packages}
 sleep 2
