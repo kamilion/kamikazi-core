@@ -27,14 +27,10 @@ libsnmp30		install
 libparse-debianchangelog-perl		install
 libprotobuf9v5		install
 system-config-samba		install
-supervisor		install
 httpfs2		install
-build-essential		install
-fakeroot		install
-make		install
 squashfs-tools		install
 xorriso		install
-dkms		install
+isolinux		install
 zenmap		install
 ntpdate		install
 gedit		install

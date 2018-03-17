@@ -25,6 +25,25 @@ sleep 2
 packages=$(awk '{print $1} ' 01-add-replacement-browser.synpkg)
 apt-get install -y ${packages}
 sleep 2
+echo "[kamikazi-build] Adding base console packages."
+packages=$(awk '{print $1} ' 11-addlist-console.synpkg)
+echo ${packages}
+apt-get install -y ${packages}
+sleep 2
+echo "[kamikazi-build] Adding open-vm-tools packages."
+packages=$(awk '{print $1} ' 12-addlist-openvmtools.synpkg)
+echo ${packages}
+apt-get install -y ${packages}
+sleep 2
+echo "[kamikazi-build] Adding base server packages."
+packages=$(awk '{print $1} ' 13-addlist.synpkg)
+echo ${packages}
+apt-get install -y ${packages}
+sleep 2
+# Remove chronyd's pidfile.
+rm -f /run/chronyd.pid
+apt-get purge -y ntp
+sleep 2
 # Customizer will detect there is no kernel and install linux-image-generic.
 echo "[kamikazi-build] Removing kernel packages."
 apt-get purge -y linux-image*

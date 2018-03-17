@@ -9,6 +9,7 @@ byobu		install
 chrony		install
 dc3dd		install
 dpkg-dev		install
+dkms		install
 ethtool		install
 fakeroot		install
 gawk		install
