@@ -1,8 +1,12 @@
 htop		install
 gawk		install
+biosdevname		install
 ipmitool		install
+openipmi		install
 dc3dd		install
 tmux		install
+byobu		install
+screen		install
 jq		install
 vim		install
 duc		install
@@ -20,4 +24,16 @@ nwipe		install
 rdiff-backup		install
 p7zip-full		install
 p7zip-rar		install
-
+run-one		install
+timelimit		install
+chrony		install
+ntpdate		install
+httpfs2		install
+squashfs-tools		install
+xorriso		install
+isolinux		install
+sg3-utils		install
+sg3-utils-udev		install
+lsscsi		install
+lcdproc		install
+python3-newt		install
