@@ -19,7 +19,6 @@ timelimit		install
 ethtool		install
 iftop		install
 inxi		install
-sysdig		install
 nwipe		install
 rdiff-backup		install
 p7zip-full		install

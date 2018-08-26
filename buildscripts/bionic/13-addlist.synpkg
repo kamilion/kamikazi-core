@@ -1,4 +1,5 @@
 openssh-server		install
+sysdig		install
 libsensors4		install
 dpkg-dev		install
 debhelper		install
