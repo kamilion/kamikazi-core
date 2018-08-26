@@ -10,8 +10,8 @@ indicator-application-gtk2		purge
 language-selector-gnome		purge
 libaacs0		purge
 libass9		purge
-libavcodec-ffmpeg57		purge
-libavformat-ffmpeg57		purge
+libavcodec57		purge
+libavformat57		purge
 libavresample3		purge
 libavutil55		purge
 libbluray1		purge
@@ -31,7 +31,7 @@ libguvcview-2.0-2		purge
 libmhash2		purge
 libmms0		purge
 libmodplug1		purge
-libmusicbrainz3-6v5		purge
+libmusicbrainz5-2		purge
 libnatpmp1		purge
 libneon27-gnutls		purge
 libopencore-amrnb0		purge
