@@ -10,9 +10,8 @@ aptitude-doc-en		install
 byobu		install
 libclass-accessor-perl		install
 screen		install
-libboost-iostreams1.58.0		install
 libsnmp-base		install
-libtomcrypt0		install
+libtomcrypt1		install
 run-one		install
 libopenipmi0		install
 libsub-name-perl		install
@@ -20,12 +19,13 @@ aptitude-common		install
 libsigsegv2		install
 dpkg-dev		install
 debhelper		install
-libtommath0		install
+libtommath1		install
 timelimit		install
 chrony		install
 libsnmp30		install
 libparse-debianchangelog-perl		install
-libprotobuf9v5		install
+protobuf-compiler		install
+protobuf-c-compiler		install
 system-config-samba		install
 httpfs2		install
 squashfs-tools		install

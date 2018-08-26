@@ -46,7 +46,10 @@ libsidplayfp4		purge
 libswresample2		purge
 libswscale4		purge
 libuniconf4.6		purge
-libva1		purge
+libva-drm2		purge
+libva-wayland2		purge
+libva-x11-2		purge
+libva2		purge
 libvo-aacenc0		purge
 libvo-amrwbenc0		purge
 libwebcam0		purge
