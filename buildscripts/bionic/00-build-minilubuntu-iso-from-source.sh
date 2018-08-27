@@ -49,7 +49,7 @@ apt-get purge -y ntp
 sleep 2
 # Customizer will detect there is no kernel and install linux-image-generic.
 echo "[kamikazi-build] Removing kernel packages."
-apt-get purge -y linux-image*
+apt-get purge -y linux-image* linux-headers* linux-modules*
 sleep 2
 
 echo "[kamikazi-build] Cleaning up..."
