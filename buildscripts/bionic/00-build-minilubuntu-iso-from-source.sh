@@ -1,10 +1,13 @@
 #!/bin/bash
 OLDDIR=${PWD}
 
-echo "[kamikazi-build] Building Clean minilubuntu ISO from lubuntu-16.04-amd64.iso"
+echo "[kamikazi-build] Building Clean minilubuntu ISO from lubuntu-18.04-amd64.iso"
+apt-get install -y gdebi-core
 echo "[kamikazi-build] Replacing firefox with qupzilla."
 packages=$(awk '{print $1} ' 01-add-replacement-browser.synpkg)
 apt-get install -y ${packages}
+sleep 2
+./01-add-replacement-browser.sh
 sleep 2
 echo "[kamikazi-build] Removing application packages."
 packages=$(awk '{print $1} ' 02-purgelist.synpkg)

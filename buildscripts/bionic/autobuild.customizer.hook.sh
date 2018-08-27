@@ -22,7 +22,7 @@ echo "KAMIKAZI: Attempting to rebuild ISO contents..."
 cd /home/git/kamikazi-core/buildscripts/bionic/
 git pull
 echo "KAMIKAZI: Updating packages to current..."
-# Work around annoying recommends
+# Work around annoying recommends (fonts-droid-fallback)
 apt-get install -y --no-install-recommends libgs9-common 
 # Do the upgrade
 apt full-upgrade -y
