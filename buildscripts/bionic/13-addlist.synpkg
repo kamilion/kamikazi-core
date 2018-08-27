@@ -1,4 +1,5 @@
 openssh-server		install
+vim		install
 sysdig		install
 libsensors4		install
 dpkg-dev		install

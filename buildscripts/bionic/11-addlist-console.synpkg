@@ -8,7 +8,6 @@ tmux		install
 byobu		install
 screen		install
 jq		install
-vim		install
 duc		install
 mosh		install
 wajig		install
