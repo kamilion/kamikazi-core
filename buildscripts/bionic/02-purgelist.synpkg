@@ -7,6 +7,7 @@ audacious-plugins-data		purge
 audacious-plugins		purge
 audacious		purge
 firefox		purge
+firefox-locale-*		purge
 gnumeric-common		purge
 gnumeric-doc		purge
 gnumeric		purge
