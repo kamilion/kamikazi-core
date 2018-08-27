@@ -38,11 +38,11 @@ packages=$(awk '{print $1} ' 12-addlist-openvmtools.synpkg)
 echo ${packages}
 apt-get install -y ${packages}
 sleep 2
-echo "[kamikazi-build] Adding base server packages."
-packages=$(awk '{print $1} ' 13-addlist.synpkg)
-echo ${packages}
-apt-get install -y ${packages}
-sleep 2
+#echo "[kamikazi-build] Adding base server packages."
+#packages=$(awk '{print $1} ' 13-addlist.synpkg)
+#echo ${packages}
+#apt-get install -y ${packages}
+#sleep 2
 # Remove chronyd's pidfile.
 rm -f /run/chronyd.pid
 apt-get purge -y ntp
