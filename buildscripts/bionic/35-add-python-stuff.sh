@@ -10,13 +10,13 @@ echo "[kamikazi-build] Upgrading pip for python2..."
 /usr/bin/pip2 install --upgrade pip
 
 echo "[kamikazi-build] Compiling xonsh for python3..."
-/usr/bin/pip3 install xonsh
+/usr/local/bin/pip3 install xonsh
 echo "[kamikazi-build] Compiling dask and distributed for python3..."
-/usr/bin/pip3 install distributed
+/usr/local/bin/pip3 install distributed
 echo "[kamikazi-build] Compiling dask and distributed for python2..."
 /usr/local/bin/pip2 install distributed
 echo "[kamikazi-build] Compiling luigi for python3..."
-/usr/bin/pip3 install 'python-daemon<3.0' luigi
+/usr/local/bin/pip3 install 'python-daemon<3.0' luigi
 echo "[kamikazi-build] Compiling ajenti-requirements for python2..."
 /usr/local/bin/pip2 install gevent-socketio python-daemon-3k gipc 
 /usr/local/bin/pip2 install 'pyte==0.4.9'
@@ -24,9 +24,9 @@ echo "[kamikazi-build] Compiling ajenti-requirements for python2..."
 echo "[kamikazi-build] Compiling scrypt for python2..."
 /usr/local/bin/pip2 install scrypt
 echo "[kamikazi-build] Compiling scrypt for python3..."
-/usr/bin/pip3 install scrypt
+/usr/local/bin/pip3 install scrypt
 echo "[kamikazi-build] Compiling uwsgi for python3..."
-/usr/bin/pip3 install uwsgi
+/usr/local/bin/pip3 install uwsgi
 echo "[kamikazi-build] Removing uwsgi sysvinit script for python3..."
 rm -f /etc/init.d/uwsgi
 echo "[kamikazi-build] Enabling uwsgi emperor for python3..."
