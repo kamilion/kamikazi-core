@@ -42,7 +42,9 @@ apt-get install -y ${packages}
 sleep 2
 # Remove chronyd's pidfile.
 rm -f /run/chronyd.pid
-apt-get purge -y ntp
+# Make sure ifupdown's around and netplan for bionic's gone
+apt-get install -y ifupdown
+apt-get purge -y netplan
 echo "[kamikazi-build] Adding python 2.x and 3.x development kit."
 packages=$(awk '{print $1} ' 14-addlist-python-dev.synpkg)
 echo ${packages}

@@ -1,3 +1,4 @@
+ifupdown		install
 openssh-server		install
 vim		install
 sysdig		install
