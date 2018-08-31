@@ -67,11 +67,11 @@ echo -e "normal (memdisk)/grub.cfg\n" > "/tmp/grub/grub.cfg"
 mkdir -p /usr/lib/xen-4.9/boot/
 echo "[kamikazi-build] Building grub-x86_64-xen.bin..."
 grub-mkimage -v -O x86_64-xen -c grub.cfg -m memdisk.tar -o grub-x86_64-xen.bin /usr/lib/grub/x86_64-xen/*.mod
-echo "[kamikazi-build] Copying to /usr/lib/xen-4.6/boot/grub-x86_64-xen.bin..."
+echo "[kamikazi-build] Copying to /usr/lib/xen-4.9/boot/grub-x86_64-xen.bin..."
 cp grub-x86_64-xen.bin /usr/lib/xen-4.9/boot/grub-x86_64-xen.bin
 echo "[kamikazi-build] Building grub-i386-xen.bin..."
 grub-mkimage -v -O i386-xen -c grub.cfg -m memdisk.tar -o grub-i386-xen.bin /usr/lib/grub/i386-xen/*.mod
-echo "[kamikazi-build] Copying to /usr/lib/xen-4.6/boot/grub-i386-xen.bin..."
+echo "[kamikazi-build] Copying to /usr/lib/xen-4.9/boot/grub-i386-xen.bin..."
 cp grub-i386-xen.bin /usr/lib/xen-4.9/boot/grub-i386-xen.bin
 echo "[kamikazi-build] Cleaning up..."
 cd /tmp
