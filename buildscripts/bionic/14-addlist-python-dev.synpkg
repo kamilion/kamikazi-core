@@ -22,6 +22,7 @@ iotop		install
 ipmitool		install
 jq		install
 curl		install
+software-properties-common		install
 libalgorithm-diff-perl		install
 libalgorithm-diff-xs-perl		install
 libalgorithm-merge-perl		install
@@ -127,7 +128,6 @@ python-pyqt5		install
 python-requests		install
 python-setuptools		install
 python-setproctitle		install
-python-software-properties		install
 python-six		install
 python-termcolor		install
 python-urllib3		install
