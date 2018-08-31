@@ -9,7 +9,7 @@ echo "[kamikazi-build] Injecting x2go repository"
 # Stable Repo
 #add-apt-repository -y -u ppa:x2go/stable
 # As of bionic, x2go's in universe.
-packages="x2goserver x2go-fmbindings pyhoca-cli x2goclient"
+packages="x2goserver x2goserver-fmbindings pyhoca-cli x2goclient"
 apt-get install -y ${packages}
 
 #echo "[kamikazi-build] Injecting whdd repository"
