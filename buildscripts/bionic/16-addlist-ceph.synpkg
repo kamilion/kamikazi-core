@@ -11,13 +11,11 @@ libjs-jquery		install
 ceph		install
 ceph-common		install
 ceph-deploy		install
-ceph-fs-common		install
 ceph-fuse		install
 ceph-mds		install
 python-blinker		install
 libgoogle-perftools4		install
 python-openssl		install
 python-markupsafe		install
-libcephfs1		install
 python-itsdangerous		install
 python-jinja2		install

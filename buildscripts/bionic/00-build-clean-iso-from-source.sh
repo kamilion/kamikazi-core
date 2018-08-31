@@ -76,8 +76,8 @@ sleep 2
 ./19-add-iso-customizer.sh
 sleep 2
 ./20-add-ppas.sh
-sleep 2
-./21-add-rethinkdb.sh
+#sleep 2
+#./21-add-rethinkdb.sh
 sleep 2
 ./25-apply-filesystem-mods.sh
 sleep 2
