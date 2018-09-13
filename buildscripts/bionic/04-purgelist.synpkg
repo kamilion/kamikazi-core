@@ -37,7 +37,6 @@ libwvstreams4.6-extras		purge
 libx86-1		purge
 light-locker		purge
 light-locker-settings		purge
-lm-sensors		purge
 uvcdynctrl-data		purge
 uvcdynctrl		purge
 vbetool		purge

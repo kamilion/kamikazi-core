@@ -13,7 +13,6 @@ gnumeric-doc		purge
 gnumeric		purge
 light-locker		purge
 light-locker-settings		purge
-lm-sensors		purge
 lp-solve		purge
 mtpaint		purge
 pidgin-data		purge
