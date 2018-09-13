@@ -3,9 +3,6 @@
 # V0.8.0 runs this during kamikazi-boot.sh to specialize system networking.
 
 TIME=0  # Call timerbailout with the number of seconds to bailout after.
-abortafter() { sleep 1; let TIME++; if [ ${TIME} -gt ${1} ]; then 
-    echo "Kamikazi-boot: Failed to perform action after ${TIME} seconds, moving on...";
-    break; fi }
 
 MYNAME=$(hostname)
 echo "kamikazi-vswitch: We are: ${MYNAME}"
@@ -36,7 +33,9 @@ if [ ! -e "/etc/kamikazi-core/nodhcp" ]; then  # We should get external dhcp.
     echo "kamikazi-vswitch: Will attempt to DHCP on external interfaces."
     if [ -e "/etc/network/interfaces.d/br0" ]; then  # We have an external if.
         echo "kamikazi-vswitch: Waiting for br0 to come up..."
-        while [ ! -d "/sys/class/net/br0" ]; do abortafter 10; done  # Wait for it
+        while [ ! -d "/sys/class/net/br0" ]; do sleep 1; let TIME++; if [ ${TIME} -gt 9 ]; then 
+          echo "Kamikazi-vswitch: Failed to perform action after ${TIME} seconds, moving on...";
+          break; fi; done  # Wait for it
         echo "kamikazi-vswitch: Attepting to spawn a dhclient for br0."
         sleep 2;  # Wait for openvswitch to deal with bringing it up.
         dhclient -nw br0;  # If there's a dhcp server, get an IP if needed.
@@ -51,7 +50,9 @@ TIME=0; # Set the timeout to zero
 # Give openvswitch a headstart to make the internal interfaces
 if [ -e "/etc/network/interfaces.d/xenbr0" ]; then  # Handle the internal xen bridge.
     echo "kamikazi-vswitch: Waiting for xenbr0 to come up..."
-    while [ ! -d "/sys/class/net/xenbr0" ]; do abortafter 10; done  # It exists.
+    while [ ! -d "/sys/class/net/xenbr0" ]; do sleep 1; let TIME++; if [ ${TIME} -gt 9 ]; then 
+      echo "Kamikazi-vswitch: Failed to perform action after ${TIME} seconds, moving on...";
+      break; fi; done  # It exists.
     echo "kamikazi-vswitch: Attepting to spawn a dhclient for xenbr0."
     sleep 2;  # Wait for openvswitch to deal with bringing it up.
     dhclient -nw xenbr0;  # If there's a dhcp server, get another IP if needed.

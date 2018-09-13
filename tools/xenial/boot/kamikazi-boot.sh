@@ -1,9 +1,6 @@
 #!/bin/bash
 
 TIME=0  # Call timerbailout with the number of seconds to bailout after.
-abortafter() { sleep 1; let TIME++; if [ ${TIME} -gt ${1} ]; then 
-    echo "Kamikazi-boot: Failed to perform action after ${TIME} seconds, moving on...";
-    break; fi }
 
 # Stick a singleton in the filesystem to notate we're inside of a boot process.
 touch /tmp/kamikazi-boot.stamp
@@ -19,7 +16,10 @@ echo "Kamikazi-boot: Attempting to initialize IPMI Board Management Controllers.
 supervisorctl start kamikazi-ipmi
 
 # Check for the oneshot process to complete.
-while ! supervisorctl status kamikazi-ipmi | grep -q 'EXITED'; do abortafter 120; done
+while ! supervisorctl status kamikazi-ipmi | grep -q 'EXITED'; do sleep 1; 
+    let TIME++; if [ ${TIME} -gt 119 ]; then 
+      echo "Kamikazi-boot: Failed to perform action after ${TIME} seconds, moving on..."; break; 
+    fi; done
 # Wait for the while loop to break out signalling success.
 TIME=0; # Set the timeout to zero
 
@@ -31,7 +31,10 @@ echo "Kamikazi-boot: IPMI initialized, attempting to start the network..."
 supervisorctl start kamikazi-vswitch
 
 # Check for the oneshot process to complete.
-while ! supervisorctl status kamikazi-vswitch | grep -q 'EXITED'; do abortafter 120; done
+while ! supervisorctl status kamikazi-vswitch | grep -q 'EXITED'; do sleep 1; 
+    let TIME++; if [ ${TIME} -gt 119 ]; then 
+      echo "Kamikazi-boot: Failed to perform action after ${TIME} seconds, moving on..."; break; 
+    fi; done
 # Wait for the while loop to break out signalling success.
 TIME=0; # Set the timeout to zero
 
@@ -43,7 +46,10 @@ echo "Kamikazi-boot: Network start complete, attempting to update from git..."
 supervisorctl start kamikazi-deploy
 
 # Check for the oneshot process to complete.
-while ! supervisorctl status kamikazi-deploy | grep -q 'EXITED'; do abortafter 120; done
+while ! supervisorctl status kamikazi-deploy | grep -q 'EXITED'; do sleep 1; 
+    let TIME++; if [ ${TIME} -gt 119 ]; then 
+      echo "Kamikazi-boot: Failed to perform action after ${TIME} seconds, moving on..."; break; 
+    fi; done
 # Wait for the while loop to break out signalling success.
 TIME=0; # Set the timeout to zero
 
@@ -56,7 +62,10 @@ echo "Kamikazi-boot: Git update complete, attempting early mounts..."
 supervisorctl start kamikazi-diskmount
 
 # Check for the oneshot process to complete.
-while ! supervisorctl status kamikazi-diskmount | grep -q 'EXITED'; do abortafter 120; done
+while ! supervisorctl status kamikazi-diskmount | grep -q 'EXITED'; do sleep 1; 
+    let TIME++; if [ ${TIME} -gt 119 ]; then 
+      echo "Kamikazi-boot: Failed to perform action after ${TIME} seconds, moving on..."; break; 
+    fi; done
 # Wait for the while loop to break out signalling success.
 TIME=0; # Set the timeout to zero
 
@@ -68,7 +77,10 @@ echo "Kamikazi-boot: Early mount complete, attempting to initialize disk arrays.
 supervisorctl start kamikazi-diskarray
 
 # Check for the oneshot process to complete.
-while ! supervisorctl status kamikazi-diskarray | grep -q 'EXITED'; do abortafter 120; done
+while ! supervisorctl status kamikazi-diskarray | grep -q 'EXITED'; do sleep 1; 
+    let TIME++; if [ ${TIME} -gt 119 ]; then 
+      echo "Kamikazi-boot: Failed to perform action after ${TIME} seconds, moving on..."; break; 
+    fi; done
 # Wait for the while loop to break out signalling success.
 TIME=0; # Set the timeout to zero
 
@@ -80,7 +92,10 @@ echo "Kamikazi-boot: Disk Array initialized, attempting to mount disks..."
 supervisorctl start kamikazi-diskarray-mount
 
 # Check for the oneshot process to complete.
-while ! supervisorctl status kamikazi-diskarray-mount | grep -q 'EXITED'; do abortafter 120; done
+while ! supervisorctl status kamikazi-diskarray-mount | grep -q 'EXITED'; do sleep 1; 
+    let TIME++; if [ ${TIME} -gt 119 ]; then 
+      echo "Kamikazi-boot: Failed to perform action after ${TIME} seconds, moving on..."; break; 
+    fi; done
 # Wait for the while loop to break out signalling success.
 TIME=0; # Set the timeout to zero
 
