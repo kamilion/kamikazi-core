@@ -49,6 +49,8 @@ systemctl enable supervisor
 # Force openssh-server to be reconfigured so we can answer the annoying UCF prompt.
 echo ucf ucf/changeprompt_threeway select keep_current | debconf-set-selections
 dpkg-reconfigure -fnoninteractive openssh-server
+# Remove the keys that were just generated so they don't end up on the ISO.
+rm -F /etc/ssh/ssh_host_*
 
 cd ${OLDDIR}
 echo "[kamikazi-build] Applied filesystem modifications."
