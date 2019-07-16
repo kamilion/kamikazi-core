@@ -46,6 +46,10 @@ cp -r var/* /var/
 systemctl enable supervisor
 # Gee, it sure is nice to have the verb first.
 
+# Force openssh-server to be reconfigured so we can answer the annoying UCF prompt.
+echo ucf ucf/changeprompt_threeway select keep_current | debconf-set-selections
+dpkg-reconfigure -fnoninteractive openssh-server
+
 cd ${OLDDIR}
 echo "[kamikazi-build] Applied filesystem modifications."
 apt-get update
