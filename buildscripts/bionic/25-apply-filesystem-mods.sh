@@ -9,7 +9,7 @@ cd /lib/systemd/system
 # Change the default boot target to multi-user.target from graphical.target
 ln -sf multi-user.target default.target
 # Disable NetworkMangler and ModemMangler...
-systemctl disable NetworkManager ModemManager
+systemctl disable ModemManager NetworkManager NetworkManager-wait-online
 # We don't have upstart's override files anymore, so we have to disable ceph.
 systemctl disable ceph ceph-mon ceph-mds ceph-osd@.service ceph-disk@.service
 # Disable snapd from starting up automatically.
